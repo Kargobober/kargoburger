@@ -1,16 +1,23 @@
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import styles from './Card.module.css';
 
 function Card({ card }) {
-  return (
-    <li className={styles.card}>
+  const [counter, setCounter] = useState(0);
 
-      <Counter
-        count={0}
+  const handleDoubleClick = useCallback(() => {
+    // ++ не сработает, нужно + 1 писать
+    setCounter(counter + 1);
+  }, []);
+
+  return (
+    <li className={styles.card} onDoubleClick={handleDoubleClick}>
+
+      { counter > 0 && <Counter
+        count={counter}
         size="default"
       />
-
+      }
       <img
         className={styles.image}
         src={card.image}
