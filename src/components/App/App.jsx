@@ -7,11 +7,16 @@ import { getIngridients } from "../../utils/api";
 import { handleError } from "../../utils/utils";
 
 import AppHeader from '../AppHeader/AppHeader';
+import Main from '../Main/Main';
 
 
 
 function App() {
-  const [state, setState] = React.useState({});
+  const [state, setState] = React.useState({
+    isLoading: true,
+    hasError: false,
+    ingridientsData: [],
+  });
 
   useEffect(() => {
     getIngridients()
@@ -19,14 +24,19 @@ function App() {
         setState({
           ...state,
           ingridientsData: response.data,
+          isLoading: false,
         })
       })
-      .catch(handleError)
-    }, []) // только при монтировании
+      .catch((err) => {
+        setState({ ...state, isLoading: false, hasError: true })
+        handleError(err)
+      })
+  }, []) // только при монтировании
 
   return (
     <div className={styles.app}>
       <AppHeader />
+      { !state.isLoading && <Main ingridientsData={state.ingridientsData} /> }
     </div>
   );
 }

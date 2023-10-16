@@ -1,0 +1,5 @@
+.section {
+  width: 50%;
+  max-width: 600px;
+  margin-right: calc(var(--offset-base-size) * 5);
+}

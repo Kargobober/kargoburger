@@ -12,11 +12,6 @@
   grid-template-columns: repeat(3, 1fr);
   justify-items: center;
   align-items: center;
-
-  /* Отладочные свойства */
-  box-sizing: border-box;
-  border-left: 1px red dashed;
-  border-right: 1px red dashed;
 }
 
 .nav-bar-list {
