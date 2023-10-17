@@ -21,11 +21,6 @@
   object-position: center;
 }
 
-.price-container {
-  display: flex;
-  column-gap: calc(var(--offset-base-size) * 2);
-}
-
 .heading {
   text-align: center;
 }

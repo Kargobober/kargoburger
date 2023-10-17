@@ -3,7 +3,7 @@ import Card from '../Card/Card';
 import styles from './List.module.css';
 import { getTopCoords } from '../../../utils/utils';
 
-function List({ ingridientsData }) {
+function List({ ingridientsData, choiseCallBack }) {
   const buns = ingridientsData.filter(el => el.type === 'bun');
   const sauces = ingridientsData.filter(el => el.type === 'sauce');
   const mainFillings = ingridientsData.filter(el => el.type === 'main');
@@ -39,17 +39,17 @@ function List({ ingridientsData }) {
     <div className={`custom-scroll mt-10 ${styles.section}`} ref={sectionElem} style={{ height: permittedHeight }}>
       <h3 className="text text_type_main-medium" id="buns">Булки</h3>
       <ul className={styles.list}>
-        {buns.map(el => <Card card={el} key={el._id} />)}
+        {buns.map(el => <Card card={el} key={el._id} choiseCallBack={choiseCallBack} />)}
       </ul>
 
       <h3 className="text text_type_main-medium" id="sauces">Соусы</h3>
       <ul className={styles.list}>
-        {sauces.map(el => <Card card={el} key={el._id} />)}
+        {sauces.map(el => <Card card={el} key={el._id} choiseCallBack={choiseCallBack} />)}
       </ul>
 
       <h3 className="text text_type_main-medium" id="mainFillings">Начинки</h3>
       <ul className={styles.list}>
-        {mainFillings.map(el => <Card card={el} key={el._id} />)}
+        {mainFillings.map(el => <Card card={el} key={el._id} choiseCallBack={choiseCallBack} />)}
       </ul>
     </div>
   )

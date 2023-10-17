@@ -1,5 +1,34 @@
-.section {
+.section-common {
   width: 50%;
   max-width: 600px;
   margin-right: calc(var(--offset-base-size) * 5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  display: flex;
+  flex-direction: column;
+  row-gap: calc(var(--offset-base-size) * 4);
+
+  overflow: auto;
+  min-height: 96px;
+  padding-right: calc(var(--offset-base-size) * 2);
+}
+
+.price-section {
+  margin-top: calc(var(--offset-base-size) * 10);
+  margin-bottom: 52px;
+
+  display: flex;
+  column-gap: calc(var(--offset-base-size) * 10);
+  align-items: center;
+  align-self: end;
 }

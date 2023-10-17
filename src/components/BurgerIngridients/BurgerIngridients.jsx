@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './BurgerIngridients.module.css';
 import List from './List/List';
 
-function BurgerIngridients({ ingridientsData }) {
+function BurgerIngridients({ ingridientsData, choiseCallBack }) {
   const [current, setCurrent] = React.useState('Булки');
 
   return (
@@ -34,7 +34,7 @@ function BurgerIngridients({ ingridientsData }) {
           </li>
         </ul>
       </nav>
-      <List ingridientsData={ingridientsData} />
+      <List ingridientsData={ingridientsData} choiseCallBack={choiseCallBack}/>
     </section>
   )
 }
