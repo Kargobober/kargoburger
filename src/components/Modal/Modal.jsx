@@ -5,7 +5,7 @@ import styles from './Modal.module.css';
 import ModalHeader from '../ModalHeader/ModalHeader';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
 
-function Modal({ children, heading, isOpen, onClose }) {
+function Modal({ children, heading, isOpen, onClose, pb = 15, pt = 10 }) {
   const handleEsc = (evt) => {
     if (evt.key === "Escape") onClose();
   }
@@ -19,7 +19,7 @@ function Modal({ children, heading, isOpen, onClose }) {
 
   return ReactDOM.createPortal((
     <>
-      <div className={`${styles['modal-container']} pt-10 pr-10 pb-15 pl-10`}>
+      <div className={`${styles['modal-container']} pt-${pt} pr-10 pb-${pb} pl-10`}>
         <ModalHeader heading={heading} onClose={onClose} />
         {children}
       </div>
