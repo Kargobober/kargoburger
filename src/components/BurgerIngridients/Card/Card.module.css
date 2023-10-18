@@ -12,6 +12,8 @@
 
   width: 272px;
   min-height: 208px;
+
+  cursor: pointer;
 }
 
 .image {
