@@ -1,7 +1,6 @@
-// import React from 'react';
 import styles from './OrderDetails.module.css';
 import orderAcceptedSvg from '../../images/order-accepted.svg';
-// className={`${styles}`}
+
 function OrderDetails() {
 
   return (

@@ -1,7 +1,11 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
+import { ingredientPropType } from '../../utils/prop-types';
+
+import styles from './Main.module.css';
+
 import BurgerIngridients from '../BurgerIngridients/BurgerIngridients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
-import styles from './Main.module.css';
 
 function Main({ ingridientsData }) {
   const [selectedBun, setSelectedBun] = useState();
@@ -25,6 +29,10 @@ function Main({ ingridientsData }) {
       <BurgerConstructor selectedBun={selectedBun} selectedProducts={selectedProducts} />
     </main>
   )
+}
+
+Main.propTypes = {
+  ingridientsData: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 }
 
 export default Main;

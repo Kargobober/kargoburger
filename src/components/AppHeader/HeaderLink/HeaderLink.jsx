@@ -1,4 +1,5 @@
-import styles from './HeaderLink.module.css'
+import styles from './HeaderLink.module.css';
+import PropTypes from 'prop-types';
 
 function HeaderLink({ sectionName, Icon, callback, isActive, customStyle }) {
 
@@ -16,6 +17,14 @@ function HeaderLink({ sectionName, Icon, callback, isActive, customStyle }) {
       >{sectionName}</p>
     </a>
   )
+}
+
+HeaderLink.propTypes = {
+  sectionName: PropTypes.string.isRequired,
+  Icon: PropTypes.func,
+  callback: PropTypes.func,
+  isActive: PropTypes.bool,
+  customStyle: PropTypes.object,
 }
 
 export default HeaderLink;

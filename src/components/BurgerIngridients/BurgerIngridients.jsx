@@ -1,7 +1,12 @@
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import React from 'react';
+import PropTypes from 'prop-types';
+import { ingredientPropType } from '../../utils/prop-types';
+
 import styles from './BurgerIngridients.module.css';
+
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import List from './List/List';
+
 
 function BurgerIngridients({ ingridientsData, choiseCallBack }) {
   const [current, setCurrent] = React.useState('Булки');
@@ -39,4 +44,8 @@ function BurgerIngridients({ ingridientsData, choiseCallBack }) {
   )
 }
 
+BurgerIngridients.propTypes = {
+  ingridientsData: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
+  choiseCallBack: PropTypes.func,
+}
 export default BurgerIngridients;

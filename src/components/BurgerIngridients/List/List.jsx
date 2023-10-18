@@ -1,7 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import Card from '../Card/Card';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
+import { ingredientPropType } from '../../../utils/prop-types';
+
 import styles from './List.module.css';
+
 import { getTopCoords } from '../../../utils/utils';
+
+import Card from '../Card/Card';
 
 function List({ ingridientsData, choiseCallBack }) {
   const buns = ingridientsData.filter(el => el.type === 'bun');
@@ -53,6 +58,11 @@ function List({ ingridientsData, choiseCallBack }) {
       </ul>
     </div>
   )
+}
+
+List.propTypes = {
+  ingridientsData: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
+  choiseCallBack: PropTypes.func,
 }
 
 export default List;

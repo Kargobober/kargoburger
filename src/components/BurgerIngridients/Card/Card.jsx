@@ -1,6 +1,10 @@
-import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useState } from 'react';
+import PropTypes from 'prop-types';
+import { ingredientPropType } from '../../../utils/prop-types';
+
 import styles from './Card.module.css';
+
+import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import Price from '../../Price/Price';
 import Modal from '../../Modal/Modal';
 import IngridientDetails from '../../IngridientDetails/IngridientDetails';
@@ -83,6 +87,11 @@ function Card({ card, choiseCallBack }) {
       </li>
     </>
   )
+}
+
+Card.propTypes = {
+  card: ingredientPropType.isRequired,
+  choiseCallBack: PropTypes.func,
 }
 
 export default Card;

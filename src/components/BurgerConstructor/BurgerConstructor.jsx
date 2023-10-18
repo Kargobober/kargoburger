@@ -1,13 +1,19 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { ingredientPropType } from '../../utils/prop-types';
+
 import styles from './BurgerConstructor.module.css';
+
+import { getTopCoords } from '../../utils/utils';
+
 import { BurgerIcon, Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import Price from '../Price/Price';
 import Item from './Item/Item';
-import { getTopCoords } from '../../utils/utils';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 
 function BurgerConstructor({ selectedBun, selectedProducts }) {
+  // сохраняем высоту окна в стэйт, чтобы при ее изменении перерисовывать компонент с новой достпуной ему высотой
   const [windowHeight, setWindowHeight] = useState();
   const [needDetails, setNeedDetails] = useState();
   const sectionElem = useRef();
@@ -55,11 +61,7 @@ function BurgerConstructor({ selectedBun, selectedProducts }) {
     setNeedDetails(false);
   }
 
-
-
   window.addEventListener('resize', handleWindowResize);
-
-
 
   return (
     <>
@@ -122,6 +124,11 @@ function BurgerConstructor({ selectedBun, selectedProducts }) {
       </section>
     </>
   )
+}
+
+BurgerConstructor.propTypes = {
+  selectedBun: ingredientPropType,
+  selectedProducts: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 }
 
 export default BurgerConstructor;
