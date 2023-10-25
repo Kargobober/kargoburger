@@ -1,0 +1,25 @@
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: var(--background);
+}
+
+.nav-bar {
+  width: 100%;
+  max-width: 1280px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  align-items: center;
+}
+
+.nav-bar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  display: flex;
+  justify-self: start;
+  column-gap: calc(var(--offset-base-size) * 2);
+}

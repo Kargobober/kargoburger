@@ -1,0 +1,21 @@
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.section {
+  width: 50%;
+  max-width: 600px;
+  margin-left: calc(var(--offset-base-size) * 5);
+}
+
+.header {
+  margin-top: 0;
+  margin-bottom: calc(var(--offset-base-size) * 5);
+}
+
+.link {
+  text-decoration: none;
+}

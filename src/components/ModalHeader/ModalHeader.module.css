@@ -1,0 +1,15 @@
+.modal-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
+}
+
+.button {
+  background-color: transparent;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+
+  z-index: 2;
+}

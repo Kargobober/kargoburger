@@ -1,0 +1,16 @@
+.link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+
+  padding: calc(var(--offset-base-size) * 4) calc(var(--offset-base-size) * 5);
+}
+
+.link:hover {
+  opacity: .8;
+  color: inherit;
+}
+
+.link:visited {
+  color: inherit;
+}
