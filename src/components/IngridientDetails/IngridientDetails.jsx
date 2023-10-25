@@ -1,12 +1,20 @@
-import PropTypes from 'prop-types';
 import styles from './IngridientDetails.module.css';
+import stylesGlobal from '../../index.css';
+import { ingredientPropType } from '../../utils/prop-types';
 
-function IngridientDetails({ image, name, calories, proteins, fat, carbohydrates }) {
+function IngridientDetails({ ingridient }) {
+  const { image, name, calories, proteins, fat, carbohydrates } = ingridient;
+
   return (
     <div className={styles.container}>
       <img src={image} alt={name} className={styles.image} />
 
-      <h3 className='text text_type_main-medium' style={{ textAlign: 'center' }}>{name}</h3>
+      <h3
+        className={`
+          text text_type_main-medium
+          ${stylesGlobal['text_centered']}
+        `}
+      >{name}</h3>
 
       <ul className={styles.list}>
         <li className={styles.item}>
@@ -34,12 +42,7 @@ function IngridientDetails({ image, name, calories, proteins, fat, carbohydrates
 }
 
 IngridientDetails.propTypes = {
-  image: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  calories: PropTypes.number.isRequired,
-  proteins: PropTypes.number.isRequired,
-  fat: PropTypes.number.isRequired,
-  carbohydrates: PropTypes.number.isRequired,
+  ingridient: ingredientPropType,
 }
 
 export default IngridientDetails;

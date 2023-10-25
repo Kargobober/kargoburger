@@ -46,12 +46,13 @@ function BurgerConstructor({ selectedBun, selectedProducts }) {
     // 292px - хардкод, суммарная высота элементов и отступов под списком начинок
     setFillingsHeight(document.documentElement.clientHeight - fillingsTopCoord - 292);
 
-    return window.removeEventListener('resize', handleWindowResize);
-  });
+    const handleWindowResize = () => {
+      setWindowHeight(document.documentElement.clientHeight)
+    }
+    window.addEventListener('resize', handleWindowResize);
+    return () => { window.removeEventListener('resize', handleWindowResize) };
+  }, [windowHeight]);
 
-  const handleWindowResize = useCallback(() => {
-    setWindowHeight(document.documentElement.clientHeight)
-  }, [])
 
   function handleOrder() {
     setNeedDetails(true);
@@ -61,8 +62,6 @@ function BurgerConstructor({ selectedBun, selectedProducts }) {
     setNeedDetails(false);
   }
 
-  window.addEventListener('resize', handleWindowResize);
-
   return (
     <>
       {needDetails && modal}
@@ -71,7 +70,7 @@ function BurgerConstructor({ selectedBun, selectedProducts }) {
         <section>
 
           {!selectedBun && selectedProducts.length == 0 &&
-            <div style={{ display: 'flex' }}>
+            <div className={styles.stub}>
               <BurgerIcon type='secondary' />
               <p className='text text_type_main-default text_color_inactive'
               >&nbsp;Добавьте ингридиенты двойным кликом&nbsp;

@@ -15,7 +15,7 @@ function BurgerIngridients({ ingridientsData, choiseCallBack }) {
     <section className={`${styles.section} pt-10`}>
       <h2 className={`${styles.header} text_type_main-large`}>Соберите бургер</h2>
       <nav>
-        <ul style={{ display: 'flex' }} className={styles.list}>
+        <ul className={styles.list}>
           <li>
             <a href="#buns" className={styles.link}>
               <Tab value='Булки' active={current === 'Булки'} onClick={setCurrent}>

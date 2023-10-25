@@ -51,14 +51,7 @@ function Card({ card, choiseCallBack }) {
       isOpen={needDetails}
       onClose={onClose}
     >
-      <IngridientDetails
-        image={card.image_large}
-        name={card.name}
-        calories={card.calories}
-        proteins={card.proteins}
-        fat={card.fat}
-        carbohydrates={card.carbohydrates}
-      />
+      <IngridientDetails ingridient={card} />
     </Modal>
   )
 

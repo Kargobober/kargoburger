@@ -10,11 +10,10 @@ import ModalHeader from '../ModalHeader/ModalHeader';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
 
 function Modal({ children, heading, isOpen, onClose, pb = 15, pt = 10 }) {
-  const handleEsc = (evt) => {
-    if (evt.key === "Escape") onClose();
-  }
-
   useEffect(() => {
+    const handleEsc = (evt) => {
+      if (evt.key === "Escape") onClose();
+    }
     document.addEventListener('keydown', handleEsc);
     return () => {
       document.removeEventListener('keydown', handleEsc);

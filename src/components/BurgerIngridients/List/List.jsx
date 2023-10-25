@@ -29,16 +29,13 @@ function List({ ingridientsData, choiseCallBack }) {
     // В стилях тем не менее задаем мин. высоту, чтобы было видно хотя бы один ряд карточек целиком
     setPermittedHeight(document.documentElement.clientHeight - sectionTopCoord - 40);
 
-    return window.removeEventListener('resize', handleWindowResize);
-  });
+    const handleWindowResize = () => {
+      setWindowHeight(document.documentElement.clientHeight)
+    }
+    window.addEventListener('resize', handleWindowResize);
+    return () => { window.removeEventListener('resize', handleWindowResize) };
+  }, [windowHeight]);
 
-  const handleWindowResize = useCallback(() => {
-    setWindowHeight(document.documentElement.clientHeight)
-  }, [])
-
-
-
-  window.addEventListener('resize', handleWindowResize);
 
   return (
     <div className={`custom-scroll mt-10 ${styles.section}`} ref={sectionElem} style={{ height: permittedHeight }}>

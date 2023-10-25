@@ -8,7 +8,8 @@ import BurgerIngridients from '../BurgerIngridients/BurgerIngridients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 
 function Main({ ingridientsData }) {
-  const [selectedBun, setSelectedBun] = useState();
+  // Если в начальный стейт записать пустой объект, то проверка на типы выдает ошибку несоответствия, потому записываю null. Более того - рисуются пустые ячейки с белыми прямоугольниками вместо картинок
+  const [selectedBun, setSelectedBun] = useState(null);
   const [selectedProducts, setSelectedProducts] = useState([]);
 
   const handleChoice = (product) => {
