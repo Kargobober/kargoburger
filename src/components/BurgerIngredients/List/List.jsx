@@ -6,8 +6,8 @@ import styles from './List.module.css';
 import { getTopCoords } from '../../../utils/utils';
 
 import Card from '../Card/Card';
-import { getCountedFiltredIngridients, getLoadingStatus } from '../../../services/selectors/ingridientsSelector';
-import { ingridientsQuery } from '../../../services/middlewares/ingridientsQuery';
+import { getCountedFiltredIngredients, getLoadingStatus } from '../../../services/selectors/ingredientsSelector';
+import { ingredientsQuery } from '../../../services/middlewares/ingredientsQuery';
 
 
 
@@ -16,10 +16,10 @@ function List() {
 
   const isLoading = useSelector(getLoadingStatus);
   useEffect(() => {
-    dispatch(ingridientsQuery());
+    dispatch(ingredientsQuery());
   }, [dispatch]);
   // Получаем обработанные данные из хранилища, сам результат обработки в хранилище не хранится. Не знаю, верно ли это
-  const data = useSelector(getCountedFiltredIngridients);
+  const data = useSelector(getCountedFiltredIngredients);
 
   const sectionElem = useRef();
   // При текущей системе оступов (единица = 4px) подходящая высота секции около 616px (через девтулзы можно обнаружить высоту на которой появляется скролл)

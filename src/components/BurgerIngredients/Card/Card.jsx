@@ -6,7 +6,7 @@ import styles from './Card.module.css';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import Price from '../../Price/Price';
 import Modal from '../../Modal/Modal';
-import IngridientDetails from '../../IngridientDetails/IngridientDetails';
+import IngredientDetails from '../../IngredientDetails/IngredientDetails';
 import { addItem } from '../../../services/slices/burgerConstructorSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -52,7 +52,7 @@ function Card({ card }) {
       isOpen={needDetails}
       onClose={onClose}
     >
-      <IngridientDetails ingridient={card} />
+      <IngredientDetails ingredient={card} />
     </Modal>
   )
 

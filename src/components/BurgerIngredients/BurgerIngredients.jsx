@@ -1,12 +1,12 @@
 import React from 'react';
 
-import styles from './BurgerIngridients.module.css';
+import styles from './BurgerIngredients.module.css';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import List from './List/List';
 
 
-function BurgerIngridients() {
+function BurgerIngredients() {
   const [current, setCurrent] = React.useState('Булки');
 
   return (
@@ -42,4 +42,4 @@ function BurgerIngridients() {
   )
 }
 
-export default BurgerIngridients;
+export default BurgerIngredients;

@@ -2,13 +2,13 @@ import { useState } from 'react';
 
 import styles from './Main.module.css';
 
-import BurgerIngridients from '../BurgerIngridients/BurgerIngridients';
+import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 
 function Main() {
   return (
     <main className={styles.main}>
-      <BurgerIngridients />
+      <BurgerIngredients />
       <BurgerConstructor />
     </main>
   )

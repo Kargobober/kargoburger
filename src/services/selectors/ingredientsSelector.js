@@ -1,14 +1,14 @@
-export const getIngridients = (state) => state.ingridients.ingridientsData;
-export const getCountedFiltredIngridients = (state) => {
-  const ingridientsSmart = {
+export const getIngredients = (state) => state.ingredients.ingredientsData;
+export const getCountedFiltredIngredients = (state) => {
+  const ingredientsSmart = {
     buns: null,
     sauces: [],
     mainFillings: [],
   };
 
-  // В хранилище в поле ingridients хранятся все ингридиенты, приходящие с сервера
+  // В хранилище в поле ingredients хранятся все ингридиенты, приходящие с сервера
   // Фильтруем из этого поля только булки
-  const bunsFromServer = state.ingridients.ingridientsData.filter(el => el.type === 'bun');
+  const bunsFromServer = state.ingredients.ingredientsData.filter(el => el.type === 'bun');
   // Создаём новый массив булок с добавочным полем "количество"
   const bunsCounted = bunsFromServer.map(item => {
     return {
@@ -18,9 +18,9 @@ export const getCountedFiltredIngridients = (state) => {
           : 0,
     }
   });
-  ingridientsSmart.buns = bunsCounted;
+  ingredientsSmart.buns = bunsCounted;
 
-  const saucesFromServer = state.ingridients.ingridientsData.filter(el => el.type === 'sauce');
+  const saucesFromServer = state.ingredients.ingredientsData.filter(el => el.type === 'sauce');
   const saucesCounted = saucesFromServer.map(item => {
     return {
       ...item,
@@ -33,9 +33,9 @@ export const getCountedFiltredIngridients = (state) => {
       }, 0),
     }
   });
-  ingridientsSmart.sauces = saucesCounted;
+  ingredientsSmart.sauces = saucesCounted;
 
-  const mainFillingsFromServer = state.ingridients.ingridientsData.filter(el => el.type === 'main');
+  const mainFillingsFromServer = state.ingredients.ingredientsData.filter(el => el.type === 'main');
   const mainFillingsCounted = mainFillingsFromServer.map(item => {
     return {
       ...item,
@@ -48,11 +48,11 @@ export const getCountedFiltredIngridients = (state) => {
       }, 0),
     }
   });
-  ingridientsSmart.mainFillings = mainFillingsCounted;
+  ingredientsSmart.mainFillings = mainFillingsCounted;
 
 
-  return ingridientsSmart;
+  return ingredientsSmart;
 };
 
-export const getLoadingStatus = (state) => state.ingridients.isLoading;
-export const getErrorStatus = (state) => state.ingridients.hasError;
+export const getLoadingStatus = (state) => state.ingredients.isLoading;
+export const getErrorStatus = (state) => state.ingredients.hasError;

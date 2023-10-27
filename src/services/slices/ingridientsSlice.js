@@ -1,31 +1,31 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ingridientsQuery } from '../middlewares/ingridientsQuery';
+import { ingredientsQuery } from '../middlewares/ingredientsQuery';
 
 const initialState = {
   isLoading: false,
   hasError: false,
-  ingridientsData: [],
+  ingredientsData: [],
 }
 
-export const ingridientsSlice = createSlice({
-  name: 'ingridients',
+export const ingredientsSlice = createSlice({
+  name: 'ingredients',
   initialState,
   reducers: {},
   extraReducers: {
-    [ingridientsQuery.pending.type]: (state) => {
+    [ingredientsQuery.pending.type]: (state) => {
       state.isLoading = true;
       state.hasError = false;
     },
-    [ingridientsQuery.fulfilled.type]: (state, action) => {
-      state.ingridientsData = action.payload.data;
+    [ingredientsQuery.fulfilled.type]: (state, action) => {
+      state.ingredientsData = action.payload.data;
       state.isLoading = false;
       state.hasError = false;
     },
-    [ingridientsQuery.rejected.type]: (state) => {
+    [ingredientsQuery.rejected.type]: (state) => {
       state.isLoading = false;
       state.hasError = true;
     },
   },
 });
 
-export default ingridientsSlice.reducer;
+export default ingredientsSlice.reducer;

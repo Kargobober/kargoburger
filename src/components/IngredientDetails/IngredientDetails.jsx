@@ -1,9 +1,9 @@
-import styles from './IngridientDetails.module.css';
+import styles from './IngredientDetails.module.css';
 import stylesGlobal from '../../index.css';
 import { ingredientPropType } from '../../utils/prop-types';
 
-function IngridientDetails({ ingridient }) {
-  const { image, name, calories, proteins, fat, carbohydrates } = ingridient;
+function IngredientDetails({ ingredient }) {
+  const { image, name, calories, proteins, fat, carbohydrates } = ingredient;
 
   return (
     <div className={styles.container}>
@@ -41,8 +41,8 @@ function IngridientDetails({ ingridient }) {
   )
 }
 
-IngridientDetails.propTypes = {
-  ingridient: ingredientPropType,
+IngredientDetails.propTypes = {
+  ingredient: ingredientPropType,
 }
 
-export default IngridientDetails;
+export default IngredientDetails;

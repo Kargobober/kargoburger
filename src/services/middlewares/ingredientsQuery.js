@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { config } from '../../utils/api';
 
-export const ingridientsQuery = createAsyncThunk(
-  'ingridients/get',
+export const ingredientsQuery = createAsyncThunk(
+  'ingredients/get',
   async (param1, thunkAPI) => {
     const response = await fetch(
       `${config.baseUrl}/ingredients`,

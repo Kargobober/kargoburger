@@ -3,14 +3,14 @@ import styles from './App.module.css';
 import AppHeader from '../AppHeader/AppHeader';
 import Main from '../Main/Main';
 import { useSelector } from 'react-redux';
-import { getErrorStatus } from '../../services/selectors/ingridientsSelector';
+import { getErrorStatus } from '../../services/selectors/ingredientsSelector';
 
 function App() {
-  const isErrorOnIngridients = useSelector(getErrorStatus);
+  const isErrorOnIngredients = useSelector(getErrorStatus);
 
   return (
     <div className={styles.app}>
-      {isErrorOnIngridients ? (
+      {isErrorOnIngredients ? (
         <p className="text text_type_main-medium mt-30">
           Произошла ошибка, пожалуйста, перезагрузите страницу.
           </p>
