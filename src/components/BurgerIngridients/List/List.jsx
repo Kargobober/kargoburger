@@ -1,26 +1,31 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { ingredientPropType } from '../../../utils/prop-types';
 
 import styles from './List.module.css';
 
 import { getTopCoords } from '../../../utils/utils';
 
 import Card from '../Card/Card';
+import { getIngridientsFiltred, getLoadingStatus } from '../../../services/selectors/ingridientsSelector';
+import { ingridientsQuery } from '../../../services/middlewares/ingridientsQuery';
 
-function List({ ingridientsData, choiseCallBack }) {
-  const buns = ingridientsData.filter(el => el.type === 'bun');
-  const sauces = ingridientsData.filter(el => el.type === 'sauce');
-  const mainFillings = ingridientsData.filter(el => el.type === 'main');
+
+
+function List({ choiseCallBack }) {
+  const dispatch = useDispatch();
+
+  const isLoading = useSelector(getLoadingStatus);
+  useEffect(() => {
+    dispatch(ingridientsQuery());
+  }, [dispatch]);
+  const data = useSelector(getIngridientsFiltred);
 
   const sectionElem = useRef();
   // При текущей системе оступов (единица = 4px) подходящая высота секции около 616px (через девтулзы можно обнаружить высоту на которой появляется скролл)
   // Автоматический расчет доступной высоту выдаёт 616,406. Так что всё чётко - как в больнице :)
   const [permittedHeight, setPermittedHeight] = useState(616);
   const [windowHeight, setWindowHeight] = useState();
-
-
-
   useEffect(() => {
     // Получаем координаты верха секции с карточками
     const sectionTopCoord = getTopCoords(sectionElem.current);
@@ -39,26 +44,33 @@ function List({ ingridientsData, choiseCallBack }) {
 
   return (
     <div className={`custom-scroll mt-10 ${styles.section}`} ref={sectionElem} style={{ height: permittedHeight }}>
-      <h3 className="text text_type_main-medium" id="buns">Булки</h3>
-      <ul className={styles.list}>
-        {buns.map(el => <Card card={el} key={el._id} choiseCallBack={choiseCallBack} />)}
-      </ul>
+      {isLoading ? (
+        <p className={`${styles.bund} text text_type_main-medium`}>
+          Загружаем наше меню...
+        </p>
+      ) : (
+      <>
+        <h3 className={`text text_type_main-medium ${styles.heading}`} id="buns">Булки</h3>
+        <ul className={styles.list}>
+          {data.buns.map(el => <Card card={el} key={el._id} choiseCallBack={choiseCallBack} />)}
+        </ul>
 
-      <h3 className="text text_type_main-medium" id="sauces">Соусы</h3>
-      <ul className={styles.list}>
-        {sauces.map(el => <Card card={el} key={el._id} choiseCallBack={choiseCallBack} />)}
-      </ul>
+        <h3 className={`text text_type_main-medium ${styles.heading}`} id="sauces">Соусы</h3>
+        <ul className={styles.list}>
+          {data.sauces.map(el => <Card card={el} key={el._id} choiseCallBack={choiseCallBack} />)}
+        </ul>
 
-      <h3 className="text text_type_main-medium" id="mainFillings">Начинки</h3>
-      <ul className={styles.list}>
-        {mainFillings.map(el => <Card card={el} key={el._id} choiseCallBack={choiseCallBack} />)}
-      </ul>
+        <h3 className={`text text_type_main-medium ${styles.heading}`} id="mainFillings">Начинки</h3>
+        <ul className={styles.list}>
+          {data.mainFillings.map(el => <Card card={el} key={el._id} choiseCallBack={choiseCallBack} />)}
+        </ul>
+      </>
+      )}
     </div>
   )
 }
 
 List.propTypes = {
-  ingridientsData: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
   choiseCallBack: PropTypes.func,
 }
 

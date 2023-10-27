@@ -1,11 +1,11 @@
-const config = {
+export const config = {
   baseUrl: 'https://norma.nomoreparties.space/api',
   headers: {
     'Content-Type': 'application/json',
   }
 }
 
-function handleResponse(response) {
+/*function handleResponse(response) {
   if (response.ok) {
     return response.json();
   } else {
@@ -13,11 +13,4 @@ function handleResponse(response) {
     return response.json()
     .then(err => Promise.reject(err.message));
   }
-}
-
-export function getIngridients() {
-  return fetch(`${config.baseUrl}/ingredients`, {
-    headers: config.headers,
-  })
-  .then(handleResponse)
-}
+}*/

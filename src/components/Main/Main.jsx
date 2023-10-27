@@ -1,13 +1,11 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
-import { ingredientPropType } from '../../utils/prop-types';
 
 import styles from './Main.module.css';
 
 import BurgerIngridients from '../BurgerIngridients/BurgerIngridients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 
-function Main({ ingridientsData }) {
+function Main() {
   // Если в начальный стейт записать пустой объект, то проверка на типы выдает ошибку несоответствия, потому записываю null. Более того - рисуются пустые ячейки с белыми прямоугольниками вместо картинок
   const [selectedBun, setSelectedBun] = useState(null);
   const [selectedProducts, setSelectedProducts] = useState([]);
@@ -26,14 +24,10 @@ function Main({ ingridientsData }) {
 
   return (
     <main className={styles.main}>
-      <BurgerIngridients ingridientsData={ingridientsData} choiseCallBack={handleChoice} />
+      <BurgerIngridients choiseCallBack={handleChoice} />
       <BurgerConstructor selectedBun={selectedBun} selectedProducts={selectedProducts} />
     </main>
   )
-}
-
-Main.propTypes = {
-  ingridientsData: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 }
 
 export default Main;

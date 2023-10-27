@@ -20,4 +20,16 @@
   min-height: 250px;
   overflow: auto;
   scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bund {
+  margin-top: calc(var(--offset-base-size) * 15);
+}
+
+.heading {
+  width: 100%;
+  text-align: start;
 }
