@@ -8,7 +8,8 @@ import Price from '../../Price/Price';
 import Modal from '../../Modal/Modal';
 import IngredientDetails from '../../IngredientDetails/IngredientDetails';
 import { addItem } from '../../../services/slices/burgerConstructorSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 
 function Card({ card }) {
   const counter = card.qty;
@@ -22,7 +23,10 @@ function Card({ card }) {
 
   const handleDoubleClick = () => {
     // добавить товар в конструктор бургера
-    dispatch(addItem(card));
+    dispatch(addItem({
+      ...card,
+      extraId: uuidv4(),
+    }));
   }
 
   const handleBothClick = (evt) => {

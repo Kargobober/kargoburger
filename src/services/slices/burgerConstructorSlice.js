@@ -17,8 +17,11 @@ export const burgerConstructorSlice = createSlice({
         state.selectedProducts.push(action.payload);
       }
     },
+    removeItem: (state, action) => {
+      state.selectedProducts = state.selectedProducts.filter(el => el.extraId !== action.payload);
+    }
   },
 });
 
-export const { addItem } = burgerConstructorSlice.actions;
+export const { addItem, removeItem } = burgerConstructorSlice.actions;
 export default burgerConstructorSlice.reducer;
