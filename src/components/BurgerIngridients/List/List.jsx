@@ -1,25 +1,25 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import styles from './List.module.css';
 
 import { getTopCoords } from '../../../utils/utils';
 
 import Card from '../Card/Card';
-import { getIngridientsFiltred, getLoadingStatus } from '../../../services/selectors/ingridientsSelector';
+import { getCountedFiltredIngridients, getLoadingStatus } from '../../../services/selectors/ingridientsSelector';
 import { ingridientsQuery } from '../../../services/middlewares/ingridientsQuery';
 
 
 
-function List({ choiseCallBack }) {
+function List() {
   const dispatch = useDispatch();
 
   const isLoading = useSelector(getLoadingStatus);
   useEffect(() => {
     dispatch(ingridientsQuery());
   }, [dispatch]);
-  const data = useSelector(getIngridientsFiltred);
+  // Получаем обработанные данные из хранилища, сам результат обработки в хранилище не хранится. Не знаю, верно ли это
+  const data = useSelector(getCountedFiltredIngridients);
 
   const sectionElem = useRef();
   // При текущей системе оступов (единица = 4px) подходящая высота секции около 616px (через девтулзы можно обнаружить высоту на которой появляется скролл)
@@ -52,26 +52,22 @@ function List({ choiseCallBack }) {
       <>
         <h3 className={`text text_type_main-medium ${styles.heading}`} id="buns">Булки</h3>
         <ul className={styles.list}>
-          {data.buns.map(el => <Card card={el} key={el._id} choiseCallBack={choiseCallBack} />)}
+          {data.buns.map(el => <Card card={el} key={el._id} />)}
         </ul>
 
         <h3 className={`text text_type_main-medium ${styles.heading}`} id="sauces">Соусы</h3>
         <ul className={styles.list}>
-          {data.sauces.map(el => <Card card={el} key={el._id} choiseCallBack={choiseCallBack} />)}
+          {data.sauces.map(el => <Card card={el} key={el._id} />)}
         </ul>
 
         <h3 className={`text text_type_main-medium ${styles.heading}`} id="mainFillings">Начинки</h3>
         <ul className={styles.list}>
-          {data.mainFillings.map(el => <Card card={el} key={el._id} choiseCallBack={choiseCallBack} />)}
+          {data.mainFillings.map(el => <Card card={el} key={el._id} />)}
         </ul>
       </>
       )}
     </div>
   )
-}
-
-List.propTypes = {
-  choiseCallBack: PropTypes.func,
 }
 
 export default List;

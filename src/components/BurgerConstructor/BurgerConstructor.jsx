@@ -11,16 +11,18 @@ import Price from '../Price/Price';
 import Item from './Item/Item';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
+import { useSelector } from 'react-redux';
+import { getSelectedBun, getSelectedProducts } from '../../services/selectors/burgerConstructorSelector';
 
-function BurgerConstructor({ selectedBun, selectedProducts }) {
-  // сохраняем высоту окна в стэйт, чтобы при ее изменении перерисовывать компонент с новой достпуной ему высотой
+function BurgerConstructor() {
+  // сохраняем высоту окна в стэйт, чтобы при ее изменении перерисовывать компонент с новой доступной ему высотой
   const [windowHeight, setWindowHeight] = useState();
-  const [needDetails, setNeedDetails] = useState();
   const sectionElem = useRef();
   const fillingsElem = useRef();
   const [sectionHeight, setSectionHeight] = useState(912);
   const [fillingsHeight, setFillingsHeight] = useState(560);
 
+  const [needDetails, setNeedDetails] = useState();
   const modal = (
     <Modal
       heading=''
@@ -33,6 +35,8 @@ function BurgerConstructor({ selectedBun, selectedProducts }) {
     </Modal>
   )
 
+  const selectedBun = useSelector(getSelectedBun);
+  const selectedProducts = useSelector(getSelectedProducts);
 
 
   useEffect(() => {
@@ -69,11 +73,11 @@ function BurgerConstructor({ selectedBun, selectedProducts }) {
 
         <section>
 
-          {!selectedBun && selectedProducts.length == 0 &&
+          {!selectedBun && selectedProducts.length === 0 &&
             <div className={styles.stub}>
               <BurgerIcon type='secondary' />
-              <p className='text text_type_main-default text_color_inactive'
-              >&nbsp;Добавьте ингридиенты двойным кликом&nbsp;
+              <p className='text text_type_main-default text_color_inactive'>
+                &nbsp;Добавьте ингридиенты двойным кликом&nbsp;
               </p>
               <BurgerIcon type='secondary' />
             </div>
@@ -81,7 +85,7 @@ function BurgerConstructor({ selectedBun, selectedProducts }) {
 
           {/* верхняя булка */}
           {selectedBun && <ConstructorElement
-            text={selectedBun.name}
+            text={`${selectedBun.name} (верх)`}
             thumbnail={selectedBun.image}
             price={selectedBun.price}
             type="top"
@@ -103,7 +107,7 @@ function BurgerConstructor({ selectedBun, selectedProducts }) {
 
           {/* нижняя булочка */}
           {selectedBun && <ConstructorElement
-            text={selectedBun.name}
+            text={`${selectedBun.name} (низ)`}
             thumbnail={selectedBun.image}
             price={selectedBun.price}
             type="bottom"
@@ -123,11 +127,6 @@ function BurgerConstructor({ selectedBun, selectedProducts }) {
       </section>
     </>
   )
-}
-
-BurgerConstructor.propTypes = {
-  selectedBun: ingredientPropType,
-  selectedProducts: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
 }
 
 export default BurgerConstructor;

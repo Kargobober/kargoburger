@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import styles from './BurgerIngridients.module.css';
 
@@ -7,7 +6,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import List from './List/List';
 
 
-function BurgerIngridients({ choiseCallBack }) {
+function BurgerIngridients() {
   const [current, setCurrent] = React.useState('Булки');
 
   return (
@@ -38,13 +37,9 @@ function BurgerIngridients({ choiseCallBack }) {
           </li>
         </ul>
       </nav>
-      <List choiseCallBack={choiseCallBack}/>
+      <List />
     </section>
   )
-}
-
-BurgerIngridients.propTypes = {
-  choiseCallBack: PropTypes.func,
 }
 
 export default BurgerIngridients;
