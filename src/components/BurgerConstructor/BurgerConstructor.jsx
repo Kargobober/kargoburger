@@ -1,6 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
-import PropTypes from 'prop-types';
-import { ingredientPropType } from '../../utils/prop-types';
+import { useEffect, useState, useRef } from 'react';
 
 import styles from './BurgerConstructor.module.css';
 
@@ -11,8 +9,11 @@ import Price from '../Price/Price';
 import Item from './Item/Item';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getSelectedBun, getSelectedProducts } from '../../services/selectors/burgerConstructorSelector';
+import { getOrderDetailsNeeding, getOrderErrorMessage, getOrderSuccess } from '../../services/selectors/orderDetailsSelector';
+import { setNeedingDetails } from '../../services/slices/orderDetailsSlice';
+import { postOrder } from '../../services/middlewares/orderDetailsQueries';
 
 function BurgerConstructor() {
   // сохраняем высоту окна в стэйт, чтобы при ее изменении перерисовывать компонент с новой доступной ему высотой
@@ -21,12 +22,13 @@ function BurgerConstructor() {
   const fillingsElem = useRef();
   const [sectionHeight, setSectionHeight] = useState(912);
   const [fillingsHeight, setFillingsHeight] = useState(560);
+  const dispatch = useDispatch();
 
-  const [needDetails, setNeedDetails] = useState();
+  const needDetails = useSelector(getOrderDetailsNeeding);
+  const isOrderSucces = useSelector(getOrderSuccess);
   const modal = (
     <Modal
       heading=''
-      isOpen={needDetails}
       onClose={onClose}
       pt='15'
       pb='30'
@@ -37,7 +39,6 @@ function BurgerConstructor() {
 
   const selectedBun = useSelector(getSelectedBun);
   const selectedProducts = useSelector(getSelectedProducts);
-
 
   useEffect(() => {
     // Получаем координаты верха секции конструктора
@@ -59,16 +60,20 @@ function BurgerConstructor() {
 
 
   function handleOrder() {
-    setNeedDetails(true);
+    const assembledBurger = selectedProducts.map(el => el._id);
+    assembledBurger.push(selectedBun._id);
+    assembledBurger.push(selectedBun._id);
+    dispatch(setNeedingDetails(true));
+    dispatch(postOrder(assembledBurger));
   }
 
   function onClose() {
-    setNeedDetails(false);
+    dispatch(setNeedingDetails(false));
   }
 
   return (
     <>
-      {needDetails && modal}
+      {needDetails && isOrderSucces !== false && modal}
       <section className={`${styles['section-common']} pt-25`} ref={sectionElem} style={{ maxHeight: sectionHeight }}>
 
         <section>

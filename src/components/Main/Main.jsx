@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import styles from './Main.module.css';
 
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';

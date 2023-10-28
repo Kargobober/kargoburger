@@ -16,7 +16,7 @@ function ModalHeader({ heading, onClose }) {
 
 ModalHeader.propTypes = {
   heading: PropTypes.string,
-  onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func,
 }
 
 export default ModalHeader;

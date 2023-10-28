@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './List.module.css';
 
-import { getTopCoords } from '../../../utils/utils';
+import { getTopCoords, handleError } from '../../../utils/utils';
 
 import Card from '../Card/Card';
 import { getCountedFiltredIngredients, getLoadingStatus } from '../../../services/selectors/ingredientsSelector';
@@ -19,8 +19,9 @@ function List() {
 
   const isLoading = useSelector(getLoadingStatus);
   useEffect(() => {
-    dispatch(ingredientsQuery());
-  }, [dispatch]);
+    dispatch(ingredientsQuery())
+    .catch(handleError);
+  }, []);
   // Получаем обработанные данные из хранилища, сам результат обработки в хранилище не хранится. Не знаю, верно ли это
   const data = useSelector(getCountedFiltredIngredients);
 
@@ -51,7 +52,6 @@ function List() {
   const modal = (
     <Modal
       heading='Детали ингридиента'
-      isOpen={isOpen}
       onClose={onClose}
     >
       <IngredientDetails />
