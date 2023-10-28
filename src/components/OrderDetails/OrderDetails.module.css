@@ -7,3 +7,13 @@
 .heading {
   margin-top: 24px;
 }
+
+.stub {
+  height: 30px;
+  width: 100%;
+}
+
+.bigStub {
+  height: calc(60px + 102px + 60px);
+  width: 107px;
+}

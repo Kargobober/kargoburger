@@ -9,7 +9,7 @@ import styles from './Modal.module.css';
 import ModalHeader from '../ModalHeader/ModalHeader';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
 
-function Modal({ children, heading, isOpen, onClose, pb = 15, pt = 10 }) {
+function Modal({ children, heading, onClose, pb = 15, pt = 10 }) {
   useEffect(() => {
     const handleEsc = (evt) => {
       if (evt.key === "Escape") onClose();
@@ -26,7 +26,7 @@ function Modal({ children, heading, isOpen, onClose, pb = 15, pt = 10 }) {
         <ModalHeader heading={heading} onClose={onClose} />
         {children}
       </div>
-      <ModalOverlay isOpen={isOpen} onClose={onClose}/>
+      <ModalOverlay onClose={onClose}/>
     </>
   ), modalRoot );
 }
@@ -35,7 +35,7 @@ Modal.propTypes = {
   children: PropTypes.element.isRequired,
   heading: PropTypes.string,
   isOpen: PropTypes.bool,
-  onClose: PropTypes.func.isRequired,
+  onClose: PropTypes.func,
   pb: PropTypes.string,
   pt: PropTypes.string,
 }
