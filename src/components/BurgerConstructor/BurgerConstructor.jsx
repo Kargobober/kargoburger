@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 
 import styles from './BurgerConstructor.module.css';
 
@@ -10,7 +10,7 @@ import Item from './Item/Item';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSelectedBun, getSelectedProducts } from '../../services/selectors/burgerConstructorSelector';
+import { getSelectedBun, getSelectedProducts, getTotalPrice } from '../../services/selectors/burgerConstructorSelector';
 import { getOrderDetailsNeeding, getOrderErrorMessage, getOrderSuccess } from '../../services/selectors/orderDetailsSelector';
 import { setNeedingDetails } from '../../services/slices/orderDetailsSlice';
 import { postOrder } from '../../services/middlewares/orderDetailsQueries';
@@ -39,6 +39,7 @@ function BurgerConstructor() {
 
   const selectedBun = useSelector(getSelectedBun);
   const selectedProducts = useSelector(getSelectedProducts);
+  const totalPrice = useSelector(getTotalPrice);
 
   useEffect(() => {
     // Получаем координаты верха секции конструктора
@@ -123,7 +124,7 @@ function BurgerConstructor() {
         </section>
 
         <section className={styles['price-section']}>
-          <Price value='610' digitsSize='medium' svgSize="32" />
+          <Price value={totalPrice} digitsSize='medium' svgSize="32" />
           <Button htmlType="button" type="primary" size="medium"
             onClick={handleOrder}>
             Оформить заказ
