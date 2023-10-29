@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { ingredientPropType } from '../../../utils/prop-types';
 
 import styles from './Card.module.css';
@@ -74,4 +75,4 @@ Card.propTypes = {
   card: ingredientPropType.isRequired,
 }
 
-export default Card;
+export default memo(Card);
