@@ -14,6 +14,7 @@ import { getSelectedBun, getSelectedProducts, getTotalPrice } from '../../servic
 import { getOrderDetailsNeeding, getOrderErrorMessage, getOrderSuccess } from '../../services/selectors/orderDetailsSelector';
 import { setNeedingDetails } from '../../services/slices/orderDetailsSlice';
 import { postOrder } from '../../services/middlewares/orderDetailsQueries';
+import burgerIconSvg from '../../images/burger.svg';
 
 function BurgerConstructor() {
   // сохраняем высоту окна в стэйт, чтобы при ее изменении перерисовывать компонент с новой доступной ему высотой
@@ -98,6 +99,14 @@ function BurgerConstructor() {
             extraClass="mb-4 ml-8"
             isLocked="true"
           />}
+          {selectedProducts.length > 0 && !selectedBun && <ConstructorElement
+          text='Добавьте булку'
+          thumbnail={burgerIconSvg}
+          price='0'
+          type="top"
+          extraClass="mb-4 ml-8"
+          isLocked="true"
+          />}
 
           {/* внутренности бургера */}
           <ul className={`${styles.list} custom-scroll`} ref={fillingsElem} style={{ maxHeight: fillingsHeight }}>
@@ -121,12 +130,21 @@ function BurgerConstructor() {
             extraClass="mt-4 ml-8"
             isLocked="true"
           />}
+          {selectedProducts.length > 0 && !selectedBun && <ConstructorElement
+          text='Хлеб всему квазар'
+          thumbnail={burgerIconSvg}
+          price='0'
+          type="bottom"
+          extraClass="mb-4 ml-8"
+          isLocked="true"
+          />}
         </section>
 
         <section className={styles['price-section']}>
           <Price value={totalPrice} digitsSize='medium' svgSize="32" />
           <Button htmlType="button" type="primary" size="medium"
-            onClick={handleOrder}>
+            onClick={handleOrder}
+            disabled={!selectedBun}>
             Оформить заказ
           </Button>
         </section>
