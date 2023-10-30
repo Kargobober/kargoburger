@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useMemo } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 import styles from './BurgerConstructor.module.css';
 
@@ -11,10 +11,13 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSelectedBun, getSelectedProducts, getTotalPrice } from '../../services/selectors/burgerConstructorSelector';
-import { getOrderDetailsNeeding, getOrderErrorMessage, getOrderSuccess } from '../../services/selectors/orderDetailsSelector';
+import { getOrderDetailsNeeding, getOrderSuccess } from '../../services/selectors/orderDetailsSelector';
 import { setNeedingDetails } from '../../services/slices/orderDetailsSlice';
 import { postOrder } from '../../services/middlewares/orderDetailsQueries';
 import burgerIconSvg from '../../images/burger.svg';
+import { useDrop } from 'react-dnd';
+import { addItem } from '../../services/slices/burgerConstructorSlice';
+import { v4 as uuidv4 } from 'uuid';
 
 function BurgerConstructor() {
   // сохраняем высоту окна в стэйт, чтобы при ее изменении перерисовывать компонент с новой доступной ему высотой
@@ -36,11 +39,13 @@ function BurgerConstructor() {
     >
       <OrderDetails />
     </Modal>
-  )
+  );
 
   const selectedBun = useSelector(getSelectedBun);
   const selectedProducts = useSelector(getSelectedProducts);
   const totalPrice = useSelector(getTotalPrice);
+
+
 
   useEffect(() => {
     // Получаем координаты верха секции конструктора
@@ -73,12 +78,29 @@ function BurgerConstructor() {
     dispatch(setNeedingDetails(false));
   }
 
+
+
+  const [{ isHover }, dropRef] = useDrop({
+    accept: 'ingredient',
+    drop: ({ card }) => {
+      dispatch(addItem({
+        ...card,
+        extraId: uuidv4(),
+      }));
+    },
+    collect: monitor => ({
+      isHover: monitor.isOver(),
+    }),
+  });
+
+
+
   return (
     <>
       {needDetails && isOrderSucces !== false && modal}
       <section className={`${styles['section-common']} pt-25`} ref={sectionElem} style={{ maxHeight: sectionHeight }}>
 
-        <section>
+        <section ref={dropRef} className={isHover ? `${styles.innerSection} ${styles.dropTarget}` : styles.innerSection}>
 
           {!selectedBun && selectedProducts.length === 0 &&
             <div className={styles.stub}>
@@ -96,7 +118,7 @@ function BurgerConstructor() {
             thumbnail={selectedBun.image}
             price={selectedBun.price}
             type="top"
-            extraClass="mb-4 ml-8"
+            extraClass={`mb-4 ml-8 ${styles.bun}`}
             isLocked="true"
           />}
           {selectedProducts.length > 0 && !selectedBun && <ConstructorElement
@@ -104,7 +126,7 @@ function BurgerConstructor() {
           thumbnail={burgerIconSvg}
           price='0'
           type="top"
-          extraClass="mb-4 ml-8"
+          extraClass={`mb-4 ml-8 ${styles.bun}`}
           isLocked="true"
           />}
 
@@ -127,7 +149,7 @@ function BurgerConstructor() {
             thumbnail={selectedBun.image}
             price={selectedBun.price}
             type="bottom"
-            extraClass="mt-4 ml-8"
+            extraClass={`mt-4 ml-8 ${styles.bun}`}
             isLocked="true"
           />}
           {selectedProducts.length > 0 && !selectedBun && <ConstructorElement
@@ -135,7 +157,7 @@ function BurgerConstructor() {
           thumbnail={burgerIconSvg}
           price='0'
           type="bottom"
-          extraClass="mb-4 ml-8"
+          extraClass={`mt-4 ml-8 ${styles.bun}`}
           isLocked="true"
           />}
         </section>

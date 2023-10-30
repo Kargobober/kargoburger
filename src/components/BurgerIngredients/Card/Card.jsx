@@ -9,6 +9,7 @@ import { addItem } from '../../../services/slices/burgerConstructorSlice';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { setInfo } from '../../../services/slices/ingredientDetailsSlice';
+import { useDrag } from 'react-dnd';
 
 
 function Card({ card }) {
@@ -16,6 +17,13 @@ function Card({ card }) {
   let waitingForDoubleClick = false;
   const dispatch = useDispatch();
 
+  const [{ isDragging }, dragRef, dragPreviewRef] = useDrag({
+    type: 'ingredient',
+    item: { card },
+    collect: monitor => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
 
   const handleClick = () => {
     // записываем в хранилище данные ингридиента
@@ -50,16 +58,19 @@ function Card({ card }) {
 
 
   return (
-    <li className={styles.card} onClick={handleBothClick}>
+    <li className={!isDragging ? styles.card : `${styles.card} ${styles.outline}`}
+      onClick={handleBothClick}
+      ref={dragRef} >
       {counter > 0 && <Counter
         count={counter}
         size="default"
       />}
 
       <img
-        className={styles.image}
+        className={!isDragging ? styles.image : `${styles.image} ${styles.dragging}`}
         src={card.image}
         alt={card.name}
+        ref={dragPreviewRef}
       />
 
       <Price value={card.price} digitsSize="default" />

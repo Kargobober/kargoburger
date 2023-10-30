@@ -14,6 +14,7 @@
   min-height: 208px;
 
   cursor: pointer;
+  border-radius: 20px;
 }
 
 .image {
@@ -25,4 +26,12 @@
 
 .heading {
   text-align: center;
+}
+
+.dragging {
+  opacity: .6;
+}
+
+.outline {
+  outline: 2px solid var(--colors-interface-accent);
 }
