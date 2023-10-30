@@ -26,9 +26,9 @@ function Modal({ children, heading, onClose, pb = 15, pt = 10 }) {
         <ModalHeader heading={heading} onClose={onClose} />
         {children}
       </div>
-      <ModalOverlay onClose={onClose}/>
+      <ModalOverlay onClose={onClose} />
     </>
-  ), modalRoot );
+  ), modalRoot);
 }
 
 Modal.propTypes = {

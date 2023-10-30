@@ -14,9 +14,9 @@ function OrderDetails() {
       <h3 className={`text text_type_digits-large ${styles.heading}`}>{orderNumber ? orderNumber : ' . . . . . '}</h3>
       <p className='text text_type_main-medium mt-8'>идентификатор заказа</p>
       {!isLoading && success ? (
-        <img src={orderAcceptedSvg} alt="Статус заказа" className='mt-15 mb-15'/>
+        <img src={orderAcceptedSvg} alt="Статус заказа" className='mt-15 mb-15' />
       ) : (
-        <div className={styles.bigStub}/>
+        <div className={styles.bigStub} />
       )}
       <p className='text text_type_main-default'>
         {!isLoading && success ? 'Ваш заказ начали готовить' : 'Создаём заказ...'}
@@ -26,7 +26,7 @@ function OrderDetails() {
           Дождитесь готовности на орбитальной станции
         </p>
       ) : (
-        <div className={styles.stub}/>
+        <div className={styles.stub} />
       )}
     </div>
   )

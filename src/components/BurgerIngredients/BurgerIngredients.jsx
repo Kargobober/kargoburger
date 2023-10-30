@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect} from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 import styles from './BurgerIngredients.module.css';
 
@@ -27,7 +27,7 @@ function BurgerIngredients() {
 
     fourfoldRef.current.list.addEventListener('scroll', handleScroll);
     return () => {
-    fourfoldRef.current.list.removeEventListener('scroll', handleScroll);
+      fourfoldRef.current.list.removeEventListener('scroll', handleScroll);
     };
   }, []);
 

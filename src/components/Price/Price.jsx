@@ -14,15 +14,15 @@ function Price({ value, digitsSize, svgSize = 24 }) {
 
   return (
     <div className={styles['price-container']} ref={priceContainer}>
-        <p className={`text text_type_digits-${digitsSize}`}>
-          {value}
-        </p>
-        <CurrencyIcon type="primary"/>
-      </div>
+      <p className={`text text_type_digits-${digitsSize}`}>
+        {value}
+      </p>
+      <CurrencyIcon type="primary" />
+    </div>
   )
 }
 
-Price.propTypes ={
+Price.propTypes = {
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,

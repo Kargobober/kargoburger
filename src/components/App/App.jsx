@@ -12,17 +12,17 @@ function App() {
   const isOrderSucces = useSelector(getOrderSuccess);
   return (
     <div className={styles.app}>
-          <AppHeader />
-          <Main />
-          {/* Если модалку рисовать взамен всего приложения, то не выполнится его код по выводу ошибок? */}
-          {isErrorOnIngredients || isOrderSucces === false ? (
-            <Modal>
-              <p className="text text_type_main-medium mt-30">
-                Произошла ошибка, пожалуйста, перезагрузите страницу.
-              </p>
-            </Modal>
-          ) : ('')
-          }
+      <AppHeader />
+      <Main />
+      {/* Если модалку рисовать взамен всего приложения, то не выполнится его код по выводу ошибок? */}
+      {isErrorOnIngredients || isOrderSucces === false ? (
+        <Modal>
+          <p className="text text_type_main-medium mt-30">
+            Произошла ошибка, пожалуйста, перезагрузите страницу.
+          </p>
+        </Modal>
+      ) : ('')
+      }
     </div>
   );
 }

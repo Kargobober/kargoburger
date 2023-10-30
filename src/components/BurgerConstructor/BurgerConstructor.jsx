@@ -124,12 +124,12 @@ function BurgerConstructor() {
             isLocked="true"
           />}
           {selectedProducts.length > 0 && !selectedBun && <ConstructorElement
-          text='Добавьте булку'
-          thumbnail={burgerIconSvg}
-          price='0'
-          type="top"
-          extraClass={`mb-4 ml-8 ${styles.bun}`}
-          isLocked="true"
+            text='Добавьте булку'
+            thumbnail={burgerIconSvg}
+            price='0'
+            type="top"
+            extraClass={`mb-4 ml-8 ${styles.bun}`}
+            isLocked="true"
           />}
 
           {/* внутренности бургера */}
@@ -153,12 +153,12 @@ function BurgerConstructor() {
             isLocked="true"
           />}
           {selectedProducts.length > 0 && !selectedBun && <ConstructorElement
-          text='Хлеб всему квазар'
-          thumbnail={burgerIconSvg}
-          price='0'
-          type="bottom"
-          extraClass={`mt-4 ml-8 ${styles.bun}`}
-          isLocked="true"
+            text='Хлеб всему квазар'
+            thumbnail={burgerIconSvg}
+            price='0'
+            type="bottom"
+            extraClass={`mt-4 ml-8 ${styles.bun}`}
+            isLocked="true"
           />}
         </section>
 

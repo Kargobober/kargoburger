@@ -27,7 +27,7 @@ function Item({ ingredient, index }) {
   const [, dropRef] = useDrop({
     accept: 'sort',
     hover: ({ data }) => {
-      if(extraId === data.extraId) return;
+      if (extraId === data.extraId) return;
       dispatch(moveItem({
         indexFrom: selectedProducts.indexOf(data),
         indexTo: index,
@@ -43,7 +43,7 @@ function Item({ ingredient, index }) {
       <div ref={dragRef} className={styles.dragIcon}>
         <DragIcon type="primary" />
       </div>
-      <ConstructorElement text={text} thumbnail={thumbnail} price={price} handleClose={() => {dispatch(removeItem(extraId))}}/>
+      <ConstructorElement text={text} thumbnail={thumbnail} price={price} handleClose={() => { dispatch(removeItem(extraId)) }} />
     </li>
   )
 }

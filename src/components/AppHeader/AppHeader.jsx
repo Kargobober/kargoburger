@@ -18,7 +18,7 @@ function AppHeader() {
   const isActive = (index) => headerLinks[index].name === currentSection ? true : false;
 
   return (
-    <header className={ `${styles.header} pt-4 pb-4` }>
+    <header className={`${styles.header} pt-4 pb-4`}>
       <nav className={styles['nav-bar']}>
 
         <ul className={styles['nav-bar-list']}>
