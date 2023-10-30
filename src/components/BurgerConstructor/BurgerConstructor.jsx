@@ -134,12 +134,10 @@ function BurgerConstructor() {
           {/* внутренности бургера */}
           <ul className={`${styles.list} custom-scroll`} ref={fillingsElem} style={{ maxHeight: fillingsHeight }}>
             {selectedProducts.length > 0
-              && selectedProducts.map(el => <Item
+              && selectedProducts.map((el, index) => <Item
                 key={el.extraId}
-                extraId={el.extraId}
-                text={el.name}
-                thumbnail={el.image_mobile}
-                price={el.price}
+                ingredient={el}
+                index={index}
               />)
             }
           </ul>

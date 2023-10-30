@@ -3,3 +3,11 @@
   column-gap: calc(var(--offset-base-size) * 2);
   align-items: center;
 }
+
+.dragIcon {
+  cursor: pointer;
+}
+
+.onDrag {
+  opacity: 1;
+}
