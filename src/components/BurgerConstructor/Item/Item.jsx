@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { moveItem, removeItem } from '../../../services/slices/burgerConstructorSlice';
 import { useDrag, useDrop } from 'react-dnd';
 import { getSelectedProducts } from '../../../services/selectors/burgerConstructorSelector';
+import { ingredientPropType } from '../../../utils/prop-types';
 
 function Item({ ingredient, index }) {
   const { price, extraId } = ingredient;
@@ -48,9 +49,8 @@ function Item({ ingredient, index }) {
 }
 
 Item.propTypes = {
-  text: PropTypes.string.isRequired,
-  thumbnail: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
+  ingredient: ingredientPropType.isRequired,
+  index: PropTypes.number.isRequired,
 }
 
 export default Item;

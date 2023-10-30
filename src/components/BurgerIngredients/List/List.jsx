@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, forwardRef, useImperativeHandle, memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import styles from './List.module.css';
 
@@ -138,4 +139,9 @@ function List(props, ref) {
 // реакт-обёртка для возможности проброса нескольких рефов
 List = forwardRef(List);
 List = memo(List);
+
+List.propTypes = {
+  props: PropTypes.object,
+};
+
 export default List;
