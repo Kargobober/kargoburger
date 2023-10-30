@@ -12,7 +12,7 @@ import Modal from '../Modal/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSelectedBun, getSelectedProducts, getTotalPrice } from '../../services/selectors/burgerConstructorSelector';
 import { getOrderDetailsNeeding, getOrderSuccess } from '../../services/selectors/orderDetailsSelector';
-import { setNeedingDetails } from '../../services/slices/orderDetailsSlice';
+import { resetOrderNumber, setNeedingDetails } from '../../services/slices/orderDetailsSlice';
 import { postOrder } from '../../services/middlewares/orderDetailsQueries';
 import burgerIconSvg from '../../images/burger.svg';
 import { useDrop } from 'react-dnd';
@@ -76,6 +76,7 @@ function BurgerConstructor() {
 
   function onClose() {
     dispatch(setNeedingDetails(false));
+    dispatch(resetOrderNumber());
   }
 
 

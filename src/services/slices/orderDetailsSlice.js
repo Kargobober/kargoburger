@@ -20,6 +20,9 @@ export const orderDetailsSlice = createSlice({
     setNeedingDetails: (state, action) => {
       state.needDetails = action.payload;
     },
+    resetOrderNumber: (state) => {
+      state.order.number = 0;
+    }
   },
   extraReducers: {
     [postOrder.pending.type]: (state) => {
@@ -42,5 +45,5 @@ export const orderDetailsSlice = createSlice({
   }
 });
 
-export const { setNeedingDetails } = orderDetailsSlice.actions;
+export const { setNeedingDetails, resetOrderNumber } = orderDetailsSlice.actions;
 export default orderDetailsSlice.reducer;
