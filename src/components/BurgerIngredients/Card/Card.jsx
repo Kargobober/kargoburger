@@ -17,8 +17,9 @@ function Card({ card }) {
   let waitingForDoubleClick = false;
   const dispatch = useDispatch();
 
-  const [{ isDragging }, dragRef, dragPreviewRef] = useDrag({
+  const [{ isDragging }, dragRef] = useDrag({
     type: 'ingredient',
+    // объект { card: card }
     item: { card },
     collect: monitor => ({
       isDragging: monitor.isDragging(),
@@ -60,7 +61,8 @@ function Card({ card }) {
   return (
     <li className={!isDragging ? styles.card : `${styles.card} ${styles.outline}`}
       onClick={handleBothClick}
-      ref={dragRef} >
+      ref={dragRef}
+    >
       {counter > 0 && <Counter
         count={counter}
         size="default"
@@ -70,7 +72,6 @@ function Card({ card }) {
         className={!isDragging ? styles.image : `${styles.image} ${styles.dragging}`}
         src={card.image}
         alt={card.name}
-        ref={dragPreviewRef}
       />
 
       <Price value={card.price} digitsSize="default" />

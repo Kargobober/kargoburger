@@ -82,6 +82,7 @@ function BurgerConstructor() {
 
   const [{ isHover }, dropRef] = useDrop({
     accept: 'ingredient',
+    // деструктуризация объекта
     drop: ({ card }) => {
       dispatch(addItem({
         ...card,
@@ -105,8 +106,8 @@ function BurgerConstructor() {
           {!selectedBun && selectedProducts.length === 0 &&
             <div className={styles.stub}>
               <BurgerIcon type='secondary' />
-              <p className='text text_type_main-default text_color_inactive'>
-                &nbsp;Добавьте ингридиенты двойным кликом&nbsp;
+              <p className={`text text_type_main-default text_color_inactive ${styles.stubText}`}>
+                {` Добавьте ингредиенты двойным кликом \n или перетаскиванием `}
               </p>
               <BurgerIcon type='secondary' />
             </div>

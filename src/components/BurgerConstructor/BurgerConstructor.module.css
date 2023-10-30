@@ -37,6 +37,12 @@
 .stub {
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.stubText {
+  text-align: center;
+  white-space: pre-wrap;
 }
 
 .dropTarget {
