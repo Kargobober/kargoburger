@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 
 import styles from './BurgerConstructor.module.css';
 
-import { getTopCoords } from '../../utils/utils';
+import { getTopCoords, handleError } from '../../utils/utils';
 
 import { BurgerIcon, Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import Price from '../Price/Price';
@@ -11,7 +11,7 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSelectedBun, getSelectedProducts, getTotalPrice } from '../../services/selectors/burgerConstructorSelector';
-import { getOrderDetailsNeeding, getOrderSuccess } from '../../services/selectors/orderDetailsSelector';
+import { getOrderDetailsNeeding, getOrderError, getOrderSuccess } from '../../services/selectors/orderDetailsSelector';
 import { resetOrderNumber, setNeedingDetails } from '../../services/slices/orderDetailsSlice';
 import { postOrder } from '../../services/middlewares/orderDetailsQueries';
 import burgerIconSvg from '../../images/burger.svg';
@@ -30,6 +30,12 @@ function BurgerConstructor() {
 
   const needDetails = useSelector(getOrderDetailsNeeding);
   const isOrderSucces = useSelector(getOrderSuccess);
+  const error = useSelector(getOrderError);
+
+  useEffect(() => {
+    error && handleError('Ошибка при создании заказа: ', error.message);
+  }, [error]);
+
   const modal = (
     <Modal
       heading=''

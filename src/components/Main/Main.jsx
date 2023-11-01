@@ -1,4 +1,5 @@
 import styles from './Main.module.css';
+import { memo } from 'react';
 
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
@@ -16,4 +17,4 @@ function Main() {
   )
 }
 
-export default Main;
+export default memo(Main);

@@ -1,5 +1,5 @@
-export function handleError(res) {
-  console.log('Error: ' + res.error.message);
+export function handleError(text, error = '') {
+  console.log(text + error);
 }
 
 export const getTopCoords = (elem) => {

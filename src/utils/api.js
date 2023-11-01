@@ -5,12 +5,12 @@ export const config = {
   }
 }
 
-/*function handleResponse(response) {
+export function handleResponse(response) {
   if (response.ok) {
     return response.json();
   } else {
     // Из негативного ответа сервера асинхронно извлекаем объект err с данными о запросе. Поле message передаем в отклоненный промис, который отдаст это в catch.
     return response.json()
-    .then(err => Promise.reject(err.message));
+    .then(err => Promise.reject(err));
   }
-}*/
+}

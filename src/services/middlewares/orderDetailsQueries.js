@@ -1,12 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { config } from "../../utils/api";
+import { config, handleResponse } from "../../utils/api";
+import { handleError } from "../../utils/utils";
 
 
 
 export const postOrder = createAsyncThunk(
   'order/post',
-  async (payload, thunkAPI) => {
-    const response = await fetch(
+  (payload, thunkAPI) => {
+    return fetch(
       `${config.baseUrl}/orders`,
       {
         headers: config.headers,
@@ -14,13 +15,7 @@ export const postOrder = createAsyncThunk(
         body: JSON.stringify({
           ingredients: payload,
         }),
-      }
-    );
-    if(response.ok) {
-      const data = await response.json();
-      return data;
-    } else {
-      return response.json().then(err => Promise.reject(err.message));
-    }
+      })
+      .then(handleResponse);
   }
-)
+);

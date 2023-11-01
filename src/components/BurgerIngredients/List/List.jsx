@@ -7,7 +7,7 @@ import styles from './List.module.css';
 import { getTopCoords, handleError } from '../../../utils/utils';
 
 import Card from '../Card/Card';
-import { getCountedFiltredIngredients, getLoadingStatus } from '../../../services/selectors/ingredientsSelector';
+import { getCountedFiltredIngredients, getErrorStatus, getLoadingStatus } from '../../../services/selectors/ingredientsSelector';
 import { ingredientsQuery } from '../../../services/middlewares/ingredientsQuery';
 import { getIngredientDetailsStatus } from '../../../services/selectors/ingredientDetailsSelector';
 import Modal from '../../Modal/Modal';
@@ -40,9 +40,13 @@ function List(props, ref) {
 
 
   const isLoading = useSelector(getLoadingStatus);
+  const hasError = useSelector(getErrorStatus);
   useEffect(() => {
-    dispatch(ingredientsQuery())
-      .catch(handleError);
+    hasError && handleError('Ошибка при загрузке ингредиентов с сервера.');
+  }, [hasError]);
+
+  useEffect(() => {
+    dispatch(ingredientsQuery());
   }, []);
   // Получаем обработанные данные из хранилища, сам результат обработки в хранилище не хранится. Не знаю, верно ли это
   const data = useSelector(getCountedFiltredIngredients);
