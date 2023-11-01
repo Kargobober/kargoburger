@@ -9,7 +9,7 @@ import { addItem } from '../../../services/slices/burgerConstructorSlice';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { setInfo } from '../../../services/slices/ingredientDetailsSlice';
-import { useDrag } from 'react-dnd';
+import { DragPreviewImage, useDrag } from 'react-dnd';
 
 
 function Card({ card }) {
@@ -17,7 +17,7 @@ function Card({ card }) {
   let waitingForDoubleClick = false;
   const dispatch = useDispatch();
 
-  const [{ isDragging }, dragRef] = useDrag({
+  const [{ isDragging }, dragRef, preview] = useDrag({
     type: 'ingredient',
     // объект { card: card }
     item: { card },
@@ -68,6 +68,7 @@ function Card({ card }) {
         size="default"
       />}
 
+      <DragPreviewImage connect={preview} src={card.image} />
       <img
         className={!isDragging ? styles.image : `${styles.image} ${styles.dragging}`}
         src={card.image}

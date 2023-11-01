@@ -25,8 +25,12 @@ export const burgerConstructorSlice = createSlice({
       state.selectedProducts.splice(indexFrom, 1);
       state.selectedProducts.splice(indexTo, 0, ingredient);
     },
+    resetConstructor: (state) => {
+      state.selectedBun = initialState.selectedBun;
+      state.selectedProducts = initialState.selectedProducts;
+    },
   },
 });
 
-export const { addItem, removeItem, moveItem } = burgerConstructorSlice.actions;
+export const { addItem, removeItem, moveItem, resetConstructor } = burgerConstructorSlice.actions;
 export default burgerConstructorSlice.reducer;

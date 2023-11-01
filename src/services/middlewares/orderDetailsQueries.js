@@ -1,6 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { config, handleResponse } from "../../utils/api";
-import { handleError } from "../../utils/utils";
 
 
 

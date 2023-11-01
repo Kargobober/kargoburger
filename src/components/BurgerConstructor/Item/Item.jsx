@@ -39,7 +39,7 @@ function Item({ ingredient, index }) {
 
 
   return (
-    <li className={`${styles.item} ${isDragging ? styles.onDrag : ''}`} ref={node => dragPreviewRef(dropRef(node))} >
+    <li className={styles.item} ref={node => dragPreviewRef(dropRef(node))} >
       <div ref={dragRef} className={styles.dragIcon}>
         <DragIcon type="primary" />
       </div>

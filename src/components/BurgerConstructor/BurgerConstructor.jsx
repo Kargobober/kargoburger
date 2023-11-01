@@ -16,7 +16,7 @@ import { resetOrderNumber, setNeedingDetails } from '../../services/slices/order
 import { postOrder } from '../../services/middlewares/orderDetailsQueries';
 import burgerIconSvg from '../../images/burger.svg';
 import { useDrop } from 'react-dnd';
-import { addItem } from '../../services/slices/burgerConstructorSlice';
+import { addItem, resetConstructor } from '../../services/slices/burgerConstructorSlice';
 import { v4 as uuidv4 } from 'uuid';
 
 function BurgerConstructor() {
@@ -51,7 +51,9 @@ function BurgerConstructor() {
   const selectedProducts = useSelector(getSelectedProducts);
   const totalPrice = useSelector(getTotalPrice);
 
-
+  useEffect(() => {
+    if(isOrderSucces) dispatch(resetConstructor());
+  }, [isOrderSucces]);
 
   useEffect(() => {
     // Получаем координаты верха секции конструктора

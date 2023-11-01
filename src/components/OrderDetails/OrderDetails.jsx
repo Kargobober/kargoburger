@@ -2,6 +2,8 @@ import styles from './OrderDetails.module.css';
 import orderAcceptedSvg from '../../images/order-accepted.svg';
 import { useSelector } from 'react-redux';
 import { getOrderIsLoading, getOrderNumber, getOrderSuccess } from '../../services/selectors/orderDetailsSelector';
+import { MoonLoader } from 'react-spinners';
+import { colorInterfaceAccent } from '../../utils/constants';
 
 function OrderDetails() {
   const orderNumber = useSelector(getOrderNumber);
@@ -16,7 +18,15 @@ function OrderDetails() {
       {!isLoading && success ? (
         <img src={orderAcceptedSvg} alt="Статус заказа" className='mt-15 mb-15' />
       ) : (
-        <div className={styles.bigStub} />
+        <MoonLoader
+          color={colorInterfaceAccent}
+          size={102}
+          cssOverride={{
+            marginTop: '60px',
+            marginBottom: '60px',
+          }}
+          speedMultiplier={0.4}
+        />
       )}
       <p className='text text_type_main-default'>
         {!isLoading && success ? 'Ваш заказ начали готовить' : 'Создаём заказ...'}

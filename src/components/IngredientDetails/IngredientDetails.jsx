@@ -5,11 +5,11 @@ import { getIngredientDetails } from '../../services/selectors/ingredientDetails
 
 function IngredientDetails() {
   const ingredient = useSelector(getIngredientDetails);
-  const { image, name, calories, proteins, fat, carbohydrates } = ingredient;
+  const { image_large, name, calories, proteins, fat, carbohydrates } = ingredient;
 
   return (
     <div className={styles.container}>
-      <img src={image} alt={name} className={styles.image} />
+      <img src={image_large} alt={name} className={styles.image} />
 
       <h3
         className={`
