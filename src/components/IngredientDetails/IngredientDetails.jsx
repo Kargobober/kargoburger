@@ -1,13 +1,15 @@
-import styles from './IngridientDetails.module.css';
+import styles from './IngredientDetails.module.css';
 import stylesGlobal from '../../index.css';
-import { ingredientPropType } from '../../utils/prop-types';
+import { useSelector } from 'react-redux';
+import { getIngredientDetails } from '../../services/selectors/ingredientDetailsSelector';
 
-function IngridientDetails({ ingridient }) {
-  const { image, name, calories, proteins, fat, carbohydrates } = ingridient;
+function IngredientDetails() {
+  const ingredient = useSelector(getIngredientDetails);
+  const { image_large, name, calories, proteins, fat, carbohydrates } = ingredient;
 
   return (
     <div className={styles.container}>
-      <img src={image} alt={name} className={styles.image} />
+      <img src={image_large} alt={name} className={styles.image} />
 
       <h3
         className={`
@@ -41,8 +43,4 @@ function IngridientDetails({ ingridient }) {
   )
 }
 
-IngridientDetails.propTypes = {
-  ingridient: ingredientPropType,
-}
-
-export default IngridientDetails;
+export default IngredientDetails;

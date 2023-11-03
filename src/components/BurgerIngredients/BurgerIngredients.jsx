@@ -1,20 +1,42 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { ingredientPropType } from '../../utils/prop-types';
+import { useState, useRef, useEffect } from 'react';
 
-import styles from './BurgerIngridients.module.css';
+import styles from './BurgerIngredients.module.css';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import List from './List/List';
 
 
-function BurgerIngridients({ ingridientsData, choiseCallBack }) {
-  const [current, setCurrent] = React.useState('Булки');
+function BurgerIngredients() {
+  const [current, setCurrent] = useState('Булки');
+  const navElem = useRef(null);
+  const fourfoldRef = useRef(null);
+
+
+
+  useEffect(() => {
+    const navElemCoord = navElem.current.getBoundingClientRect();
+    const handleScroll = event => {
+      const arrOfElem = [fourfoldRef.current.buns, fourfoldRef.current.sauces, fourfoldRef.current.mainFillings];
+      const arrOfObj = arrOfElem.map(el => ({
+        elem: el,
+        delta: Math.abs(el.getBoundingClientRect().top - navElemCoord.bottom),
+      }));
+      const closestObj = arrOfObj.reduce((prev, curr) => prev.delta < curr.delta ? prev : curr);
+      setCurrent(closestObj.elem.textContent);
+    };
+
+    fourfoldRef.current.list.addEventListener('scroll', handleScroll);
+    return () => {
+      fourfoldRef.current.list.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+
 
   return (
     <section className={`${styles.section} pt-10`}>
       <h2 className={`${styles.header} text_type_main-large`}>Соберите бургер</h2>
-      <nav>
+      <nav ref={navElem}>
         <ul className={styles.list}>
           <li>
             <a href="#buns" className={styles.link}>
@@ -39,13 +61,9 @@ function BurgerIngridients({ ingridientsData, choiseCallBack }) {
           </li>
         </ul>
       </nav>
-      <List ingridientsData={ingridientsData} choiseCallBack={choiseCallBack}/>
+      <List ref={fourfoldRef} />
     </section>
   )
 }
 
-BurgerIngridients.propTypes = {
-  ingridientsData: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
-  choiseCallBack: PropTypes.func,
-}
-export default BurgerIngridients;
+export default BurgerIngredients;

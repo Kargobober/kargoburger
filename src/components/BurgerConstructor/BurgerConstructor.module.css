@@ -1,5 +1,6 @@
 .section-common {
   width: 50%;
+  height: 100vh;
   max-width: 600px;
   margin-right: calc(var(--offset-base-size) * 5);
   display: flex;
@@ -35,4 +36,27 @@
 
 .stub {
   display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.stubText {
+  text-align: center;
+  white-space: pre-wrap;
+}
+
+.dropTarget {
+  border-radius: 20px;
+  outline: 2px solid var(--colors-interface-success);
+}
+
+.innerSection {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.bun {
+  max-height: 25%;
 }

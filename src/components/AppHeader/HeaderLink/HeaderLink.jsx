@@ -9,9 +9,9 @@ function HeaderLink({ sectionName, Icon, callback, isActive, customStyle }) {
       className={styles.link}
       onClick={callback}
     >
-      <Icon type={ isActive ? "primary" : "secondary"} />
+      <Icon type={isActive ? "primary" : "secondary"} />
       <p
-        className={ isActive ? "text text_type_main-default ml-2"
+        className={isActive ? "text text_type_main-default ml-2"
           : "text text_type_main-default ml-2 text_color_inactive"
         }
       >{sectionName}</p>
