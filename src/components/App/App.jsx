@@ -1,29 +1,25 @@
-import styles from './App.module.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import HomePage from "../../pages/home";
 
-import AppHeader from '../AppHeader/AppHeader';
-import Main from '../Main/Main';
-import { useSelector } from 'react-redux';
-import { getErrorStatus } from '../../services/selectors/ingredientsSelector';
-import { getOrderSuccess } from '../../services/selectors/orderDetailsSelector';
-import Modal from '../Modal/Modal';
 
 function App() {
-  const isErrorOnIngredients = useSelector(getErrorStatus);
-  const isOrderSucces = useSelector(getOrderSuccess);
   return (
-    <div className={styles.app}>
-      <AppHeader />
-      <Main />
-      {/* Если модалку рисовать взамен всего приложения, то не выполнится его код по выводу ошибок? */}
-      {isErrorOnIngredients || isOrderSucces === false ? (
-        <Modal>
-          <p className="text text_type_main-medium mt-30">
-            Произошла ошибка, пожалуйста, перезагрузите страницу.
-          </p>
-        </Modal>
-      ) : ('')
-      }
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<HomePage />} />
+
+        {/* <Route path='/register' element={<RegisterPage />} />
+        <Route path='login' element={<LoginPage />} />
+        <Route path='/forgot-password' element={<ForgotPasswordPage />} />
+        <Route path='/reset-password' element={<ResetPasswordPage />} />
+
+        <Route path='/ingredient/:id' element={<IngredientPage />} />
+
+        <Route path='/profile' element={<ProfilePage />} />
+
+        <Route path='*' element={<NotFound404 />} /> */}
+      </Routes>
+    </BrowserRouter>
   );
 }
 
