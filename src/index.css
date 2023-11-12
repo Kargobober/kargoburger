@@ -5,3 +5,16 @@ body {
 .text_centered {
   text-align: center;
 }
+
+.linkGlobal {
+  text-decoration: none;
+  transition: .2s linear;
+}
+
+.linkGlobal:hover {
+  color: var(--text-primary-color);
+}
+
+.linkGlobal:active {
+  color: var(--colors-interface-success);
+}

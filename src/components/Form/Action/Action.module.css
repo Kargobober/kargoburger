@@ -1,0 +1,6 @@
+.container {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  column-gap: calc(var(--offset-base-size) * 2);
+}
