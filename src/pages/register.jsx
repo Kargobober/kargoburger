@@ -1,5 +1,5 @@
 import styles from './register.module.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -19,18 +19,35 @@ function RegisterPage() {
 
   const [email, setEmail] = useState('');
   const [hasEmailError, setHasEmailError] = useState(false);
+  /*
+    \. — экранирование точки (т.к. это тоже спецсимвол по ум.), значит строка должна содержать точку
+    . – спец. символ, означающий наличие любого символа, кроме переноса строки
+    то есть после точки должен быть хоть один символ
+  */
+  /*
+    проверка на точку входит в логику компонента из библиотеки,
+    но validationMessage пустой (т.к. встроенный API браузеров?),
+    потому невозможно выполнить условный рендеринг по данному параметру
+  */
+  const emailRegExp = /\../;
 
   const [password, setPassword] = useState('');
   const [hasPasswordError, setHasPasswordError] = useState(false);
+
+  /* во время фокуса любого инпута выключаем кнопку отправки,
+  т.к. валидация происходит при блюре */
+  const [isFocus, setIsFocus] = useState(false);
 
   const onChangeUserName = evt => {
     setUserName(evt.target.value);
   };
   const onFocusUserName = evt => {
     setHasUserNameError(false);
+    setIsFocus(true);
   };
   const onBlurUserName = evt => {
     if (evt.target.value.length < 2) setHasUserNameError(true);
+    setIsFocus(false);
   };
 
   const onChangeEmail = evt => {
@@ -38,9 +55,22 @@ function RegisterPage() {
   };
   const onFocusEmail = evt => {
     setHasEmailError(false);
+    setIsFocus(true);
   };
   const onBlurEmail = evt => {
-    setHasEmailError(!!evt.target.validationMessage);
+    const regExpSucces = emailRegExp.test(evt.target.value);
+    const length = evt.target.value.length;
+
+    setIsFocus(false);
+
+    if (length === 0) {
+      setHasEmailError(false);
+      return;
+    }
+    if (!regExpSucces) {
+      setHasEmailError(true);
+      return;
+    }
   };
 
   const onChangePassword = evt => {
@@ -48,9 +78,11 @@ function RegisterPage() {
   };
   const onFocusPassword = evt => {
     setHasPasswordError(false);
+    setIsFocus(true);
   };
   const onBlurPassword = evt => {
-    setHasPasswordError( (evt.target.value.length > 5) ? false : (evt.target.value.length > 0) ? true : false);
+    setHasPasswordError((evt.target.value.length > 5) ? false : (evt.target.value.length > 0) ? true : false);
+    setIsFocus(false);
   };
 
   const onSubmit = evt => {
@@ -77,15 +109,17 @@ function RegisterPage() {
             error={hasUserNameError}
             errorText='Не менее двух символов'
           />
-          { !hasUserNameError && <div className={styles.stub} /> }
+          {!hasUserNameError && <div className={styles.stub} />}
           <EmailInput onChange={onChangeEmail} onFocusCapture={onFocusEmail} onBlurCapture={onBlurEmail} value={email} />
-          { !hasEmailError && <div className={styles.stub} /> }
+          {!hasEmailError && <div className={styles.stub} />}
           <PasswordInput onChange={onChangePassword} onFocusCapture={onFocusPassword} onBlurCapture={onBlurPassword} value={password} />
-          { !hasPasswordError && <div className={styles.stub} /> }
+          {!hasPasswordError && <div className={styles.stub} />}
         </EditZone>
 
         <ActionsZone>
-          <Button htmlType="submit" type="primary" size="medium">
+          <Button htmlType="submit" type="primary" size="medium"
+            disabled={!isFocus && userName.length > 1 && !hasEmailError && email && password ? false : true}
+          >
             Зарегистрироваться
           </Button>
         </ActionsZone>

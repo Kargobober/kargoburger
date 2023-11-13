@@ -14,20 +14,38 @@ function LoginPage() {
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState('');
-  // создадим стейт текста ошибки инпута при его валидации, чтобы выполнять условный рендеринг
+  /* создадим стейт текста ошибки инпута при его валидации,
+  чтобы выполнять условный рендеринг */
   const [hasEmailError, setHasEmailError] = useState(false);
+  const emailRegExp = /\../;
 
   const [password, setPassword] = useState('');
   const [hasPasswordError, setHasPasswordError] = useState(false);
+
+  // см. register.jsx
+  const [isFocus, setIsFocus] = useState(false);
 
   const onChangeEmail = evt => {
     setEmail(evt.target.value);
   };
   const onFocusEmail = evt => {
     setHasEmailError(false);
+    setIsFocus(true);
   };
   const onBlurEmail = evt => {
-    setHasEmailError(!!evt.target.validationMessage);
+    const regExpSucces = emailRegExp.test(evt.target.value);
+    const length = evt.target.value.length;
+
+    setIsFocus(false);
+
+    if (length === 0) {
+      setHasEmailError(false);
+      return;
+    }
+    if (!regExpSucces) {
+      setHasEmailError(true);
+      return;
+    }
   };
 
   const onChangePassword = evt => {
@@ -35,9 +53,11 @@ function LoginPage() {
   };
   const onFocusPassword = evt => {
     setHasPasswordError(false);
+    setIsFocus(true);
   };
   const onBlurPassword = evt => {
     setHasPasswordError( (evt.target.value.length > 5) ? false : (evt.target.value.length > 0) ? true : false);
+    setIsFocus(false);
   };
 
   const onSubmit = evt => {
@@ -65,7 +85,9 @@ function LoginPage() {
         </EditZone>
 
         <ActionsZone>
-          <Button htmlType="submit" type="primary" size="medium">
+          <Button htmlType="submit" type="primary" size="medium"
+            disabled={!isFocus && !hasEmailError && email && password && !hasPasswordError? false : true}
+          >
             Войти
           </Button>
         </ActionsZone>
