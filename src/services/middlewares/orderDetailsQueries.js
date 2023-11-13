@@ -14,7 +14,8 @@ export const postOrder = createAsyncThunk(
         body: JSON.stringify({
           ingredients: payload,
         }),
-      })
-      .then(handleResponse);
+      }
+    )
+    .then(handleResponse);
   }
 );

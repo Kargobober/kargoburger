@@ -9,6 +9,7 @@ import AdditionalActions from '../components/Form/AdditionalActions/AdditionalAc
 import Action from '../components/Form/Action/Action';
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch } from 'react-redux';
+import { login } from '../services/middlewares/authActions';
 
 function LoginPage() {
   const dispatch = useDispatch();
@@ -62,8 +63,7 @@ function LoginPage() {
 
   const onSubmit = evt => {
     evt.preventDefault();
-    // dispatch();
-    console.log('войтиии');
+    dispatch(login(email, password));
   };
 
 

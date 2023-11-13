@@ -9,6 +9,7 @@ import EditZone from '../components/Form/EditZone/EditZone';
 import ActionsZone from '../components/Form/ActionsZone/ActionsZone';
 import AdditionalActions from '../components/Form/AdditionalActions/AdditionalActions';
 import Action from '../components/Form/Action/Action';
+import { registerUser } from '../services/middlewares/authActions';
 
 
 function RegisterPage() {
@@ -87,8 +88,13 @@ function RegisterPage() {
 
   const onSubmit = evt => {
     evt.preventDefault();
-    // dispatch();
-    console.log('регииистр');
+    /* для танков только один аргумент может быть полезной нагрузкой,
+      потому вносим данные в объект */
+    /* если делать не танком, то можно как угодно
+      Но диспатчим все равно, т.к. в замыкинии для функции registerUser
+      нужно определить dispatch
+    */
+    dispatch(registerUser( {email, name: userName} ));
   };
 
   return (

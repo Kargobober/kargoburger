@@ -1,4 +1,9 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import { checkUserAuth } from "../../services/middlewares/authActions";
+
 import HomePage from "../../pages/home";
 import LayoutHeader from "../LayoutHeader/LayoutHeader";
 import LoginPage from "../../pages/login";
@@ -8,6 +13,12 @@ import ResetPasswordPage from "../../pages/reset-password";
 
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkUserAuth());
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
