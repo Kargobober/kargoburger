@@ -22,7 +22,7 @@ export function registerUser(user) {
         dispatch(clearError());
         dispatch(setUser(data.user));
         dispatch(setRegisterSuccess(data.success));
-
+        console.log('установка токенов из кода регистрации, пустых?');
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
       })
@@ -37,7 +37,7 @@ export function registerUser(user) {
 }
 
 export function getUser() {
-  console.log('получаю юзера...');
+  console.log('getUser');
   return (dispatch) => {
     return fetchWithRefresh(
       `${config.baseUrl}/auth/user`,
@@ -53,7 +53,7 @@ export function getUser() {
       // проверка ответа (handleResponse) проводится в самом fetchWithRefresh
       // потому сразу работаем с data
       .then(data => {
-        console.log('устанавливаю юзера');
+        console.log('getUser, блок then получил след. дату:', data);
         dispatch(clearError());
         dispatch(setUser(data.user));
         dispatch(setUserSuccess(true));
@@ -82,6 +82,8 @@ export function login(email, password) {
     )
       .then(handleResponse)
       .then(data => {
+        console.log('Попытка входа, data из ответа сервера:');
+        console.log(data);
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
         dispatch(setUser(data.user));
@@ -99,12 +101,15 @@ export function login(email, password) {
 // вызывается при монтировании App
 export function checkUserAuth() {
   return (dispatch) => {
-    if (localStorage.getItem("accessToken")) {
+    console.log('checkUserAuth');
+    dispatch(setAuthPending(true));
+    if (localStorage.getItem('accessToken')) {
+      console.log('в хранилище имеется токен');
       dispatch(getUser())
         .catch(err => {
           console.log('удаление токенов');
-          localStorage.removeItem("accessToken");
-          localStorage.removeItem("refreshToken");
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
           dispatch(setUser(null));
           dispatch(setUserSuccess(false));
           handleError('Ошибка авторизации: ', err.message);
@@ -113,6 +118,7 @@ export function checkUserAuth() {
           dispatch( setAuthPending(false) )
         });
     } else {
+      console.log('токен не найден');
       dispatch(setAuthPending(false));
       dispatch(setUser(null));
     }
