@@ -4,6 +4,7 @@ import { clearError, setAuthPending, setError, setRegisterPending, setRegisterSu
 
 
 export function registerUser(user) {
+  console.log('передаваемый объект:', user);
   return (dispatch) => {
     dispatch(setRegisterPending(true));
 
@@ -16,17 +17,20 @@ export function registerUser(user) {
       }
     )
       .then(res => {
-        handleResponse(res, 'success')
+        console.log('ответ сервера, связанный с регистрацией:', res);
+        return handleResponse(res);
       })
       .then(data => {
+        console.log('дата, связанная с регистрацией:', data);
         dispatch(clearError());
         dispatch(setUser(data.user));
         dispatch(setRegisterSuccess(data.success));
-        console.log('установка токенов из кода регистрации, пустых?');
+        console.log('установка токенов из кода регистрации');
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
       })
       .catch(err => {
+        console.log('ошибка при регистрации:', err);
         dispatch(setError(err.message));
         handleError('Ошибка регистрации: ', err.message);
       })
@@ -89,7 +93,6 @@ export function login(email, password) {
         dispatch(setUser(data.user));
       })
       .catch(err => {
-        console.log(err);
         handleError('Ошибка при попытке входа в аккаунт: ', err.message)
       })
       .finally(() => {

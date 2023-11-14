@@ -94,7 +94,8 @@ function RegisterPage() {
       Но диспатчим все равно, т.к. в замыкинии для функции registerUser
       нужно определить dispatch
     */
-    dispatch(registerUser( {email, name: userName} ));
+    // порядок ключей в объекте неважен для сервера. В задании password указан вторым ключом
+    dispatch(registerUser( {email, name: userName, password} ));
   };
 
   return (
