@@ -126,5 +126,4 @@ export function checkUserAuth() {
       dispatch(setUser(null));
     }
   };
-};
-
+}

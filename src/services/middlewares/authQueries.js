@@ -1,18 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { config, handleResponse } from "../../utils/api";
 
-
-
-export const postOrder = createAsyncThunk(
-  'order/post',
-  (payload, thunkAPI) => {
+export const sendResetCode = createAsyncThunk(
+  'auth/sendResetCode',
+  (payload) => {
     return fetch(
-      `${config.baseUrl}/orders`,
+      `${config.baseUrl}/password-reset`,
       {
         headers: config.headers,
         method: 'POST',
         body: JSON.stringify({
-          ingredients: payload,
+          email: payload,
         }),
       }
     )

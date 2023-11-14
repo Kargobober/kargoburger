@@ -1,15 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { registerUser } from "../middlewares/authActions";
+import { sendResetCode } from "../middlewares/authQueries";
 
 const initialState = {
   // имя и адрес почты, пароль не сохранять!
   user: null,
   registerSuccess: null,
-  registerPending: null,
+  registerPending: false,
   error: '',
-  userPending: null,
+  userPending: false,
   userSuccess: null,
-  authPending: null,
+  authPending: false,
+  resetPasswordPending: false,
+  resetPasswordSuccess: null,
 };
 
 const authSlice = createSlice({
@@ -44,6 +46,27 @@ const authSlice = createSlice({
     setAuthPending: (state, action) => {
       state.authPending = action.payload;
     },
+
+    setResetPasswordSuccess: (state, action) => {
+      state.resetPasswordSuccess = action.payload;
+    },
+  },
+  extraReducers: {
+    [sendResetCode.pending.type]: (state) => {
+      state.resetPasswordPending = true;
+      state.resetPasswordSuccess = null;
+      state.error = '';
+    },
+    [sendResetCode.fulfilled.type]: (state) => {
+      state.resetPasswordPending = false;
+      state.resetPasswordSuccess = true;
+      state.error = '';
+    },
+    [sendResetCode.rejected.type]: (state, action) => {
+      state.resetPasswordPending = false;
+      state.resetPasswordSuccess = false;
+      state.error = action.payload;
+    },
   },
 });
 
@@ -56,5 +79,6 @@ export const {
   setUserPending,
   setUserSuccess,
   setAuthPending,
+  setResetPasswordSuccess,
 } = authSlice.actions;
 export default authSlice.reducer;

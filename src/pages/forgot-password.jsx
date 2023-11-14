@@ -1,8 +1,8 @@
 import styles from './forgot-password.module.css';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -11,9 +11,16 @@ import EditZone from '../components/Form/EditZone/EditZone';
 import ActionsZone from '../components/Form/ActionsZone/ActionsZone';
 import AdditionalActions from '../components/Form/AdditionalActions/AdditionalActions';
 import Action from '../components/Form/Action/Action';
+import { sendResetCode } from '../services/middlewares/authQueries';
+import { getResetPasswordPending, getResetPasswordSuccess } from '../services/selectors/authSelector';
+import { useNavigate } from 'react-router';
+import { stellarToast } from '../utils/utils';
+import { Toaster } from 'react-hot-toast';
+import { setResetPasswordSuccess } from '../services/slices/authSlice';
 
 function ForgotPasswordPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   const [hasEmailError, setHasEmailError] = useState(false);
@@ -21,6 +28,11 @@ function ForgotPasswordPage() {
 
   // см. register.jsx
   const [isFocus, setIsFocus] = useState(false);
+
+  const resetPasswordSucces = useSelector(getResetPasswordSuccess);
+  const resetPasswordPending = useSelector(getResetPasswordPending);
+
+
 
   const onChangeEmail = evt => {
     setEmail(evt.target.value);
@@ -47,12 +59,30 @@ function ForgotPasswordPage() {
 
   const onSubmit = evt => {
     evt.preventDefault();
-    // dispatch();
-    console.log('востановииить');
+    dispatch(sendResetCode(email));
   };
+
+  useEffect(() => {
+    switch(resetPasswordSucces) {
+      case true:
+        stellarToast('Код отправлен на вашу почту', 'ok');
+        setTimeout(() => {navigate('/reset-password')}, 3200);
+        // обнулим статус успешности, чтобы при возврате назад не было переадресации на reset-password
+        dispatch(setResetPasswordSuccess(null));
+        break;
+      case false:
+        stellarToast('Что-то пошло не так', 'error');
+        break;
+      default:
+        break;
+    }
+  }, [resetPasswordSucces]);
+
+
 
   return (
     <main className={styles.main}>
+      <Toaster/>
       <Form
         heading='Восстановление пароля'
         onSubmit={onSubmit}
@@ -70,8 +100,10 @@ function ForgotPasswordPage() {
         </EditZone>
 
         <ActionsZone>
-          <Button htmlType="submit" type="primary" size="medium"
-            disabled={!isFocus && !hasEmailError && email ? false : true}
+          <Button
+            htmlType="submit" type="primary" size="medium"
+            disabled={!isFocus && !hasEmailError && email
+              && !resetPasswordPending ? false : true}
           >
             Восстановить
           </Button>
