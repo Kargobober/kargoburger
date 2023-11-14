@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { sendResetCode } from "../middlewares/authQueries";
+import { resetPassword, sendResetCode } from "../middlewares/authQueries";
 
 const initialState = {
   // имя и адрес почты, пароль не сохранять!
@@ -60,9 +60,22 @@ const authSlice = createSlice({
     [sendResetCode.fulfilled.type]: (state) => {
       state.resetPasswordPending = false;
       state.resetPasswordSuccess = true;
-      state.error = '';
     },
     [sendResetCode.rejected.type]: (state, action) => {
+      state.resetPasswordPending = false;
+      state.resetPasswordSuccess = false;
+      state.error = action.payload;
+    },
+    [resetPassword.pending.type]: (state) => {
+      state.resetPasswordPending = true;
+      state.resetPasswordSuccess = null;
+      state.error = '';
+    },
+    [resetPassword.fulfilled.type]: (state) => {
+      state.resetPasswordPending = false;
+      state.resetPasswordSuccess = true;
+    },
+    [resetPassword.rejected.type]: (state, action) => {
       state.resetPasswordPending = false;
       state.resetPasswordSuccess = false;
       state.error = action.payload;

@@ -17,3 +17,21 @@ export const sendResetCode = createAsyncThunk(
       .then(handleResponse);
   }
 );
+
+export const resetPassword = createAsyncThunk(
+  'auth/resetPassword',
+  (payload) => {
+    return fetch(
+      `${config.baseUrl}/password-reset/reset`,
+      {
+        headers: config.headers,
+        method: 'POST',
+        body: JSON.stringify({
+          password: payload.password,
+          token: payload.code,
+        }),
+      }
+    )
+      .then(handleResponse);
+  }
+)

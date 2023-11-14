@@ -1,6 +1,6 @@
 import styles from './login.module.css';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import Form from '../components/Form/Form';
 import EditZone from '../components/Form/EditZone/EditZone';
@@ -8,11 +8,16 @@ import ActionsZone from '../components/Form/ActionsZone/ActionsZone';
 import AdditionalActions from '../components/Form/AdditionalActions/AdditionalActions';
 import Action from '../components/Form/Action/Action';
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../services/middlewares/authActions';
+import { getUserPending, getUserSuccess } from '../services/selectors/authSelector';
+import { useNavigate } from 'react-router';
+import { Toaster } from 'react-hot-toast';
+import { stellarToast } from '../utils/utils';
 
 function LoginPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   /* создадим стейт текста ошибки инпута при его валидации,
@@ -25,6 +30,11 @@ function LoginPage() {
 
   // см. register.jsx
   const [isFocus, setIsFocus] = useState(false);
+
+  const userPending = useSelector(getUserPending);
+  const userSuccess = useSelector(getUserSuccess);
+
+
 
   const onChangeEmail = evt => {
     setEmail(evt.target.value);
@@ -66,10 +76,24 @@ function LoginPage() {
     dispatch(login(email, password));
   };
 
+  useEffect(() => {
+    switch(userSuccess) {
+      case true:
+        navigate('/', { replace: true });
+        break;
+      case false:
+        stellarToast('Почта или пароль неверны', 'error');
+        break;
+      default:
+        break;
+    }
+  }, [userSuccess]);
+
 
 
   return (
     <main className={styles.main}>
+      <Toaster />
       <Form
         heading='Вход'
         onSubmit={onSubmit}
@@ -86,7 +110,13 @@ function LoginPage() {
 
         <ActionsZone>
           <Button htmlType="submit" type="primary" size="medium"
-            disabled={!isFocus && !hasEmailError && email && password && !hasPasswordError? false : true}
+            disabled={!isFocus
+              && !hasEmailError
+              && email
+              && password
+              && !hasPasswordError
+              && !userPending
+              ? false : true}
           >
             Войти
           </Button>

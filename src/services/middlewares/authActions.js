@@ -1,6 +1,6 @@
 import { config, fetchWithRefresh, handleResponse, tokenCatcher } from "../../utils/api";
 import { handleError } from "../../utils/utils";
-import { clearError, setAuthPending, setError, setRegisterPending, setRegisterSuccess, setUser, setUserSuccess } from "../slices/authSlice";
+import { clearError, setAuthPending, setError, setRegisterPending, setRegisterSuccess, setUser, setUserPending, setUserSuccess } from "../slices/authSlice";
 
 
 export function registerUser(user) {
@@ -69,7 +69,7 @@ export function getUser() {
 export function login(email, password) {
 
   return (dispatch) => {
-    dispatch(setAuthPending(true));
+    dispatch(setUserPending(true));
 
     return fetch(
       `${config.baseUrl}/auth/login`,
@@ -86,17 +86,22 @@ export function login(email, password) {
     )
       .then(handleResponse)
       .then(data => {
-        console.log('Попытка входа, data из ответа сервера:');
-        console.log(data);
+        console.log('Попытка входа, data из ответа сервера:', data);
+        console.log('установка токенов, вызванная входом пользователя');
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
         dispatch(setUser(data.user));
       })
       .catch(err => {
+        dispatch(setUserSuccess(false));
         handleError('Ошибка при попытке входа в аккаунт: ', err.message)
       })
       .finally(() => {
-        dispatch(setAuthPending(false));
+        dispatch(setUserPending(false));
+        /* зануляю, чтобы при повторных попытках ввести неверный пароль
+          происходила изменение статуса успешности юзера, которое вызовет useEffect с тостом(уведомление)
+          При этом тостик с ошибкой вылезает именно когда false, а не null */
+        dispatch(setUserSuccess(null));
       });
   }
 }

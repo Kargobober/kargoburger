@@ -1,22 +1,21 @@
 import styles from './forgot-password.module.css';
 
 import { useState, useEffect } from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
+
+import { sendResetCode } from '../services/middlewares/authQueries';
+import { getResetPasswordPending, getResetPasswordSuccess } from '../services/selectors/authSelector';
+import { setResetPasswordSuccess } from '../services/slices/authSlice';
 
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
-
+import { Toaster } from 'react-hot-toast';
 import Form from '../components/Form/Form';
 import EditZone from '../components/Form/EditZone/EditZone';
 import ActionsZone from '../components/Form/ActionsZone/ActionsZone';
 import AdditionalActions from '../components/Form/AdditionalActions/AdditionalActions';
 import Action from '../components/Form/Action/Action';
-import { sendResetCode } from '../services/middlewares/authQueries';
-import { getResetPasswordPending, getResetPasswordSuccess } from '../services/selectors/authSelector';
-import { useNavigate } from 'react-router';
 import { stellarToast } from '../utils/utils';
-import { Toaster } from 'react-hot-toast';
-import { setResetPasswordSuccess } from '../services/slices/authSlice';
 
 function ForgotPasswordPage() {
   const dispatch = useDispatch();
