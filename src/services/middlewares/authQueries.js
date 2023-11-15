@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { config, handleResponse } from "../../utils/api";
+import { config, fetchWithRefresh, handleResponse, tokenCatcher } from "../../utils/api";
 
 export const sendResetCode = createAsyncThunk(
   'auth/sendResetCode',
@@ -28,10 +28,33 @@ export const resetPassword = createAsyncThunk(
         method: 'POST',
         body: JSON.stringify({
           password: payload.password,
+          // не токен, а код из письма
           token: payload.code,
         }),
       }
     )
       .then(handleResponse);
   }
-)
+);
+
+export const changeUserData = createAsyncThunk(
+  'auth/changeUserData',
+  (payload) => {
+    return fetchWithRefresh(
+      `${config.baseUrl}/auth/user`,
+      {
+        headers: {
+          ...config.headers,
+          authorization: localStorage.getItem('accessToken'),
+        },
+        method: 'PATCH',
+        body: JSON.stringify({
+          name: payload.name,
+          email: payload.email,
+          password: payload.password,
+        }),
+      },
+      tokenCatcher
+    )
+  }
+);

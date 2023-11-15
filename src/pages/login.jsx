@@ -87,7 +87,7 @@ function LoginPage() {
       default:
         break;
     }
-  }, [userSuccess]);
+  }, [userSuccess, navigate]);
 
 
 

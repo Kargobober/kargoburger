@@ -75,7 +75,7 @@ function ForgotPasswordPage() {
       default:
         break;
     }
-  }, [resetPasswordSucces]);
+  }, [resetPasswordSucces, navigate, dispatch]);
 
 
 

@@ -1,5 +1,5 @@
 import styles from './register.module.css';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';

@@ -1,9 +1,9 @@
 import styles from './ActionsZone.module.css';
 import React from 'react';
 
-function ActionsZone({ children }) {
+function ActionsZone({ children, className }) {
   return (
-    <section>
+    <section className={className}>
       {children}
     </section>
   )

@@ -86,7 +86,7 @@ function ResetPasswordPage() {
       default:
         break;
     }
-  }, [resetPasswordSucces]);
+  }, [resetPasswordSucces, dispatch, navigate]);
 
   return (
     <main className={styles.main}>

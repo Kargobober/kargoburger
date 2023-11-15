@@ -10,6 +10,10 @@ import LoginPage from "../../pages/login";
 import RegisterPage from "../../pages/register";
 import ForgotPasswordPage from "../../pages/forgot-password";
 import ResetPasswordPage from "../../pages/reset-password";
+import ProfilePage from "../../pages/profile";
+import User from "../Profile/User/User";
+import Orders from "../Profile/Orders/Orders";
+import LogOut from "../Profile/LogOut/LogOut";
 
 
 function App() {
@@ -30,9 +34,13 @@ function App() {
           <Route path='forgot-password' element={<ForgotPasswordPage />} />
           <Route path='reset-password' element={<ResetPasswordPage />} />
 
-          {/*<Route path='ingredient/:id' element={<IngredientPage />} />
+          {/* <Route path='ingredient/:id' element={<IngredientPage />} /> */}
 
-          <Route path='profile' element={<ProfilePage />} /> */}
+          <Route path='profile' element={<ProfilePage />} >
+            <Route index element={<User />} />
+            <Route path='orders' element={<Orders />} />
+            <Route path='logout' element={<LogOut />} />
+          </Route>
         </Route>
 
         {/* <Route path='*' element={<NotFound404 />} /> */}

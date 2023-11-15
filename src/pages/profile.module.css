@@ -1,0 +1,52 @@
+.main {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: start;
+  align-items: start;
+  width: 100%;
+  max-width: 1280px;
+  box-sizing: border-box;
+  padding-top: calc(var(--offset-base-size) * 30);
+  padding-left: calc(var(--offset-base-size) * 5);
+  padding-right: calc(var(--offset-base-size) * 5);
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.tab {
+  color: var(--text-inactive-color);
+}
+
+.tab:hover {
+  color: var(--colors-interface-accent);
+  opacity: .9;
+}
+
+.clue {
+  white-space: pre-line;
+  padding-top: calc(var(--offset-base-size) * 15);
+  width: 100%;
+}
+
+.active {
+  color: var(--text-primary-color);
+}
+
+.item {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.list {
+  width: 100%;
+}
+
+.navSection {
+  max-width: 320px;
+  width: 100%;
+}
+
