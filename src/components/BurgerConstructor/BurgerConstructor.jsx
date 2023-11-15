@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 
 import styles from './BurgerConstructor.module.css';
 
-import { getTopCoords, handleError } from '../../utils/utils';
+import { findIngredientObj, getTopCoords, handleError } from '../../utils/utils';
 
 import { BurgerIcon, Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import Price from '../Price/Price';
@@ -18,6 +18,8 @@ import burgerIconSvg from '../../images/burger.svg';
 import { useDrop } from 'react-dnd';
 import { addItem, resetConstructor } from '../../services/slices/burgerConstructorSlice';
 import { v4 as uuidv4 } from 'uuid';
+import { useLocation } from 'react-router';
+import { getIngredients } from '../../services/selectors/ingredientsSelector';
 
 function BurgerConstructor() {
   // сохраняем высоту окна в стэйт, чтобы при ее изменении перерисовывать компонент с новой доступной ему высотой
@@ -31,6 +33,8 @@ function BurgerConstructor() {
   const needDetails = useSelector(getOrderDetailsNeeding);
   const isOrderSucces = useSelector(getOrderSuccess);
   const error = useSelector(getOrderError);
+
+  const location = useLocation();
 
   useEffect(() => {
     error && handleError('Ошибка при создании заказа: ', error.message);
@@ -47,9 +51,19 @@ function BurgerConstructor() {
     </Modal>
   );
 
+  const ingredients = useSelector(getIngredients);
   const selectedBun = useSelector(getSelectedBun);
   const selectedProducts = useSelector(getSelectedProducts);
   const totalPrice = useSelector(getTotalPrice);
+
+  useEffect(() => {
+    if (ingredients.length && location.state && location.state.burgConstructor.selectedBunId && location.state.burgConstructor.selectedProductsId.length) {
+      const selectedBun = findIngredientObj(location.state.burgConstructor.selectedBunId, ingredients);
+      const selectedProducts = location.state.burgConstructor.selectedProductsId.map(id => findIngredientObj(id, ingredients));
+      dispatch(addItem(selectedBun));
+      selectedProducts.forEach(item => dispatch(addItem(item)));
+    }
+  }, [ingredients.length, location.state]);
 
   useEffect(() => {
     if(isOrderSucces) dispatch(resetConstructor());

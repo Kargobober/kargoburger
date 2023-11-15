@@ -1,0 +1,8 @@
+.section {
+  width: 100%;
+}
+
+.buttonsContainer {
+  display: flex;
+  width: 100%;
+}

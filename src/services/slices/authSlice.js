@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { changeUserData, resetPassword, sendResetCode } from "../middlewares/authQueries";
+import { changeUserData, logOut, resetPassword, sendResetCode } from "../middlewares/authQueries";
 
 const initialState = {
   // имя и адрес почты, пароль не сохранять!
@@ -14,6 +14,8 @@ const initialState = {
   resetPasswordSuccess: null,
   changeUserDataPending: false,
   changeUserDataSuccess: null,
+  logOutPending: false,
+  logOutSuccess: null,
 };
 
 const authSlice = createSlice({
@@ -97,6 +99,23 @@ const authSlice = createSlice({
     [changeUserData.rejected.type]: (state, action) => {
       state.changeUserDataPending = false;
       state.changeUserDataSuccess = false;
+      state.error = action.payload;
+    },
+
+    [logOut.pending.type]: (state) => {
+      state.logOutPending = true;
+      state.logOutSuccess = null;
+      state.error = '';
+    },
+    [logOut.fulfilled.type]: (state) => {
+      state.logOutPending = false;
+      state.logOutSuccess = true;
+      state.user = null;
+      state.userSuccess = null;
+    },
+    [logOut.rejected.type]: (state, action) => {
+      state.logOutPending = false;
+      state.logOutSuccess = false;
       state.error = action.payload;
     },
   },

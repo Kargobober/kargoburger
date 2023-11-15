@@ -58,3 +58,20 @@ export const changeUserData = createAsyncThunk(
     )
   }
 );
+
+export const logOut = createAsyncThunk(
+  'auth/logOut',
+  () => {
+    return fetch(
+      `${config.baseUrl}/auth/logout`,
+      {
+        headers: config.headers,
+        method: 'POST',
+        body: JSON.stringify({
+          token: localStorage.getItem('refreshToken'),
+        }),
+      }
+    )
+      .then(handleResponse);
+  }
+);

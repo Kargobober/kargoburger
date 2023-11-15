@@ -1,4 +1,5 @@
 import toast from 'react-hot-toast';
+import { v4 as uuidv4 } from 'uuid';
 
 export function handleError(text, error = '') {
   console.log(text + error);
@@ -24,3 +25,10 @@ export const stellarToast = (text, notificationType) => toast(
   icon: notificationType === 'ok' ? '✅' : '❌',
  }
 );
+
+export const findIngredientObj = (id, arr) => {
+  const ingredient = arr.find(item => item._id === id ? true : false);
+  // нельзя мутировать объект почему-то
+  const ingredientUniq = { ...ingredient, extraId: uuidv4() };
+  return ingredientUniq;
+};
