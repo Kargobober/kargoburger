@@ -204,7 +204,6 @@ function User() {
                 && userName.length > 1
                 && !hasEmailError
                 && email
-                && password
                 && !hasPasswordError
                 && wasChanged
                 && !changeUserDataPending
