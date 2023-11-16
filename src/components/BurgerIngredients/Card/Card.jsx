@@ -8,14 +8,16 @@ import Price from '../../Price/Price';
 import { addItem } from '../../../services/slices/burgerConstructorSlice';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { setInfo } from '../../../services/slices/ingredientDetailsSlice';
 import { DragPreviewImage, useDrag } from 'react-dnd';
+import { Link, useLocation } from 'react-router-dom';
 
 
 function Card({ card }) {
+  const dispatch = useDispatch();
+  const location = useLocation();
+
   const counter = card.qty;
   let waitingForDoubleClick = false;
-  const dispatch = useDispatch();
 
   const [{ isDragging }, dragRef, preview] = useDrag({
     type: 'ingredient',
@@ -26,10 +28,10 @@ function Card({ card }) {
     }),
   });
 
-  const handleClick = () => {
+  /*const handleClick = () => {
     // записываем в хранилище данные ингридиента
     dispatch(setInfo(card));
-  }
+  }*/
 
   const handleDoubleClick = () => {
     // добавить товар в конструктор бургера
@@ -44,7 +46,7 @@ function Card({ card }) {
     if (evt.detail === 1) {
       // setTimeout возвращает число со значением времени задержки в секундах (неужели значение переменной будет обновляться каждый момент времени, пока не достигнет порога?)
       waitingForDoubleClick = setTimeout(() => {
-        handleClick();
+        // handleClick();
       }, 300);
     } else {
       // число большее нуля не равно false
@@ -63,23 +65,29 @@ function Card({ card }) {
       onClick={handleBothClick}
       ref={dragRef}
     >
-      {counter > 0 && <Counter
-        count={counter}
-        size="default"
-      />}
+      <Link
+        to={`ingredients/${card._id}`}
+        state = {{background: location}}
+        className={`linkGlobal ${styles.link}`}
+      >
+        {counter > 0 && <Counter
+          count={counter}
+          size="default"
+        />}
 
-      <DragPreviewImage connect={preview} src={card.image} />
-      <img
-        className={!isDragging ? styles.image : `${styles.image} ${styles.dragging}`}
-        src={card.image}
-        alt={card.name}
-      />
+        <DragPreviewImage connect={preview} src={card.image} />
+        <img
+          className={!isDragging ? styles.image : `${styles.image} ${styles.dragging}`}
+          src={card.image}
+          alt={card.name}
+        />
 
-      <Price value={card.price} digitsSize="default" />
+        <Price value={card.price} digitsSize="default" />
 
-      <h4 className={`text text_type_main-default ${styles.heading}`}>
-        {card.name}
-      </h4>
+        <h4 className={`text text_type_main-default ${styles.heading}`}>
+          {card.name}
+        </h4>
+      </Link>
     </li>
   )
 }

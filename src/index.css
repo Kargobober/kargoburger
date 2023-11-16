@@ -9,11 +9,8 @@ body {
 .linkGlobal {
   text-decoration: none;
   transition: .2s linear;
-}
-
-/* .linkGlobal:visited {
   color: inherit;
-} */
+}
 
 .listGlobal {
   padding: 0;

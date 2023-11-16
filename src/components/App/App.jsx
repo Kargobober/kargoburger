@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 
 import { checkUserAuth } from "../../services/middlewares/authActions";
 
@@ -16,18 +16,28 @@ import Orders from "../Profile/Orders/Orders";
 import LogOut from "../Profile/LogOut/LogOut";
 import { OnlyAuth, OnlyUnAuth } from "../ProtectedRoute/ProtectedRoute";
 import NotFound404Page from "../../pages/not-found-404";
+import Modal from "../Modal/Modal";
+import { clearInfo } from "../../services/slices/ingredientDetailsSlice";
+import { getIngredientDetailsStatus } from "../../services/selectors/ingredientDetailsSelector";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import IngredientPage from "../../pages/ingredient";
 
 
 function App() {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const background = location.state && location.state.background;
+  const isOpen = useSelector(getIngredientDetailsStatus);
 
   useEffect(() => {
     dispatch(checkUserAuth());
   }, []);
 
   return (
-    <BrowserRouter>
-      <Routes>
+    <>
+      <Routes location={background || location}>
         <Route path='/' element={<LayoutHeader />} >
           <Route index element={<HomePage />} />
 
@@ -36,7 +46,7 @@ function App() {
           <Route path='forgot-password' element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
           <Route path='reset-password' element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
 
-          {/* <Route path='ingredient/:id' element={<IngredientPage />} /> */}
+          <Route path='ingredients/:id' element={<IngredientPage />} />
 
           <Route path='profile' element={<OnlyAuth component={<ProfilePage />} />} >
             <Route index element={<User />} />
@@ -47,7 +57,22 @@ function App() {
 
         <Route path='*' element={<NotFound404Page />} />
       </Routes>
-    </BrowserRouter>
+
+      {background && (
+        <Routes>
+          <Route path='ingredients/:id' element={
+            <Modal heading='Детали ингредиента'
+              onClose={() => {
+                dispatch(clearInfo());
+                navigate('/');
+              }}
+            >
+              <IngredientDetails />
+            </Modal>
+          }/>
+        </Routes>
+      )}
+    </>
   );
 }
 

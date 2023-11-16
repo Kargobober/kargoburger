@@ -1,11 +1,6 @@
 .card {
   position: relative;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  row-gap: calc(var(--offset-base-size) * 1);
-
   list-style: none;
   padding: 0;
   margin: 0;
@@ -34,4 +29,11 @@
 
 .outline {
   outline: 2px solid var(--colors-interface-accent);
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: calc(var(--offset-base-size) * 1);
 }
