@@ -17,10 +17,10 @@ function BurgerIngredients() {
 
 
   useEffect(() => {
-    // иногда при перемещении на главную была ошибка чтения ключа list в navElement, но приложение оставалось живым
-    if (ingredientsLoading === false && navElem.current.list) {
+    if (ingredientsLoading === false && fourfoldRef.current) {
       const navElemCoord = navElem.current.getBoundingClientRect();
       const handleScroll = event => {
+        console.log('скроллл');
         const arrOfElem = [fourfoldRef.current.buns, fourfoldRef.current.sauces, fourfoldRef.current.mainFillings];
         const arrOfObj = arrOfElem.map(el => ({
           elem: el,
@@ -31,12 +31,13 @@ function BurgerIngredients() {
       };
 
       fourfoldRef.current.list.addEventListener('scroll', handleScroll);
-      return () => {
-        fourfoldRef.current.list.removeEventListener('scroll', handleScroll);
-      };
     }
-    // если в зависимости положить navElem.current.list ошибка вылезала постоянно с падением приложения
-  }, [ingredientsLoading, navElem.current]);
+    /* ошибка состояла в том, что код пытался удалить слушатель скролла
+      в блоке return данного useEffect, обращаясь к рефу,
+      который почему-то уже удалился, потому его ключи нулевые были,
+      что не позволяло обратиться к ключу
+    */
+  }, [ingredientsLoading, navElem, fourfoldRef]);
 
 
 
