@@ -9,7 +9,10 @@ export const postOrder = createAsyncThunk(
     return fetch(
       `${config.baseUrl}/orders`,
       {
-        headers: config.headers,
+        headers: {
+          ...config.headers,
+          authorization: localStorage.getItem('accessToken'),
+        },
         method: 'POST',
         body: JSON.stringify({
           ingredients: payload,

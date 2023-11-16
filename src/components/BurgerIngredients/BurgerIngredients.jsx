@@ -4,32 +4,39 @@ import styles from './BurgerIngredients.module.css';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import List from './List/List';
+import { getLoadingStatus } from '../../services/selectors/ingredientsSelector';
+import { useSelector } from 'react-redux';
 
 
 function BurgerIngredients() {
   const [current, setCurrent] = useState('Булки');
   const navElem = useRef(null);
   const fourfoldRef = useRef(null);
+  const ingredientsLoading = useSelector(getLoadingStatus);
 
 
 
   useEffect(() => {
-    const navElemCoord = navElem.current.getBoundingClientRect();
-    const handleScroll = event => {
-      const arrOfElem = [fourfoldRef.current.buns, fourfoldRef.current.sauces, fourfoldRef.current.mainFillings];
-      const arrOfObj = arrOfElem.map(el => ({
-        elem: el,
-        delta: Math.abs(el.getBoundingClientRect().top - navElemCoord.bottom),
-      }));
-      const closestObj = arrOfObj.reduce((prev, curr) => prev.delta < curr.delta ? prev : curr);
-      setCurrent(closestObj.elem.textContent);
-    };
+    // иногда при перемещении на главную была ошибка чтения ключа list в navElement, но приложение оставалось живым
+    if (ingredientsLoading === false && navElem.current.list) {
+      const navElemCoord = navElem.current.getBoundingClientRect();
+      const handleScroll = event => {
+        const arrOfElem = [fourfoldRef.current.buns, fourfoldRef.current.sauces, fourfoldRef.current.mainFillings];
+        const arrOfObj = arrOfElem.map(el => ({
+          elem: el,
+          delta: Math.abs(el.getBoundingClientRect().top - navElemCoord.bottom),
+        }));
+        const closestObj = arrOfObj.reduce((prev, curr) => prev.delta < curr.delta ? prev : curr);
+        setCurrent(closestObj.elem.textContent);
+      };
 
-    fourfoldRef.current.list.addEventListener('scroll', handleScroll);
-    return () => {
-      fourfoldRef.current.list.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
+      fourfoldRef.current.list.addEventListener('scroll', handleScroll);
+      return () => {
+        fourfoldRef.current.list.removeEventListener('scroll', handleScroll);
+      };
+    }
+    // если в зависимости положить navElem.current.list ошибка вылезала постоянно с падением приложения
+  }, [ingredientsLoading, navElem.current]);
 
 
 

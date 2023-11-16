@@ -1,0 +1,23 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.link:hover {
+  opacity: .6;
+}
+
+.link:visited {
+  color: inherit;
+}
+
+.link:active {
+  color: var(--colors-interface-success);
+}
+
+.span {
+  color: var(--colors-interface-accent);
+}

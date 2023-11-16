@@ -15,6 +15,7 @@ import User from "../Profile/User/User";
 import Orders from "../Profile/Orders/Orders";
 import LogOut from "../Profile/LogOut/LogOut";
 import { OnlyAuth, OnlyUnAuth } from "../ProtectedRoute/ProtectedRoute";
+import NotFound404Page from "../../pages/not-found-404";
 
 
 function App() {
@@ -44,7 +45,7 @@ function App() {
           </Route>
         </Route>
 
-        {/* <Route path='*' element={<NotFound404 />} /> */}
+        <Route path='*' element={<NotFound404Page />} />
       </Routes>
     </BrowserRouter>
   );
