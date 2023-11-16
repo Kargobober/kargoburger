@@ -2,11 +2,11 @@ import styles from './forgot-password.module.css';
 
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 import { sendResetCode } from '../services/middlewares/authQueries';
 import { getResetCodeSuccess, getResetPasswordPending, getResetPasswordSuccess } from '../services/selectors/authSelector';
-import { setResetCodeSuccess, setResetPasswordSuccess } from '../services/slices/authSlice';
+import { setEmailOnStorage, setResetCodeSuccess, setResetPasswordSuccess } from '../services/slices/authSlice';
 
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Toaster } from 'react-hot-toast';
@@ -58,6 +58,7 @@ function ForgotPasswordPage() {
 
   const onSubmit = evt => {
     evt.preventDefault();
+    dispatch(setEmailOnStorage(email));
     dispatch(sendResetCode(email));
   };
 
@@ -95,6 +96,7 @@ function ForgotPasswordPage() {
           onBlurCapture={onBlurEmail}
           value={email}
           placeholder='Укажите e-mail'
+          autoComplete='email'
           />
           { !hasEmailError && <div className={styles.stub} /> }
         </EditZone>

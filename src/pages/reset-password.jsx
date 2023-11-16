@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import { resetPassword } from '../services/middlewares/authQueries';
-import { getResetCodeSuccess, getResetPasswordPending, getResetPasswordSuccess } from '../services/selectors/authSelector';
+import { getResetCodeSuccess, getResetPasswordPending, getResetPasswordSuccess, getUserFromState, getUserPending, getUserSuccess } from '../services/selectors/authSelector';
 import { setResetCodeSuccess, setResetPasswordSuccess } from '../services/slices/authSlice';
 
 import { Button, PasswordInput, Input } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -16,6 +16,7 @@ import ActionsZone from '../components/Form/ActionsZone/ActionsZone';
 import AdditionalActions from '../components/Form/AdditionalActions/AdditionalActions';
 import Action from '../components/Form/Action/Action';
 import { stellarToast } from '../utils/utils';
+import { login } from '../services/middlewares/authActions';
 
 function ResetPasswordPage() {
   const dispatch = useDispatch();
@@ -34,7 +35,9 @@ function ResetPasswordPage() {
   const resetPasswordSucces = useSelector(getResetPasswordSuccess);
   const resetPasswordPending = useSelector(getResetPasswordPending);
 
-
+  // данные для автомат. входа после смены пароля
+  const user = useSelector(getUserFromState);
+  const userSuccess = useSelector(getUserSuccess);
 
   const onChangePassword = evt => {
     setPassword(evt.target.value);
@@ -76,10 +79,9 @@ function ResetPasswordPage() {
   useEffect(() => {
     switch(resetPasswordSucces) {
       case true:
-        // TODO: автоматическая авторизация после восстановления пароля
-        stellarToast('Пароль успешно изменён', 'ok');
-        setTimeout(() => {navigate('/', { replace: true })}, 3200);
-        /* обнулим статус успешности, чтобы при возврате назад,
+        stellarToast('Пароль успешно изменён! Выполняется вход в аккаунт...', 'ok');
+        dispatch(login(user.email, password));
+        /* обнулим статус успешности, чтобы при возврате назад,ы
           на forgot-password (т.к. reset-password мы реплейсим на home),
           не было переадресации домой */
         /* ошибочное решение в комментарии выше – после авторизации
@@ -97,6 +99,17 @@ function ResetPasswordPage() {
         break;
     }
   }, [resetPasswordSucces, dispatch, navigate]);
+
+  useEffect(() => {
+    switch(user && userSuccess) {
+      // при успешном получении данных о пользователе - защищ. роут перенаправит нас
+      case false:
+        stellarToast('Не удалось войти, попробуйте ещё раз позднее', 'error');
+        break;
+      default:
+        break;
+    }
+  }, [user, userSuccess]);
 
   // Логика для ситуации, когда пользователь пытается сразу попасть на reset-password
   useEffect(() => {
@@ -120,6 +133,7 @@ function ResetPasswordPage() {
           onBlurCapture={onBlurPassword}
           value={password}
           placeholder='Введите новый пароль'
+          autoComplete='new-password'
           />
           { !hasPasswordError && <div className={styles.stub} /> }
           <Input

@@ -29,6 +29,9 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
+    setEmailOnStorage: (state, action) => {
+      state.user = { email: action.payload };
+    },
 
     setRegisterPending: (state, action) => {
       state.registerPending = action.payload;
@@ -130,6 +133,7 @@ const authSlice = createSlice({
 
 export const {
   setUser,
+  setEmailOnStorage,
   setRegisterPending,
   setRegisterSuccess,
   setError,

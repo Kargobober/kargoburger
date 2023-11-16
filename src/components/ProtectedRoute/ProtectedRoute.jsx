@@ -31,7 +31,10 @@ const Protected = ({ onlyUnAuth = false, component }) => {
     );
   }
 
-  if (onlyUnAuth && user) {
+  if (onlyUnAuth && (user === null ? false : (user.email && user.name))) {
+    console.log('onlyUnAuth', onlyUnAuth);
+    console.log('user', user);
+    console.log('ПЕРЕНАПРАВКА!!!!');
     // Пользователь авторизован, но запрос предназначен только для неавторизованных пользователей
     // Нужно сделать редирект на главную страницу или на тот адрес, что записан в location.state.from
     const { from } = location.state || { from: { pathname: "/" } };
@@ -39,11 +42,13 @@ const Protected = ({ onlyUnAuth = false, component }) => {
   }
 
   if (!onlyUnAuth && !user) {
+    console.log('пук-пук');
     // Сервер не ответил
     return <Navigate to="/login" state={{ from: location }} />;
   }
 
   // !onlyUnAuth && user
+  console.log('по-ум');
   return component;
 };
 
