@@ -10,3 +10,7 @@ export const getChangeUserDataPending = (state) => state.auth.changeUserDataPend
 
 export const getLogOutSuccess = (state) => state.auth.logOutSuccess;
 export const getLogOutPending = (state) => state.auth.logOutPending;
+
+export const getAuthPending = (state) => state.auth.authPending;
+
+export const getUserFromState = (state) => state.auth.user;

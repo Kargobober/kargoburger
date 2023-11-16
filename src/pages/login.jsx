@@ -78,9 +78,7 @@ function LoginPage() {
 
   useEffect(() => {
     switch(userSuccess) {
-      case true:
-        navigate('/', { replace: true });
-        break;
+      // при успехе, защищенный роут перенаправит домой
       case false:
         stellarToast('Почта или пароль неверны', 'error');
         break;

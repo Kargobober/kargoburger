@@ -14,6 +14,7 @@ import ProfilePage from "../../pages/profile";
 import User from "../Profile/User/User";
 import Orders from "../Profile/Orders/Orders";
 import LogOut from "../Profile/LogOut/LogOut";
+import { OnlyAuth, OnlyUnAuth } from "../ProtectedRoute/ProtectedRoute";
 
 
 function App() {
@@ -29,14 +30,14 @@ function App() {
         <Route path='/' element={<LayoutHeader />} >
           <Route index element={<HomePage />} />
 
-          <Route path='login' element={<LoginPage />} />
-          <Route path='register' element={<RegisterPage />} />
-          <Route path='forgot-password' element={<ForgotPasswordPage />} />
-          <Route path='reset-password' element={<ResetPasswordPage />} />
+          <Route path='login' element={<OnlyUnAuth component={<LoginPage />} />} />
+          <Route path='register' element={<OnlyUnAuth component={<RegisterPage />} />} />
+          <Route path='forgot-password' element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
+          <Route path='reset-password' element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
 
           {/* <Route path='ingredient/:id' element={<IngredientPage />} /> */}
 
-          <Route path='profile' element={<ProfilePage />} >
+          <Route path='profile' element={<OnlyAuth component={<ProfilePage />} />} >
             <Route index element={<User />} />
             <Route path='orders' element={<Orders />} />
             <Route path='logout' element={<LogOut />} />
