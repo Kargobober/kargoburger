@@ -18,8 +18,9 @@ import burgerIconSvg from '../../images/burger.svg';
 import { useDrop } from 'react-dnd';
 import { addItem, resetConstructor } from '../../services/slices/burgerConstructorSlice';
 import { v4 as uuidv4 } from 'uuid';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { getIngredients } from '../../services/selectors/ingredientsSelector';
+import { getUserFromState } from '../../services/selectors/authSelector';
 
 function BurgerConstructor() {
   // сохраняем высоту окна в стэйт, чтобы при ее изменении перерисовывать компонент с новой доступной ему высотой
@@ -35,6 +36,9 @@ function BurgerConstructor() {
   const error = useSelector(getOrderError);
 
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const user = useSelector(getUserFromState);
 
   useEffect(() => {
     error && handleError('Ошибка при создании заказа: ', error.message);
@@ -92,8 +96,12 @@ function BurgerConstructor() {
     const assembledBurger = selectedProducts.map(el => el._id);
     assembledBurger.push(selectedBun._id);
     assembledBurger.push(selectedBun._id);
-    dispatch(setNeedingDetails(true));
-    dispatch(postOrder(assembledBurger));
+    if (user === null ? false : (user.name && user.email ? true : false)) {
+      dispatch(setNeedingDetails(true));
+      dispatch(postOrder(assembledBurger));
+    } else {
+      navigate('/login');
+    }
   }
 
   function onClose() {
