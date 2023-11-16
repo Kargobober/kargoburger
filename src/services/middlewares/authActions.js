@@ -4,7 +4,6 @@ import { clearError, setAuthPending, setError, setRegisterPending, setRegisterSu
 
 
 export function registerUser(user) {
-  console.log('передаваемый объект:', user);
   return (dispatch) => {
     dispatch(setRegisterPending(true));
 
@@ -17,20 +16,16 @@ export function registerUser(user) {
       }
     )
       .then(res => {
-        console.log('ответ сервера, связанный с регистрацией:', res);
         return handleResponse(res);
       })
       .then(data => {
-        console.log('дата, связанная с регистрацией:', data);
         dispatch(clearError());
         dispatch(setUser(data.user));
         dispatch(setRegisterSuccess(data.success));
-        console.log('установка токенов из кода регистрации');
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
       })
       .catch(err => {
-        console.log('ошибка при регистрации:', err);
         dispatch(setError(err.message));
         handleError('Ошибка регистрации: ', err.message);
       })
@@ -41,7 +36,6 @@ export function registerUser(user) {
 }
 
 export function getUser() {
-  console.log('getUser');
   return (dispatch) => {
     return fetchWithRefresh(
       `${config.baseUrl}/auth/user`,
@@ -57,7 +51,6 @@ export function getUser() {
       // проверка ответа (handleResponse) проводится в самом fetchWithRefresh
       // потому сразу работаем с data
       .then(data => {
-        console.log('getUser, блок then получил след. дату:', data);
         dispatch(clearError());
         dispatch(setUser(data.user));
         dispatch(setUserSuccess(true));
@@ -86,8 +79,6 @@ export function login(email, password) {
     )
       .then(handleResponse)
       .then(data => {
-        console.log('Попытка входа, data из ответа сервера:', data);
-        console.log('установка токенов, вызванная входом пользователя');
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
         dispatch(setUser(data.user));
@@ -109,13 +100,10 @@ export function login(email, password) {
 // вызывается при монтировании App
 export function checkUserAuth() {
   return (dispatch) => {
-    console.log('checkUserAuth');
     dispatch(setAuthPending(true));
     if (localStorage.getItem('accessToken')) {
-      console.log('в хранилище имеется токен');
       dispatch(getUser())
         .catch(err => {
-          console.log('удаление токенов');
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
           dispatch(setUser(null));
@@ -126,7 +114,6 @@ export function checkUserAuth() {
           dispatch( setAuthPending(false) )
         });
     } else {
-      console.log('токен не найден');
       dispatch(setAuthPending(false));
       dispatch(setUser(null));
     }
