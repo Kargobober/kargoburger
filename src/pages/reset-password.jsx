@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 
 import { resetPassword } from '../services/middlewares/authQueries';
-import { getResetPasswordPending, getResetPasswordSuccess } from '../services/selectors/authSelector';
-import { setResetPasswordSuccess } from '../services/slices/authSlice';
+import { getResetCodeSuccess, getResetPasswordPending, getResetPasswordSuccess } from '../services/selectors/authSelector';
+import { setResetCodeSuccess, setResetPasswordSuccess } from '../services/slices/authSlice';
 
 import { Button, PasswordInput, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Toaster } from 'react-hot-toast';
@@ -30,6 +30,7 @@ function ResetPasswordPage() {
   // см. register.jsx
   const [isFocus, setIsFocus] = useState(false);
 
+  const resetCodeSuccess = useSelector(getResetCodeSuccess);
   const resetPasswordSucces = useSelector(getResetPasswordSuccess);
   const resetPasswordPending = useSelector(getResetPasswordPending);
 
@@ -70,15 +71,24 @@ function ResetPasswordPage() {
     dispatch(resetPassword({password, code: key}));
   };
 
+
+
   useEffect(() => {
     switch(resetPasswordSucces) {
       case true:
+        // TODO: автоматическая авторизация после восстановления пароля
         stellarToast('Пароль успешно изменён', 'ok');
         setTimeout(() => {navigate('/', { replace: true })}, 3200);
         /* обнулим статус успешности, чтобы при возврате назад,
           на forgot-password (т.к. reset-password мы реплейсим на home),
           не было переадресации домой */
+        /* ошибочное решение в комментарии выше – после авторизации
+          пользователь не должен попадать на экраны восстановления пароля,
+          и защищенный роут перенаправляет как раз домой */
+        /* зануляем статусы, чтобы при выходе из аккаунта,
+          другой человек не получал некорректные уведомления */
         dispatch(setResetPasswordSuccess(null));
+        dispatch(setResetCodeSuccess(null));
         break;
       case false:
         stellarToast('Что-то пошло не так', 'error');
@@ -87,6 +97,13 @@ function ResetPasswordPage() {
         break;
     }
   }, [resetPasswordSucces, dispatch, navigate]);
+
+  // Логика для ситуации, когда пользователь пытается сразу попасть на reset-password
+  useEffect(() => {
+    if (!resetCodeSuccess) navigate('/forgot-password');
+  }, [resetCodeSuccess]);
+
+
 
   return (
     <main className={styles.main}>
@@ -144,4 +161,3 @@ function ResetPasswordPage() {
 }
 
 export default ResetPasswordPage;
-

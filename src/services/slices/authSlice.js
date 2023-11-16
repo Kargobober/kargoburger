@@ -10,7 +10,11 @@ const initialState = {
   userPending: false,
   userSuccess: null,
   authPending: false,
+  // ↓ статус успешности отправки кода сброса пароля
+  resetCodeSuccess: null,
+  // ↓ статус обработки запросов получения кода сброса И смены пароля
   resetPasswordPending: false,
+  // ↓ статус успешности изменения пароля
   resetPasswordSuccess: null,
   changeUserDataPending: false,
   changeUserDataSuccess: null,
@@ -54,20 +58,23 @@ const authSlice = createSlice({
     setResetPasswordSuccess: (state, action) => {
       state.resetPasswordSuccess = action.payload;
     },
+    setResetCodeSuccess: (state, action) => {
+      state.resetCodeSuccess = action.payload;
+    },
   },
   extraReducers: {
     [sendResetCode.pending.type]: (state) => {
       state.resetPasswordPending = true;
-      state.resetPasswordSuccess = null;
+      state.resetCodeSuccess = null;
       state.error = '';
     },
     [sendResetCode.fulfilled.type]: (state) => {
       state.resetPasswordPending = false;
-      state.resetPasswordSuccess = true;
+      state.resetCodeSuccess = true;
     },
     [sendResetCode.rejected.type]: (state, action) => {
       state.resetPasswordPending = false;
-      state.resetPasswordSuccess = false;
+      state.resetCodeSuccess = false;
       state.error = action.payload;
     },
 
@@ -131,5 +138,6 @@ export const {
   setUserSuccess,
   setAuthPending,
   setResetPasswordSuccess,
+  setResetCodeSuccess,
 } = authSlice.actions;
 export default authSlice.reducer;

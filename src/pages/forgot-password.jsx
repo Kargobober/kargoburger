@@ -2,11 +2,11 @@ import styles from './forgot-password.module.css';
 
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 import { sendResetCode } from '../services/middlewares/authQueries';
-import { getResetPasswordPending, getResetPasswordSuccess } from '../services/selectors/authSelector';
-import { setResetPasswordSuccess } from '../services/slices/authSlice';
+import { getResetCodeSuccess, getResetPasswordPending, getResetPasswordSuccess } from '../services/selectors/authSelector';
+import { setResetCodeSuccess, setResetPasswordSuccess } from '../services/slices/authSlice';
 
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Toaster } from 'react-hot-toast';
@@ -28,7 +28,7 @@ function ForgotPasswordPage() {
   // см. register.jsx
   const [isFocus, setIsFocus] = useState(false);
 
-  const resetPasswordSucces = useSelector(getResetPasswordSuccess);
+  const resetCodeSuccess = useSelector(getResetCodeSuccess);
   const resetPasswordPending = useSelector(getResetPasswordPending);
 
 
@@ -62,12 +62,13 @@ function ForgotPasswordPage() {
   };
 
   useEffect(() => {
-    switch(resetPasswordSucces) {
+    switch(resetCodeSuccess) {
       case true:
         stellarToast('Код отправлен на вашу почту', 'ok');
-        setTimeout(() => {navigate('/reset-password')}, 3200);
-        // обнулим статус успешности, чтобы при возврате назад не было переадресации на reset-password
-        dispatch(setResetPasswordSuccess(null));
+        setTimeout(() => { navigate('/reset-password') }, 3200);
+        /* Меняем статус успешности отправки кода, чтобы при возврате назад
+        не было переадресации на reset-password, мало ли человек перепутал почту */
+        dispatch(setResetCodeSuccess('sended'));
         break;
       case false:
         stellarToast('Что-то пошло не так', 'error');
@@ -75,7 +76,7 @@ function ForgotPasswordPage() {
       default:
         break;
     }
-  }, [resetPasswordSucces, navigate, dispatch]);
+  }, [resetCodeSuccess, navigate, dispatch]);
 
 
 
