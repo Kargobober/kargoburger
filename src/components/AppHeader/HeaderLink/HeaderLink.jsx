@@ -41,9 +41,8 @@ function HeaderLink({ sectionName, Icon, customStyle, to }) {
 HeaderLink.propTypes = {
   sectionName: PropTypes.string.isRequired,
   Icon: PropTypes.func,
-  callback: PropTypes.func,
-  isActive: PropTypes.bool,
   customStyle: PropTypes.object,
+  to: PropTypes.string,
 }
 
 export default HeaderLink;

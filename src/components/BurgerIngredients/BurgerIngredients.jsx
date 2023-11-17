@@ -20,7 +20,6 @@ function BurgerIngredients() {
     if (ingredientsLoading === false && fourfoldRef.current) {
       const navElemCoord = navElem.current.getBoundingClientRect();
       const handleScroll = event => {
-        console.log('скроллл');
         const arrOfElem = [fourfoldRef.current.buns, fourfoldRef.current.sauces, fourfoldRef.current.mainFillings];
         const arrOfObj = arrOfElem.map(el => ({
           elem: el,

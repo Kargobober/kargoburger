@@ -6,17 +6,20 @@ import { NavLink } from 'react-router-dom';
 
 function ProfilePage() {
   const profileTabs = [
-    { name: 'Профиль',
+    {
+      name: 'Профиль',
       path: '/profile',
       clue: `В этом разделе вы можете
         изменить свои персональные данные`,
     },
-    { name: 'История заказов',
+    {
+      name: 'История заказов',
       path: '/profile/orders',
       clue: `В этом разделе вы можете
       просмотреть свою историю заказов`,
     },
-    { name: 'Выход',
+    {
+      name: 'Выход',
       path: '/profile/logout',
       clue: `Уже уходите? А вы попробовали
         БЕССМЕРТНОГО моллюска? 👾`,
@@ -41,9 +44,8 @@ function ProfilePage() {
     }
   }, [location]);
 
-  //
-  //
-  //
+
+
   return (
     <main className={styles.main}>
       <section className={styles.navSection}>

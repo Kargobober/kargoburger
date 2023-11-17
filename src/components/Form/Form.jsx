@@ -1,4 +1,5 @@
 import styles from './Form.module.css';
+import PropTypes from "prop-types";
 
 function Form({ children, heading, onSubmit, name, autoComplete = 'on' }) {
   return (
@@ -9,6 +10,14 @@ function Form({ children, heading, onSubmit, name, autoComplete = 'on' }) {
       </div>
     </form>
   )
+}
+
+Form.propTypes = {
+  children: PropTypes.node.isRequired,
+  heading: PropTypes.string,
+  onSubmit: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  autoComplete: PropTypes.string,
 }
 
 export default Form;

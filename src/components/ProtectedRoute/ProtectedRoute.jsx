@@ -5,6 +5,7 @@ import { checkUserAuth } from "../../services/middlewares/authActions";
 import { getAuthPending, getUserFromState } from "../../services/selectors/authSelector";
 import { colorInterfaceAccent } from "../../utils/constants";
 import { MoonLoader } from "react-spinners";
+import PropTypes from "prop-types";
 
 const Protected = ({ onlyUnAuth = false, component }) => {
   const dispatch = useDispatch();
@@ -46,6 +47,11 @@ const Protected = ({ onlyUnAuth = false, component }) => {
   // !onlyUnAuth && user
   return component;
 };
+
+Protected.propTypes = {
+  onlyUnAuth: PropTypes.bool,
+  component: PropTypes.element.isRequired,
+}
 
 export const OnlyAuth = (props) => <Protected onlyUnAuth={false} {...props} />;
 export const OnlyUnAuth = (props) => <Protected onlyUnAuth={true} {...props} />;

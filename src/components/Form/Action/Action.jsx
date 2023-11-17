@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import styles from './Action.module.css';
-import React from 'react';
+import PropTypes from "prop-types";
 
 function Action({ placeholder, linkText, to }) {
   return (
@@ -11,4 +11,9 @@ function Action({ placeholder, linkText, to }) {
   )
 }
 
+Action.propTypes = {
+  placeholder: PropTypes.string,
+  linkText: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
+}
 export default Action;

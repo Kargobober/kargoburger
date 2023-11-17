@@ -1,5 +1,6 @@
 import styles from './EditZone.module.css';
 import React from 'react';
+import PropTypes from "prop-types";
 
 function EditZone({ children }) {
   return (
@@ -7,6 +8,10 @@ function EditZone({ children }) {
       {children}
     </section>
   )
+}
+
+EditZone.propTypes = {
+  children: PropTypes.node.isRequired,
 }
 
 export default EditZone;

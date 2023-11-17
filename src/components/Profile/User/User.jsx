@@ -7,7 +7,7 @@ import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-de
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './User.module.css';
 import { useLocation } from 'react-router';
-import { getChangeUserDataPending, getChangeUserDataSuccess, getUserPending, getUserState, getUserSuccess } from '../../../services/selectors/authSelector';
+import { getChangeUserDataPending, getChangeUserDataSuccess, getUserState, getUserSuccess } from '../../../services/selectors/authSelector';
 import { changeUserData } from '../../../services/middlewares/authQueries';
 import { stellarToast } from '../../../utils/utils';
 
@@ -19,7 +19,6 @@ function User() {
   const [hasUserNameError, setHasUserNameError] = useState(false);
 
   const user = useSelector(getUserState);
-  const userPending = useSelector(getUserPending);
   const userSuccess = useSelector(getUserSuccess);
   const changeUserDataPending = useSelector(getChangeUserDataPending);
   const changeUserDataSuccess = useSelector(getChangeUserDataSuccess);

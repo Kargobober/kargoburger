@@ -1,6 +1,11 @@
 .card {
   position: relative;
 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: calc(var(--offset-base-size) * 1);
+
   list-style: none;
   padding: 0;
   margin: 0;
@@ -32,8 +37,5 @@
 }
 
 .link {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  row-gap: calc(var(--offset-base-size) * 1);
+
 }
