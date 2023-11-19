@@ -1,7 +1,7 @@
-import React from 'react';
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './AppHeader.module.css';
 import HeaderLink from './HeaderLink/HeaderLink';
+import { Link } from 'react-router-dom';
 
 function AppHeader() {
   const headerLinks = [
@@ -33,7 +33,8 @@ function AppHeader() {
           </li>
         </ul>
 
-        <Logo />
+        {/* Условную адресацию сделать не вышло. Чтобы, находясь уже на главной, ссылка была нерабочей */}
+        <Link to='/'><Logo /></Link>
 
         <HeaderLink
           sectionName={headerLinks[2].name}

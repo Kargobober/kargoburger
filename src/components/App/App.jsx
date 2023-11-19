@@ -5,7 +5,7 @@ import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { checkUserAuth } from "../../services/middlewares/authActions";
 
 import HomePage from "../../pages/home";
-import LayoutHeader from "../LayoutHeader/LayoutHeader";
+import Layout from "../Layout/Layout";
 import LoginPage from "../../pages/login";
 import RegisterPage from "../../pages/register";
 import ForgotPasswordPage from "../../pages/forgot-password";
@@ -38,7 +38,7 @@ function App() {
   return (
     <>
       <Routes location={background || location}>
-        <Route path='/' element={<LayoutHeader />} >
+        <Route path='/' element={<Layout />} >
           <Route index element={<HomePage />} />
 
           <Route path='login' element={<OnlyUnAuth component={<LoginPage />} />} />

@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router';
 import AppHeader from '../AppHeader/AppHeader';
-import styles from './LayoutHeader.module.css';
+import styles from './Layout.module.css';
 
-function LayoutHeader() {
+function Layout() {
   return (
     <div className={styles.outlet}>
       <AppHeader />
@@ -11,4 +11,4 @@ function LayoutHeader() {
   )
 }
 
-export default LayoutHeader;
+export default Layout;
