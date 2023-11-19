@@ -9,10 +9,6 @@ import { getTopCoords, handleError } from '../../../utils/utils';
 import Card from '../Card/Card';
 import { getCountedFiltredIngredients, getErrorStatus, getLoadingStatus } from '../../../services/selectors/ingredientsSelector';
 import { ingredientsQuery } from '../../../services/middlewares/ingredientsQuery';
-import { getIngredientDetailsStatus } from '../../../services/selectors/ingredientDetailsSelector';
-import Modal from '../../Modal/Modal';
-import IngredientDetails from '../../IngredientDetails/IngredientDetails';
-import { clearInfo } from '../../../services/slices/ingredientDetailsSlice';
 
 // первый параметр нельзя удалить. Второй параметр появляется из-за дальнейшей обёртки в forwardRef
 function List(props, ref) {
@@ -73,30 +69,12 @@ function List(props, ref) {
   }, [windowHeight]);
 
 
-
-  const isOpen = useSelector(getIngredientDetailsStatus);
-  const onClose = () => {
-    dispatch(clearInfo());
-  }
-  const modal = (
-    <Modal
-      heading='Детали ингридиента'
-      onClose={onClose}
-    >
-      <IngredientDetails />
-    </Modal>
-  )
-
+  // Здесь был код модалок, см. коммит от 16.11.2023 'expand ↓↓↓'
 
 
   return (
     <>
-      {/* Комментарий был написан мною, когда модалка была в файле card.js (до коммита "feat: add deleting goods" включительно):
-
-      положение строки ниже важно. Когда она была внутри li, то модалка не закрывалась, т.к. реакт видимо???? не перерисовывал li из-за неизмененных пропсов в наружнем уровне (в самом li). Хотя если разместить консоль-лог, то пишет, что заходит внутрь пункта списка. А вот needDetails старое значение выводил (true), потому модалка оставалась открытой... Непонятно */}
-      {/* В данном случае положение блока кода с условным рендерингом может быть и внутри дива, написанного в коде непосредственно ниже */}
-      {/* Я перенес модалку сюда, т.к. при предыдущем расположеннии модалки нажатие на esc вызывало 15 экшенов (т.к. 15 карточек) на очищение стэйта ингридиента, предназначенного для вывода в модалку. Нажатие на крестик или оверлэй вызывало лишь один экшн. */}
-      {isOpen && modal}
+      {/* Комменты про модалки  были здесь */}
       <div className={`custom-scroll mt-10 ${styles.section}`} ref={listRef} style={{ height: permittedHeight }}>
         {isLoading ? (
           <p className={`${styles.bund} text text_type_main-medium`}>

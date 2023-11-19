@@ -1,0 +1,30 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.list {
+  display: flex;
+  justify-content: space-between;
+  column-gap: calc(var(--offset-base-size) * 5);
+
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  margin-top: calc(var(--offset-base-size) * 8);
+  text-align: center;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  row-gap: calc(var(--offset-base-size) * 2);
+}
+
+.image {
+  object-fit: contain;
+  object-position: center;
+  margin-bottom: calc(var(--offset-base-size) * 4);
+}

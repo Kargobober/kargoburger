@@ -8,14 +8,17 @@ import Price from '../../Price/Price';
 import { addItem } from '../../../services/slices/burgerConstructorSlice';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { setInfo } from '../../../services/slices/ingredientDetailsSlice';
 import { DragPreviewImage, useDrag } from 'react-dnd';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 
 function Card({ card }) {
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const counter = card.qty;
   let waitingForDoubleClick = false;
-  const dispatch = useDispatch();
 
   const [{ isDragging }, dragRef, preview] = useDrag({
     type: 'ingredient',
@@ -27,9 +30,10 @@ function Card({ card }) {
   });
 
   const handleClick = () => {
-    // записываем в хранилище данные ингридиента
-    dispatch(setInfo(card));
-  }
+    navigate(`ingredients/${card._id}`, {
+      state: { background: location },
+    });
+  };
 
   const handleDoubleClick = () => {
     // добавить товар в конструктор бургера
@@ -37,7 +41,7 @@ function Card({ card }) {
       ...card,
       extraId: uuidv4(),
     }));
-  }
+  };
 
   const handleBothClick = (evt) => {
     // в detail хранится число кликов
@@ -54,7 +58,7 @@ function Card({ card }) {
       }
       handleDoubleClick();
     }
-  }
+  };
 
 
 

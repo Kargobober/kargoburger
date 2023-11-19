@@ -5,3 +5,15 @@ body {
 .text_centered {
   text-align: center;
 }
+
+.linkGlobal {
+  text-decoration: none;
+  transition: .2s linear;
+  color: inherit;
+}
+
+.listGlobal {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}

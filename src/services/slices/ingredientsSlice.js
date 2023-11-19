@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { ingredientsQuery } from '../middlewares/ingredientsQuery';
 
 const initialState = {
-  isLoading: false,
+  isLoading: null,
   hasError: false,
   ingredientsData: [],
 }
