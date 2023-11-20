@@ -1,17 +1,22 @@
-import PropTypes from "prop-types";
+enum ProductsTypeList {
+  bun = 'bun',
+  main = 'main',
+  sauce = 'sauce',
+}
 
-export const ingredientPropType = PropTypes.shape({
-  //укажите здесь prop-types для ингридиента
-  _id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(['bun', 'main', 'sauce']).isRequired,
-  proteins: PropTypes.number.isRequired,
-  fat: PropTypes.number.isRequired,
-  carbohydrates: PropTypes.number.isRequired,
-  calories: PropTypes.number.isRequired,
-  price: PropTypes.number.isRequired,
-  image: PropTypes.string.isRequired,
-  image_mobile: PropTypes.string,
-  image_large: PropTypes.string,
-  __v: PropTypes.number,
-});
+export type TIngredient = {
+  readonly _id: string;
+  readonly name: string;
+  readonly type: ProductsTypeList;
+  readonly proteins: number;
+  readonly fat: number;
+  readonly carbohydrates: number;
+  readonly calories: number;
+  readonly price: number;
+  readonly image: string;
+  readonly image_mobile?: string;
+  readonly image_large?: string;
+  readonly __v?: number,
+};
+
+export type TWithExtraId<T> = T & { readonly extraId: string };
