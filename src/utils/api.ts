@@ -1,3 +1,33 @@
+type TError = {
+  readonly success: boolean;
+  readonly message: string;
+};
+
+type TUser = {
+  readonly email: string;
+  readonly name: string;
+};
+
+type TResponseRefreshToken = {
+  readonly success: boolean;
+  readonly accessToken: string;
+  readonly refreshToken: string;
+};
+
+type THeadersWithAuth = {                        // делаем заголовки обязательными
+  headers: {
+    [K in keyof HeadersInit]?: HeadersInit[K]; // а внутри заголовков все ключи необязательные
+  } & {
+    authorization: string;                    // кроме добавочного поля авторизации
+  }
+};
+
+type TRequestWithAuthorization = Omit<RequestInit, 'headers'> & THeadersWithAuth;
+
+type TCatcher<T, U> = (url: string, options: U, err: any) => Promise<T>;
+
+
+
 export const config = {
   baseUrl: 'https://norma.nomoreparties.space/api',
   headers: {
@@ -5,31 +35,29 @@ export const config = {
   }
 };
 
-export function handleResponse(response, statusName = 'ok') {
-  if (response[statusName]) {
-    return response.json();
-  } else {
-    // Из негативного ответа сервера асинхронно извлекаем объект err с данными о запросе. Поле message передаем в отклоненный промис, который отдаст это в catch.
-    return response.json()
-      .then(err => Promise.reject(err));
-  }
+
+
+export async function handleResponse<T>(response: Response) {
+  const data: Promise<T> = await response.json();
+  if (response.ok) return data;
+  return Promise.reject(data);
 }
 
-export async function fetchWithRefresh(url, options, catcher) {
+export async function fetchWithRefresh<T, U = RequestInit>(url: string, options: U, catcher: TCatcher<T, U>) {
   try {
-    const res = await fetch(url, options);
-    const data = await handleResponse(res);
+    const res = await fetch(url, options as unknown as RequestInit);
+    const data = await handleResponse<T>(res);
     return data;
-  } catch (err) {
+  } catch (err: any) {
     // кэтчер (у меня это tokenCatcher) асинхронная функция, потому надо ждать её ответа
     const data = await catcher(url, options, err);
     return data;
   }
 }
 
-export async function tokenCatcher(url, options, err) {
+export async function tokenCatcher(url: string, options: TRequestWithAuthorization, err: TError) {
   if (err.message === 'jwt expired') {
-    const refreshData = await refreshToken();
+    const refreshData = await refreshToken<TResponseRefreshToken>();
 
     if (!refreshData.success) {
       return Promise.reject(refreshData);
@@ -38,15 +66,16 @@ export async function tokenCatcher(url, options, err) {
     localStorage.setItem("accessToken", refreshData.accessToken);
     localStorage.setItem("refreshToken", refreshData.refreshToken);
     options.headers.authorization = refreshData.accessToken;
-    const res = await fetch(url, options);
-    const data = await handleResponse(res);
+    // я не менял тип объекта настроек (options), лишь добавил обязательное поле authorization
+    const res = await fetch(url, options as unknown as RequestInit);
+    const data = await handleResponse<TResponseRefreshToken>(res);
     return data;
   } else {
     return Promise.reject(err);
   }
 }
 
-export async function refreshToken() {
+export async function refreshToken<T>(): Promise<T> {
   // передаём свой refreshToken, чтобы получить новый accessToken
   return fetch(
     `${config.baseUrl}/auth/token`,
@@ -58,5 +87,5 @@ export async function refreshToken() {
       })
     }
   )
-    .then(handleResponse);
+    .then(handleResponse<T>);
 }
