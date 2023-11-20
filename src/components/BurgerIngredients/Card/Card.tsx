@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { ingredientPropType } from '../../../utils/prop-types';
+import { ingredientPropType } from '../../../utils/types';
 
 import styles from './Card.module.css';
 

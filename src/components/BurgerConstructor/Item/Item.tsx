@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { moveItem, removeItem } from '../../../services/slices/burgerConstructorSlice';
 import { useDrag, useDrop } from 'react-dnd';
 import { getSelectedProducts } from '../../../services/selectors/burgerConstructorSelector';
-import { ingredientPropType } from '../../../utils/prop-types';
+import { ingredientPropType } from '../../../utils/types';
 
 function Item({ ingredient, index }) {
   const { price, extraId } = ingredient;
