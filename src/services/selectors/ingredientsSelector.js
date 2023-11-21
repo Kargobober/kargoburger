@@ -1,11 +1,11 @@
+export const ingredientsSmart = {
+  buns: [],
+  sauces: [],
+  mainFillings: [],
+};
+
 export const getIngredients = (state) => state.ingredients.ingredientsData;
 export const getCountedFiltredIngredients = (state) => {
-  const ingredientsSmart = {
-    buns: null,
-    sauces: [],
-    mainFillings: [],
-  };
-
   // В хранилище в поле ingredients хранятся все ингридиенты, приходящие с сервера
   // Фильтруем из этого поля только булки
   const bunsFromServer = state.ingredients.ingredientsData.filter(el => el.type === 'bun');

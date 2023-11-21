@@ -1,11 +1,11 @@
-type TError = {
+export type TError = {
   readonly success: boolean;
   readonly message: string;
 };
 
-type TUser = {
-  readonly email: string;
-  readonly name: string;
+export type TUser = {
+  email: string;
+  name: string;
 };
 
 type TResponseRefreshToken = {

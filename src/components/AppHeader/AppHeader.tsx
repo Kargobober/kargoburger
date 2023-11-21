@@ -3,7 +3,7 @@ import styles from './AppHeader.module.css';
 import HeaderLink from './HeaderLink/HeaderLink';
 import { Link } from 'react-router-dom';
 
-function AppHeader() {
+function AppHeader(): JSX.Element {
   const headerLinks = [
     { name: 'Конструктор', img: BurgerIcon, to: '/' },
     { name: 'Лента заказов', img: ListIcon, to: '/orders-global' },

@@ -1,3 +1,5 @@
+export type TWithExtraId<T> = T & { readonly extraId: string };
+
 enum ProductsTypeList {
   bun = 'bun',
   main = 'main',
@@ -19,4 +21,19 @@ export type TIngredient = {
   readonly __v?: number,
 };
 
-export type TWithExtraId<T> = T & { readonly extraId: string };
+// qty появляется в селекторе ingredientsSelector
+export type TIngredientCounted = TIngredient & { qty: number };
+
+export type TIngredientExtraId = TWithExtraId<TIngredient>;
+
+export type TIngredientExtraIdCounted = TWithExtraId<TIngredientCounted>;
+
+export type TSuperRef = {
+  list: HTMLDivElement | null;
+  buns: HTMLHeadingElement | null;
+  sauces: HTMLHeadingElement | null;
+  mainFillings: HTMLHeadingElement | null;
+} | null;
+export type TSuperRefQuadro = {
+  current: TSuperRef;
+};

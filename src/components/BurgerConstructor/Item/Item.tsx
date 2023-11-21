@@ -1,22 +1,36 @@
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 import styles from './Item.module.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { moveItem, removeItem } from '../../../services/slices/burgerConstructorSlice';
 import { useDrag, useDrop } from 'react-dnd';
 import { getSelectedProducts } from '../../../services/selectors/burgerConstructorSelector';
-import { ingredientPropType } from '../../../utils/types';
+import { TIngredientExtraId } from '../../../utils/types';
 
-function Item({ ingredient, index }) {
+type TProps = {
+  ingredient: TIngredientExtraId;
+  index: number;
+};
+
+type TDragItem = {
+  data: TIngredientExtraId;
+};
+
+type TCollectedProps = {
+  isDragging: boolean;
+};
+
+function Item({ ingredient, index }: TProps): JSX.Element {
+  // ingredient.price = 100; - так сделать не получится, т.к. поле только для чтения
+  // но ниже мы создаём новые переменные
   const { price, extraId } = ingredient;
   const text = ingredient.name;
-  const thumbnail = ingredient.image_mobile;
+  const thumbnail = ingredient.image_mobile || '';
 
   const dispatch = useDispatch();
 
-  const selectedProducts = useSelector(getSelectedProducts);
+  const selectedProducts = useSelector(getSelectedProducts) as TIngredientExtraId[];
 
-  const [{ isDragging }, dragRef, dragPreviewRef] = useDrag({
+  const [{ isDragging }, dragRef, dragPreviewRef] = useDrag<TDragItem, unknown, TCollectedProps>({
     type: 'sort',
     item: { data: ingredient },
     collect: monitor => ({
@@ -24,7 +38,7 @@ function Item({ ingredient, index }) {
     }),
   });
 
-  const [, dropRef] = useDrop({
+  const [, dropRef] = useDrop<TDragItem, unknown, unknown>({
     accept: 'sort',
     hover: ({ data }) => {
       if (extraId === data.extraId) return;
@@ -46,11 +60,6 @@ function Item({ ingredient, index }) {
       <ConstructorElement text={text} thumbnail={thumbnail} price={price} handleClose={() => { dispatch(removeItem(extraId)) }} />
     </li>
   )
-}
-
-Item.propTypes = {
-  ingredient: ingredientPropType.isRequired,
-  index: PropTypes.number.isRequired,
 }
 
 export default Item;

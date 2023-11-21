@@ -6,12 +6,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getLogOutPending, getLogOutSuccess } from '../../../services/selectors/authSelector';
 import { logOut } from '../../../services/middlewares/authQueries';
 
+export type TPreparedOrder = {
+  burgConstructor: {
+    selectedBunId: string;
+    selectedProductsId: string[];
+  };
+};
+
 function LogOut() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const logOutPending = useSelector(getLogOutPending);
   const logOutSuccess = useSelector(getLogOutSuccess);
+
 
   const holdThisDude = () => {
     navigate('/', {

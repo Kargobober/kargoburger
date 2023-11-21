@@ -6,30 +6,36 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import List from './List/List';
 import { getLoadingStatus } from '../../services/selectors/ingredientsSelector';
 import { useSelector } from 'react-redux';
+import { TSuperRef, TSuperRefQuadro } from '../../utils/types';
 
 
-function BurgerIngredients() {
+function BurgerIngredients(): JSX.Element {
   const [current, setCurrent] = useState('Булки');
-  const navElem = useRef(null);
-  const fourfoldRef = useRef(null);
-  const ingredientsLoading = useSelector(getLoadingStatus);
+  const navElem = useRef<HTMLElement>(null);
+  const fourfoldRef = useRef<TSuperRef>(null);
+  const ingredientsLoading = useSelector(getLoadingStatus) as boolean;
 
 
 
   useEffect(() => {
-    if (ingredientsLoading === false && fourfoldRef.current) {
+    if (ingredientsLoading === false
+      && navElem.current
+      && fourfoldRef.current
+      && fourfoldRef.current.buns
+      && fourfoldRef.current.sauces
+      && fourfoldRef.current.mainFillings) {
       const navElemCoord = navElem.current.getBoundingClientRect();
-      const handleScroll = event => {
-        const arrOfElem = [fourfoldRef.current.buns, fourfoldRef.current.sauces, fourfoldRef.current.mainFillings];
+      const handleScroll = () => {
+        const arrOfElem = [fourfoldRef.current!.buns!, fourfoldRef.current!.sauces!, fourfoldRef.current!.mainFillings!];
         const arrOfObj = arrOfElem.map(el => ({
           elem: el,
           delta: Math.abs(el.getBoundingClientRect().top - navElemCoord.bottom),
         }));
         const closestObj = arrOfObj.reduce((prev, curr) => prev.delta < curr.delta ? prev : curr);
-        setCurrent(closestObj.elem.textContent);
+        setCurrent(closestObj.elem.textContent!);
       };
 
-      fourfoldRef.current.list.addEventListener('scroll', handleScroll);
+      fourfoldRef.current!.list!.addEventListener('scroll', handleScroll);
     }
     /* ошибка состояла в том, что код пытался удалить слушатель скролла
       в блоке return данного useEffect, обращаясь к рефу,

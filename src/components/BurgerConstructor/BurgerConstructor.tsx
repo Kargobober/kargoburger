@@ -21,32 +21,40 @@ import { v4 as uuidv4 } from 'uuid';
 import { useLocation, useNavigate } from 'react-router';
 import { getIngredients } from '../../services/selectors/ingredientsSelector';
 import { getUserFromState } from '../../services/selectors/authSelector';
+import { TError, TUser } from '../../utils/api';
+import { TIngredient, TIngredientCounted, TIngredientExtraId } from '../../utils/types';
+import { TPreparedOrder } from '../Profile/LogOut/LogOut';
 
 function BurgerConstructor() {
   // сохраняем высоту окна в стэйт, чтобы при ее изменении перерисовывать компонент с новой доступной ему высотой
-  const [windowHeight, setWindowHeight] = useState();
-  const sectionElem = useRef();
-  const fillingsElem = useRef();
+  const [windowHeight, setWindowHeight] = useState<number>();
+  const sectionElem = useRef<HTMLElement>(null);
+  const fillingsElem = useRef<HTMLUListElement>(null);
   const [sectionHeight, setSectionHeight] = useState(912);
   const [fillingsHeight, setFillingsHeight] = useState(560);
   const dispatch = useDispatch();
 
-  const needDetails = useSelector(getOrderDetailsNeeding);
-  const isOrderSucces = useSelector(getOrderSuccess);
-  const error = useSelector(getOrderError);
+  const needDetails = useSelector(getOrderDetailsNeeding) as boolean;
+  const isOrderSucces = useSelector(getOrderSuccess) as boolean;
+  const error = useSelector(getOrderError) as string | TError;
 
   const location = useLocation();
   const navigate = useNavigate();
 
-  const user = useSelector(getUserFromState);
+  const hState: TPreparedOrder = location.state;
+
+  const user = useSelector(getUserFromState) as TUser;
 
   useEffect(() => {
-    error && handleError('Ошибка при создании заказа: ', error.message);
+    if (typeof(error) === 'string') {
+      error && handleError('Ошибка при создании заказа: ', error);
+    } else {
+      error.message && handleError('Ошибка при создании заказа: ', error.message);
+    }
   }, [error]);
 
   const modal = (
     <Modal
-      heading=''
       onClose={onClose}
       pt='15'
       pb='30'
@@ -55,49 +63,58 @@ function BurgerConstructor() {
     </Modal>
   );
 
-  const ingredients = useSelector(getIngredients);
-  const selectedBun = useSelector(getSelectedBun);
-  const selectedProducts = useSelector(getSelectedProducts);
-  const totalPrice = useSelector(getTotalPrice);
+  const ingredients = useSelector(getIngredients) as TIngredient[];
+  const selectedBun = useSelector(getSelectedBun) as TIngredientExtraId | null;
+  const selectedProducts = useSelector(getSelectedProducts) as TIngredientExtraId[];
+  const totalPrice = useSelector(getTotalPrice) as number;
 
+  // логика для тройного моллюска (src/components/Profile/LogOut)
   useEffect(() => {
-    if (ingredients.length && location.state && location.state.burgConstructor.selectedBunId && location.state.burgConstructor.selectedProductsId.length) {
-      const selectedBun = findIngredientObj(location.state.burgConstructor.selectedBunId, ingredients);
-      const selectedProducts = location.state.burgConstructor.selectedProductsId.map(id => findIngredientObj(id, ingredients));
+    if (ingredients.length && hState && hState.burgConstructor.selectedBunId && hState.burgConstructor.selectedProductsId.length) {
+      const selectedBun = findIngredientObj(hState.burgConstructor.selectedBunId, ingredients);
+      const selectedProducts = hState.burgConstructor.selectedProductsId.map(id => findIngredientObj(id, ingredients));
       dispatch(addItem(selectedBun));
       selectedProducts.forEach(item => dispatch(addItem(item)));
     }
-  }, [ingredients.length, location.state]);
+  }, [ingredients.length, hState]);
 
   useEffect(() => {
     if(isOrderSucces) dispatch(resetConstructor());
   }, [isOrderSucces]);
 
   useEffect(() => {
-    // Получаем координаты верха секции конструктора
-    const sectionTopCoord = getTopCoords(sectionElem.current);
-    // Назначаем доступную высоту для секции, чтобы не появлялся скролл всего приложения
-    // 40(в px) – это нижний отступ всего приложения
-    setSectionHeight(document.documentElement.clientHeight - sectionTopCoord - 40);
+    if (sectionElem.current && fillingsElem.current) {
+      // Получаем координаты верха секции конструктора
+      const sectionTopCoord = getTopCoords(sectionElem.current);
 
-    const fillingsTopCoord = getTopCoords(fillingsElem.current);
-    // 292px - хардкод, суммарная высота элементов и отступов под списком начинок
-    setFillingsHeight(document.documentElement.clientHeight - fillingsTopCoord - 292);
+      // Назначаем доступную высоту для секции, чтобы не появлялся скролл всего приложения
+      // 40(в px) – это нижний отступ всего приложения
+      setSectionHeight(document.documentElement.clientHeight - sectionTopCoord - 40);
 
-    const handleWindowResize = () => {
-      setWindowHeight(document.documentElement.clientHeight)
+      const fillingsTopCoord = getTopCoords(fillingsElem.current);
+
+      // 292px - хардкод, суммарная высота элементов и отступов под списком начинок
+      setFillingsHeight(document.documentElement.clientHeight - fillingsTopCoord - 292);
+
+      const handleWindowResize = () => {
+        setWindowHeight(document.documentElement.clientHeight)
+        window.addEventListener('resize', handleWindowResize);
+      }
+      return () => { window.removeEventListener('resize', handleWindowResize) };
     }
-    window.addEventListener('resize', handleWindowResize);
-    return () => { window.removeEventListener('resize', handleWindowResize) };
   }, [windowHeight]);
 
 
   function handleOrder() {
     const assembledBurger = selectedProducts.map(el => el._id);
-    assembledBurger.push(selectedBun._id);
-    assembledBurger.push(selectedBun._id);
+    if (selectedBun) {
+      // но кнопка заказать неактивна, пока нет булочки, так что это ЕЩЁ одна проверка
+      assembledBurger.push(selectedBun._id);
+      assembledBurger.push(selectedBun._id);
+    }
     if (user === null ? false : (user.name && user.email ? true : false)) {
       dispatch(setNeedingDetails(true));
+     //@ts-ignore
       dispatch(postOrder(assembledBurger));
     } else {
       navigate('/login');
@@ -110,8 +127,8 @@ function BurgerConstructor() {
   }
 
 
-
-  const [{ isHover }, dropRef] = useDrop({
+  // дропается ингредиент с новым полем - qty, а при диспатче добавляем ещё и уник. айдишник
+  const [{ isHover }, dropRef] = useDrop<{card: TIngredientCounted}, unknown, {isHover: boolean}>({
     accept: 'ingredient',
     // деструктуризация объекта
     drop: ({ card }) => {
@@ -151,15 +168,15 @@ function BurgerConstructor() {
             price={selectedBun.price}
             type="top"
             extraClass={`mb-4 ml-8 ${styles.bun}`}
-            isLocked="true"
+            isLocked={true}
           />}
           {selectedProducts.length > 0 && !selectedBun && <ConstructorElement
             text='Добавьте булку'
             thumbnail={burgerIconSvg}
-            price='0'
+            price={0}
             type="top"
             extraClass={`mb-4 ml-8 ${styles.bun}`}
-            isLocked="true"
+            isLocked={true}
           />}
 
           {/* внутренности бургера */}
@@ -180,20 +197,20 @@ function BurgerConstructor() {
             price={selectedBun.price}
             type="bottom"
             extraClass={`mt-4 ml-8 ${styles.bun}`}
-            isLocked="true"
+            isLocked={true}
           />}
           {selectedProducts.length > 0 && !selectedBun && <ConstructorElement
             text='Хлеб всему квазар'
             thumbnail={burgerIconSvg}
-            price='0'
+            price={0}
             type="bottom"
             extraClass={`mt-4 ml-8 ${styles.bun}`}
-            isLocked="true"
+            isLocked={true}
           />}
         </section>
 
         <section className={styles['price-section']}>
-          <Price value={totalPrice} digitsSize='medium' svgSize="32" />
+          <Price value={totalPrice} digitsSize='medium' svgSize={32} />
           <Button htmlType="button" type="primary" size="medium"
             onClick={handleOrder}
             disabled={!selectedBun}>

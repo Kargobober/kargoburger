@@ -1,23 +1,29 @@
-import { useEffect, useRef, useState, forwardRef, useImperativeHandle, memo } from 'react';
+import { useEffect, useRef, useState, forwardRef, useImperativeHandle, memo, FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import styles from './List.module.css';
 
 import { getTopCoords, handleError } from '../../../utils/utils';
 
 import Card from '../Card/Card';
-import { getCountedFiltredIngredients, getErrorStatus, getLoadingStatus } from '../../../services/selectors/ingredientsSelector';
+import { getCountedFiltredIngredients, getErrorStatus, getLoadingStatus, ingredientsSmart } from '../../../services/selectors/ingredientsSelector';
 import { ingredientsQuery } from '../../../services/middlewares/ingredientsQuery';
+import { TIngredientCounted, TSuperRef } from '../../../utils/types';
+
+
+
+type TIngredientsSmart = {
+  [key in keyof typeof ingredientsSmart]: TIngredientCounted[];
+};
 
 // первый параметр нельзя удалить. Второй параметр появляется из-за дальнейшей обёртки в forwardRef
-function List(props, ref) {
+const List = forwardRef((props, ref: React.ForwardedRef<TSuperRef>) => {
   const dispatch = useDispatch();
 
-  const listRef = useRef();
-  const bunsRef = useRef();
-  const saucesRef = useRef();
-  const mainFillingsRef = useRef();
+  const listRef = useRef<HTMLDivElement>(null);
+  const bunsRef = useRef<HTMLHeadingElement>(null);
+  const saucesRef = useRef<HTMLHeadingElement>(null);
+  const mainFillingsRef = useRef<HTMLHeadingElement>(null);
   useImperativeHandle(ref, () => ({
     get list() {
       return listRef.current;
@@ -35,8 +41,8 @@ function List(props, ref) {
 
 
 
-  const isLoading = useSelector(getLoadingStatus);
-  const hasError = useSelector(getErrorStatus);
+  const isLoading = useSelector(getLoadingStatus) as boolean;
+  const hasError = useSelector(getErrorStatus) as boolean;
   useEffect(() => {
     hasError && handleError('Ошибка при загрузке ингредиентов с сервера.');
   }, [hasError]);
@@ -45,27 +51,29 @@ function List(props, ref) {
     dispatch(ingredientsQuery());
   }, []);
   // Получаем обработанные данные из хранилища, сам результат обработки в хранилище не хранится. Не знаю, верно ли это
-  const data = useSelector(getCountedFiltredIngredients);
+  const data = useSelector(getCountedFiltredIngredients) as TIngredientsSmart;
 
 
 
   // При текущей системе оступов (единица = 4px) подходящая высота секции около 616px (через девтулзы можно обнаружить высоту на которой появляется скролл)
   // Автоматический расчет доступной высоту выдаёт 616,406. Так что всё чётко - как в больнице :)
   const [permittedHeight, setPermittedHeight] = useState(616);
-  const [windowHeight, setWindowHeight] = useState();
+  const [windowHeight, setWindowHeight] = useState<number>();
   useEffect(() => {
-    // Получаем координаты верха секции с карточками
-    const sectionTopCoord = getTopCoords(listRef.current);
-    // Назначаем доступную высоту для секции, чтобы не появлялся скролл всего приложения
-    // 40(в px) – это нижний отступ всего приложения
-    // В стилях тем не менее задаем мин. высоту, чтобы было видно хотя бы один ряд карточек целиком
-    setPermittedHeight(document.documentElement.clientHeight - sectionTopCoord - 40);
+    if (listRef.current) {
+      // Получаем координаты верха секции с карточками
+      const sectionTopCoord = getTopCoords(listRef.current);
+      // Назначаем доступную высоту для секции, чтобы не появлялся скролл всего приложения
+      // 40(в px) – это нижний отступ всего приложения
+      // В стилях тем не менее задаем мин. высоту, чтобы было видно хотя бы один ряд карточек целиком
+      setPermittedHeight(document.documentElement.clientHeight - sectionTopCoord - 40);
 
-    const handleWindowResize = () => {
-      setWindowHeight(document.documentElement.clientHeight)
+      const handleWindowResize = () => {
+        setWindowHeight(document.documentElement.clientHeight)
+      }
+      window.addEventListener('resize', handleWindowResize);
+      return () => { window.removeEventListener('resize', handleWindowResize) };
     }
-    window.addEventListener('resize', handleWindowResize);
-    return () => { window.removeEventListener('resize', handleWindowResize) };
   }, [windowHeight]);
 
 
@@ -116,14 +124,6 @@ function List(props, ref) {
       </div>
     </>
   )
-}
+});
 
-// реакт-обёртка для возможности проброса нескольких рефов
-List = forwardRef(List);
-List = memo(List);
-
-List.propTypes = {
-  props: PropTypes.object,
-};
-
-export default List;
+export default memo(List);

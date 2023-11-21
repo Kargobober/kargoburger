@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { ingredientPropType } from '../../../utils/types';
+import { TIngredientCounted } from '../../../utils/types';
 
 import styles from './Card.module.css';
 
@@ -9,18 +9,24 @@ import { addItem } from '../../../services/slices/burgerConstructorSlice';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { DragPreviewImage, useDrag } from 'react-dnd';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
+type TCollectedProps = {
+  isDragging: boolean;
+};
 
-function Card({ card }) {
+/* пропс card передаётся из компонента List, а в нём он берется из селектора,
+  который добавляет поле qty — число шт. данного ингредиента в конструкторе */
+function Card({ card }: { card: TIngredientCounted }) {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
   const counter = card.qty;
-  let waitingForDoubleClick = false;
+  let waitingForDoubleClick: NodeJS.Timeout | undefined;
 
-  const [{ isDragging }, dragRef, preview] = useDrag({
+  // при перетаскивании extraId добавляется только при дропе ингредиента, см. useDrop в ....\components\BurgerConstructor\BurgerConstructor.tsx
+  const [{ isDragging }, dragRef, preview] = useDrag<{card: TIngredientCounted}, unknown, TCollectedProps>({
     type: 'ingredient',
     // объект { card: card }
     item: { card },
@@ -43,10 +49,11 @@ function Card({ card }) {
     }));
   };
 
-  const handleBothClick = (evt) => {
+  const handleBothClick = (evt: React.MouseEvent) => {
     // в detail хранится число кликов
     if (evt.detail === 1) {
-      // setTimeout возвращает число со значением времени задержки в секундах (неужели значение переменной будет обновляться каждый момент времени, пока не достигнет порога?)
+      /* setTimeout возвращает число со значением времени задержки в секундах
+        (неужели значение переменной будет обновляться каждый момент времени, пока не достигнет порога?) */
       waitingForDoubleClick = setTimeout(() => {
         handleClick();
       }, 300);
@@ -54,7 +61,7 @@ function Card({ card }) {
       // число большее нуля не равно false
       if (waitingForDoubleClick) {
         clearTimeout(waitingForDoubleClick);
-        waitingForDoubleClick = false;
+        waitingForDoubleClick = undefined;
       }
       handleDoubleClick();
     }
@@ -86,10 +93,6 @@ function Card({ card }) {
       </h4>
     </li>
   )
-}
-
-Card.propTypes = {
-  card: ingredientPropType.isRequired,
 }
 
 export default memo(Card);

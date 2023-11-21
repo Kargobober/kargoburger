@@ -1,9 +1,12 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import * as THistory from 'history';
 
 import { checkUserAuth } from "../../services/middlewares/authActions";
+import { clearInfo } from "../../services/slices/ingredientDetailsSlice";
 
+import { OnlyAuth, OnlyUnAuth } from "../ProtectedRoute/ProtectedRoute";
 import HomePage from "../../pages/home";
 import Layout from "../Layout/Layout";
 import LoginPage from "../../pages/login";
@@ -14,22 +17,20 @@ import ProfilePage from "../../pages/profile";
 import User from "../Profile/User/User";
 import Orders from "../Profile/Orders/Orders";
 import LogOut from "../Profile/LogOut/LogOut";
-import { OnlyAuth, OnlyUnAuth } from "../ProtectedRoute/ProtectedRoute";
 import NotFound404Page from "../../pages/not-found-404";
 import Modal from "../Modal/Modal";
-import { clearInfo } from "../../services/slices/ingredientDetailsSlice";
-import { getIngredientDetailsStatus } from "../../services/selectors/ingredientDetailsSelector";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import IngredientPage from "../../pages/ingredient";
 
 
-function App() {
+function App (): JSX.Element {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
 
-  const background = location.state && location.state.background;
-  const isOpen = useSelector(getIngredientDetailsStatus);
+  /* в текущей позиции истории (location) в стейте (state) в поле background записывается
+    весь location предыдущей точки истории, потому тип  THistory.Location */
+  const historyState = location.state as { background?: THistory.Location} | null;
 
   useEffect(() => {
     dispatch(checkUserAuth());
@@ -37,7 +38,7 @@ function App() {
 
   return (
     <>
-      <Routes location={background || location}>
+      <Routes location={historyState?.background || location}>
         <Route path='/' element={<Layout />} >
           <Route index element={<HomePage />} />
 
@@ -58,7 +59,7 @@ function App() {
         <Route path='*' element={<NotFound404Page />} />
       </Routes>
 
-      {background && (
+      {historyState?.background && (
         <Routes>
           <Route path='ingredients/:id' element={
             <Modal heading='Детали ингредиента'

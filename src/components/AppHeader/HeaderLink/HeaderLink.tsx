@@ -1,17 +1,26 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import styles from './HeaderLink.module.css';
-import PropTypes from 'prop-types';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, FC } from 'react';
+import { TIconProps } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons/utils';
 
-function HeaderLink({ sectionName, Icon, customStyle, to }) {
+type THeaderLinkProps = {
+  sectionName: string;
+  Icon?: FC<TIconProps>;
+  customStyle?: React.CSSProperties;
+  to: string;
+};
+
+
+
+function HeaderLink ({ sectionName, Icon, customStyle, to }: THeaderLinkProps): JSX.Element {
   const location = useLocation();
 
-  const navLinkRef = useRef();
+  const navLinkRef = useRef<HTMLAnchorElement>(null);
   const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
     // класс active добавляется встроенным функционалом NavLink из react-router-dom
-    if (navLinkRef.current.classList.contains('active')) {
+    if (navLinkRef.current && navLinkRef.current.classList.contains('active')) {
       setIsActive(true);
     } else {
       setIsActive(false);
@@ -25,7 +34,7 @@ function HeaderLink({ sectionName, Icon, customStyle, to }) {
         className={styles.link}
         ref={navLinkRef}
       >
-        <Icon type={isActive ? "primary" : "secondary"} />
+        {Icon && (<Icon type={isActive ? "primary" : "secondary"} />)}
         <p
           className={isActive ? "text text_type_main-default ml-2"
             : "text text_type_main-default ml-2 text_color_inactive"
@@ -33,16 +42,10 @@ function HeaderLink({ sectionName, Icon, customStyle, to }) {
         >
           {sectionName}
         </p>
+        <a></a>
       </NavLink>
     </div>
   )
-}
-
-HeaderLink.propTypes = {
-  sectionName: PropTypes.string.isRequired,
-  Icon: PropTypes.func,
-  customStyle: PropTypes.object,
-  to: PropTypes.string,
 }
 
 export default HeaderLink;
