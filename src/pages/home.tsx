@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getErrorStatus } from '../services/selectors/ingredientsSelector';
 import { getOrderSuccess } from '../services/selectors/orderDetailsSelector';
 
-function HomePage() {
-  const isErrorOnIngredients = useSelector(getErrorStatus);
-  const isOrderSucces = useSelector(getOrderSuccess);
+function HomePage(): JSX.Element {
+  const isErrorOnIngredients = useSelector(getErrorStatus) as boolean;
+  const isOrderSucces = useSelector(getOrderSuccess) as boolean | undefined;
   const dispatch = useDispatch();
   return (
     <>

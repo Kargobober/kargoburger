@@ -31,21 +31,21 @@ function LoginPage() {
   // см. register.jsx
   const [isFocus, setIsFocus] = useState(false);
 
-  const userPending = useSelector(getUserPending);
-  const userSuccess = useSelector(getUserSuccess);
+  const userPending = useSelector(getUserPending) as boolean;
+  const userSuccess = useSelector(getUserSuccess) as boolean | null;
 
 
 
-  const onChangeEmail = evt => {
-    setEmail(evt.target.value);
+  const onChangeEmail: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    setEmail(e.target.value);
   };
-  const onFocusEmail = evt => {
+  const onFocusEmail: React.FocusEventHandler<HTMLInputElement> = e => {
     setHasEmailError(false);
     setIsFocus(true);
   };
-  const onBlurEmail = evt => {
-    const regExpSucces = emailRegExp.test(evt.target.value);
-    const length = evt.target.value.length;
+  const onBlurEmail: React.FocusEventHandler<HTMLInputElement> = e => {
+    const regExpSucces = emailRegExp.test(e.target.value);
+    const length = e.target.value.length;
 
     setIsFocus(false);
 
@@ -59,19 +59,19 @@ function LoginPage() {
     }
   };
 
-  const onChangePassword = evt => {
+  const onChangePassword: React.ChangeEventHandler<HTMLInputElement> = evt => {
     setPassword(evt.target.value);
   };
-  const onFocusPassword = evt => {
+  const onFocusPassword: React.FocusEventHandler<HTMLInputElement> = evt => {
     setHasPasswordError(false);
     setIsFocus(true);
   };
-  const onBlurPassword = evt => {
+  const onBlurPassword: React.FocusEventHandler<HTMLInputElement> = evt => {
     setHasPasswordError( (evt.target.value.length > 5) ? false : (evt.target.value.length > 0) ? true : false);
     setIsFocus(false);
   };
 
-  const onSubmit = evt => {
+  const onSubmit = (evt: React.SyntheticEvent) => {
     evt.preventDefault();
     dispatch(login(email, password));
   };

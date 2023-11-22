@@ -2,32 +2,38 @@ import styles from './IngredientDetails.module.css';
 import stylesGlobal from '../../index.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredientDetails } from '../../services/selectors/ingredientDetailsSelector';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { findIngredientObj } from '../../utils/utils';
 import { getIngredients } from '../../services/selectors/ingredientsSelector';
 import { setInfo } from '../../services/slices/ingredientDetailsSlice';
 import { useEffect } from 'react';
+import { TIngredient } from '../../utils/types';
 
-function IngredientDetails() {
+function IngredientDetails(): JSX.Element {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // часть адресной строки, динамическая
   const { id } = useParams();
 
   // все ингредиенты, с сервера
-  const ingredientsData = useSelector(getIngredients);
+  const ingredientsData = useSelector(getIngredients) as TIngredient[];
 
   // ↓ ингредиент для модалки, из хранилища, раздел ingredientDetails
-  const ingredient = useSelector(getIngredientDetails);
+  const ingredient = useSelector(getIngredientDetails) as TIngredient;
   const { image_large, name, calories, proteins, fat, carbohydrates } = ingredient;
 
 
   useEffect(() => {
-    // исп-ую написанную ранее функцию
-    const foundIngredient = findIngredientObj(id, ingredientsData);
-    // сохраняю ингредиент для модалки в раздел хранилища ingredientDetails
-    dispatch(setInfo(foundIngredient));
-    // именно такая зависимость позволит перезагружать страницу и не терять модалку
+    if(id && ingredientsData) {
+      // исп-ую написанную ранее функцию
+      const foundIngredient = findIngredientObj(id, ingredientsData);
+      // сохраняю ингредиент для модалки в раздел хранилища ingredientDetails
+      dispatch(setInfo(foundIngredient));
+      // именно такая зависимость позволит перезагружать страницу и не терять модалку
+    } else {
+      navigate('*');
+    }
   }, [ingredientsData]);
 
   return (

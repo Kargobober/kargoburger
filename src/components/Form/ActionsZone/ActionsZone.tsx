@@ -1,18 +1,15 @@
-import styles from './ActionsZone.module.css';
-import React from 'react';
-import PropTypes from "prop-types";
+import { FC } from 'react';
 
-function ActionsZone({ children, className }) {
+type TProps = {
+  className?: string;
+};
+
+const ActionsZone: FC<TProps> = ({ children, className }) => {
   return (
     <section className={className}>
       {children}
     </section>
   )
-}
-
-ActionsZone.propTypes = {
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-}
+};
 
 export default ActionsZone;

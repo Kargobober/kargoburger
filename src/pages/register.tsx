@@ -39,26 +39,26 @@ function RegisterPage() {
   т.к. валидация происходит при блюре */
   const [isFocus, setIsFocus] = useState(false);
 
-  const onChangeUserName = evt => {
+  const onChangeUserName: React.ChangeEventHandler<HTMLInputElement> = evt => {
     setUserName(evt.target.value);
   };
-  const onFocusUserName = evt => {
+  const onFocusUserName = (evt: React.FocusEvent<HTMLInputElement>) => {
     setHasUserNameError(false);
     setIsFocus(true);
   };
-  const onBlurUserName = evt => {
+  const onBlurUserName = (evt: React.FocusEvent<HTMLInputElement>) => {
     if (evt.target.value.length < 2) setHasUserNameError(true);
     setIsFocus(false);
   };
 
-  const onChangeEmail = evt => {
+  const onChangeEmail: React.ChangeEventHandler<HTMLInputElement> = evt => {
     setEmail(evt.target.value);
   };
-  const onFocusEmail = evt => {
+  const onFocusEmail: React.FocusEventHandler<HTMLInputElement> = evt => {
     setHasEmailError(false);
     setIsFocus(true);
   };
-  const onBlurEmail = evt => {
+  const onBlurEmail: React.FocusEventHandler<HTMLInputElement> = evt => {
     const regExpSucces = emailRegExp.test(evt.target.value);
     const length = evt.target.value.length;
 
@@ -74,19 +74,19 @@ function RegisterPage() {
     }
   };
 
-  const onChangePassword = evt => {
+  const onChangePassword: React.ChangeEventHandler<HTMLInputElement> = evt => {
     setPassword(evt.target.value);
   };
-  const onFocusPassword = evt => {
+  const onFocusPassword: React.FocusEventHandler<HTMLInputElement> = evt => {
     setHasPasswordError(false);
     setIsFocus(true);
   };
-  const onBlurPassword = evt => {
+  const onBlurPassword: React.FocusEventHandler<HTMLInputElement> = evt => {
     setHasPasswordError((evt.target.value.length > 5) ? false : (evt.target.value.length > 0) ? true : false);
     setIsFocus(false);
   };
 
-  const onSubmit = evt => {
+  const onSubmit = (evt: React.SyntheticEvent) => {
     evt.preventDefault();
     /* для танков только один аргумент может быть полезной нагрузкой,
       потому вносим данные в объект */

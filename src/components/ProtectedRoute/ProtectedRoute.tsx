@@ -5,9 +5,14 @@ import { checkUserAuth } from "../../services/middlewares/authActions";
 import { getAuthPending, getUserFromState } from "../../services/selectors/authSelector";
 import { colorInterfaceAccent } from "../../utils/constants";
 import { MoonLoader } from "react-spinners";
-import PropTypes from "prop-types";
+import { TUser } from "../../utils/api";
 
-const Protected = ({ onlyUnAuth = false, component }) => {
+type TProps = {
+  onlyUnAuth?: boolean;
+  component: JSX.Element;
+};
+
+const Protected = ({ onlyUnAuth = false, component }: TProps) => {
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -15,8 +20,8 @@ const Protected = ({ onlyUnAuth = false, component }) => {
     dispatch(checkUserAuth());
   }, [dispatch]);
 
-  const authPending = useSelector(getAuthPending);
-  const user = useSelector(getUserFromState);
+  const authPending = useSelector(getAuthPending) as boolean;
+  const user = useSelector(getUserFromState) as TUser | null;
 
   if (authPending) {
     // Запрос еще выполняется
@@ -48,10 +53,5 @@ const Protected = ({ onlyUnAuth = false, component }) => {
   return component;
 };
 
-Protected.propTypes = {
-  onlyUnAuth: PropTypes.bool,
-  component: PropTypes.element.isRequired,
-}
-
-export const OnlyAuth = (props) => <Protected onlyUnAuth={false} {...props} />;
-export const OnlyUnAuth = (props) => <Protected onlyUnAuth={true} {...props} />;
+export const OnlyAuth = ({component}: {component: JSX.Element}) => <Protected onlyUnAuth={false} component={component} />;
+export const OnlyUnAuth = ({component}: {component: JSX.Element}) => <Protected onlyUnAuth={true} component={component} />;

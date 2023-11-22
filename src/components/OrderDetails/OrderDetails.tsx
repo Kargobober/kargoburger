@@ -5,10 +5,10 @@ import { getOrderIsLoading, getOrderNumber, getOrderSuccess } from '../../servic
 import { MoonLoader } from 'react-spinners';
 import { colorInterfaceAccent } from '../../utils/constants';
 
-function OrderDetails() {
-  const orderNumber = useSelector(getOrderNumber);
-  const isLoading = useSelector(getOrderIsLoading);
-  const success = useSelector(getOrderSuccess);
+function OrderDetails(): JSX.Element {
+  const orderNumber = useSelector(getOrderNumber) as number | string;
+  const isLoading = useSelector(getOrderIsLoading) as boolean;
+  const success = useSelector(getOrderSuccess) as boolean;
 
 
   return (

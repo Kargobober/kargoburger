@@ -2,7 +2,7 @@
 import toast from 'react-hot-toast';
 // для uuid установлен ещё один пакет
 import { v4 as uuidv4 } from 'uuid';
-import { TIngredient, TWithExtraId } from './types';
+import { TIngredient, TIngredientExtraId } from './types';
 
 export function handleError(text: string, error = '') {
   console.log(text + error);
@@ -29,7 +29,7 @@ export const stellarToast = (text: string, notificationType?: 'ok' | 'error') =>
   }
 );
 
-export const findIngredientObj = (id: string, arr: TIngredient[]): TWithExtraId<TIngredient> | null => {
+export const findIngredientObj = (id: string, arr: TIngredient[]): TIngredientExtraId | null => {
   const ingredient = arr.find(item => item._id === id ? true : false);
   if (ingredient) {
     // нельзя мутировать объект почему-то ↓

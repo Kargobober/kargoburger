@@ -4,13 +4,14 @@ import styles from './profile.module.css';
 import { Outlet, useLocation } from 'react-router';
 import { NavLink } from 'react-router-dom';
 
+
 function ProfilePage() {
   const profileTabs = [
     {
       name: 'Профиль',
       path: '/profile',
       clue: `В этом разделе вы можете
-        изменить свои персональные данные`,
+      изменить свои персональные данные`,
     },
     {
       name: 'История заказов',
@@ -22,13 +23,14 @@ function ProfilePage() {
       name: 'Выход',
       path: '/profile/logout',
       clue: `Уже уходите? А вы попробовали
-        БЕССМЕРТНОГО моллюска? 👾`,
+      БЕССМЕРТНОГО моллюска? 👾`,
     },
   ];
+  type TProfileTab = typeof profileTabs[0];
 
   const location = useLocation();
-  const [clue, setClue] = useState();
-  const getActiveStatus = (tab) => tab.path === location.pathname ? styles.active : '';
+  const [clue, setClue] = useState('');
+  const getActiveStatus = (tab: TProfileTab) => tab.path === location.pathname ? styles.active : '';
 
   useEffect(() => {
     switch (location.pathname) {

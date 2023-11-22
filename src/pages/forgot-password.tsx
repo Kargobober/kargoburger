@@ -17,7 +17,7 @@ import AdditionalActions from '../components/Form/AdditionalActions/AdditionalAc
 import Action from '../components/Form/Action/Action';
 import { stellarToast } from '../utils/utils';
 
-function ForgotPasswordPage() {
+function ForgotPasswordPage(): JSX.Element {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -28,21 +28,21 @@ function ForgotPasswordPage() {
   // см. register.jsx
   const [isFocus, setIsFocus] = useState(false);
 
-  const resetCodeSuccess = useSelector(getResetCodeSuccess);
-  const resetPasswordPending = useSelector(getResetPasswordPending);
+  const resetCodeSuccess = useSelector(getResetCodeSuccess) as boolean | null;
+  const resetPasswordPending = useSelector(getResetPasswordPending) as boolean;
 
 
 
-  const onChangeEmail = evt => {
-    setEmail(evt.target.value);
+  const onChangeEmail: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    setEmail(e.target.value);
   };
-  const onFocusEmail = evt => {
+  const onFocusEmail: React.FocusEventHandler<HTMLInputElement> = e => {
     setHasEmailError(false);
     setIsFocus(true);
   };
-  const onBlurEmail = evt => {
-    const regExpSucces = emailRegExp.test(evt.target.value);
-    const length = evt.target.value.length;
+  const onBlurEmail: React.FocusEventHandler<HTMLInputElement> = e => {
+    const regExpSucces = emailRegExp.test(e.target.value);
+    const length = e.target.value.length;
 
     setIsFocus(false);
 
@@ -56,9 +56,10 @@ function ForgotPasswordPage() {
     }
   };
 
-  const onSubmit = evt => {
-    evt.preventDefault();
+  const onSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
     dispatch(setEmailOnStorage(email));
+    //@ts-ignore
     dispatch(sendResetCode(email));
   };
 

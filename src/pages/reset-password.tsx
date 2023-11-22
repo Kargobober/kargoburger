@@ -17,6 +17,7 @@ import AdditionalActions from '../components/Form/AdditionalActions/AdditionalAc
 import Action from '../components/Form/Action/Action';
 import { stellarToast } from '../utils/utils';
 import { login } from '../services/middlewares/authActions';
+import { TUser } from '../utils/api';
 
 function ResetPasswordPage() {
   const dispatch = useDispatch();
@@ -31,22 +32,22 @@ function ResetPasswordPage() {
   // см. register.jsx
   const [isFocus, setIsFocus] = useState(false);
 
-  const resetCodeSuccess = useSelector(getResetCodeSuccess);
-  const resetPasswordSucces = useSelector(getResetPasswordSuccess);
-  const resetPasswordPending = useSelector(getResetPasswordPending);
+  const resetCodeSuccess = useSelector(getResetCodeSuccess) as boolean | null;
+  const resetPasswordSucces = useSelector(getResetPasswordSuccess) as boolean | null;
+  const resetPasswordPending = useSelector(getResetPasswordPending) as boolean;
 
   // данные для автомат. входа после смены пароля
-  const user = useSelector(getUserFromState);
-  const userSuccess = useSelector(getUserSuccess);
+  const user = useSelector(getUserFromState) as TUser;
+  const userSuccess = useSelector(getUserSuccess) as boolean | null;
 
-  const onChangePassword = evt => {
+  const onChangePassword: React.ChangeEventHandler<HTMLInputElement> = evt => {
     setPassword(evt.target.value);
   };
-  const onFocusPassword = evt => {
+  const onFocusPassword: React.FocusEventHandler<HTMLInputElement> = evt => {
     setHasPasswordError(false);
     setIsFocus(true);
   };
-  const onBlurPassword = evt => {
+  const onBlurPassword: React.FocusEventHandler<HTMLInputElement> = evt => {
     const length = evt.target.value.length;
 
     setIsFocus(false);
@@ -56,21 +57,22 @@ function ResetPasswordPage() {
   };
 
 
-  const onChangeKey = (evt) => {
+  const onChangeKey: React.ChangeEventHandler<HTMLInputElement> = (evt) => {
     setKey(evt.target.value);
   };
-  const onFocusKey = (evt) => {
+  const onFocusKey: React.FocusEventHandler<HTMLInputElement> = (evt) => {
     setHasKeyError(false);
     setIsFocus(true);
   };
-  const onBlurKey = (evt) => {
+  const onBlurKey: React.FocusEventHandler<HTMLInputElement> = (evt) => {
     if (evt.target.value.length < 4) setHasKeyError(true);
     setIsFocus(false);
   };
 
 
-  const onSubmit = evt => {
+  const onSubmit = (evt: React.SyntheticEvent) => {
     evt.preventDefault();
+    //@ts-ignore
     dispatch(resetPassword({password, code: key}));
   };
 

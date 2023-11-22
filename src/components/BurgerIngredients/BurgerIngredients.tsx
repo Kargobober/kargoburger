@@ -6,7 +6,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import List from './List/List';
 import { getLoadingStatus } from '../../services/selectors/ingredientsSelector';
 import { useSelector } from 'react-redux';
-import { TSuperRef, TSuperRefQuadro } from '../../utils/types';
+import { TSuperRef } from '../../utils/types';
 
 
 function BurgerIngredients(): JSX.Element {
@@ -19,18 +19,21 @@ function BurgerIngredients(): JSX.Element {
 
   useEffect(() => {
     if (ingredientsLoading === false
-      && navElem.current
-      && fourfoldRef.current
-      && fourfoldRef.current.buns
-      && fourfoldRef.current.sauces
-      && fourfoldRef.current.mainFillings) {
+        && navElem.current
+        && fourfoldRef.current
+        && fourfoldRef.current.buns
+        && fourfoldRef.current.sauces
+        && fourfoldRef.current.mainFillings) {
+
       const navElemCoord = navElem.current.getBoundingClientRect();
+
       const handleScroll = () => {
         const arrOfElem = [fourfoldRef.current!.buns!, fourfoldRef.current!.sauces!, fourfoldRef.current!.mainFillings!];
         const arrOfObj = arrOfElem.map(el => ({
           elem: el,
           delta: Math.abs(el.getBoundingClientRect().top - navElemCoord.bottom),
         }));
+
         const closestObj = arrOfObj.reduce((prev, curr) => prev.delta < curr.delta ? prev : curr);
         setCurrent(closestObj.elem.textContent!);
       };

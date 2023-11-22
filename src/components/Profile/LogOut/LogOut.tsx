@@ -13,12 +13,12 @@ export type TPreparedOrder = {
   };
 };
 
-function LogOut() {
+function LogOut(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const logOutPending = useSelector(getLogOutPending);
-  const logOutSuccess = useSelector(getLogOutSuccess);
+  const logOutPending = useSelector(getLogOutPending) as boolean;
+  const logOutSuccess = useSelector(getLogOutSuccess) as boolean;
 
 
   const holdThisDude = () => {

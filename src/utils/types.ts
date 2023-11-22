@@ -34,6 +34,3 @@ export type TSuperRef = {
   sauces: HTMLHeadingElement | null;
   mainFillings: HTMLHeadingElement | null;
 } | null;
-export type TSuperRefQuadro = {
-  current: TSuperRef;
-};

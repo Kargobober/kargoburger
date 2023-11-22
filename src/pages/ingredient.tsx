@@ -6,8 +6,9 @@ import { findIngredientObj } from '../utils/utils';
 import styles from './ingredient.module.css';
 import stylesGlobal from '../index.css';
 import { ingredientsQuery } from '../services/middlewares/ingredientsQuery';
+import { TIngredient, TIngredientExtraId } from '../utils/types';
 
-function IngredientPage() {
+const IngredientPage = () => {
   const dispatch = useDispatch();
 
   const { id } = useParams();
@@ -16,11 +17,11 @@ function IngredientPage() {
     dispatch(ingredientsQuery());
   }, []);
 
-  const ingredientsData = useSelector(getIngredients);
-  const [ingredient, setIngredient] = useState(null);
+  const ingredientsData = useSelector(getIngredients) as TIngredient[];
+  const [ingredient, setIngredient] = useState<TIngredientExtraId | null>(null);
 
   useEffect(() => {
-    if (ingredientsData.length) setIngredient(findIngredientObj(id, ingredientsData));
+    if (ingredientsData.length && id) setIngredient(findIngredientObj(id, ingredientsData));
   }, [id, ingredientsData]);
 
   if (!ingredient) return null;

@@ -1,9 +1,13 @@
-import PropTypes from 'prop-types';
 import styles from './ModalHeader.module.css';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { FC } from 'react';
 
+type TProps = {
+  heading?: string,
+  onClose?: () => void,
+};
 
-function ModalHeader({ heading, onClose }) {
+const ModalHeader: FC<TProps> = ({ heading, onClose }) => {
   return (
     <div className={styles['modal-header-container']}>
       <h2 className={`${styles['modal-header-container']} text text_type_main-large`}>{heading}</h2>
@@ -12,11 +16,6 @@ function ModalHeader({ heading, onClose }) {
       </button>
     </div>
   )
-}
-
-ModalHeader.propTypes = {
-  heading: PropTypes.string,
-  onClose: PropTypes.func,
 }
 
 export default ModalHeader;

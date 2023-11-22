@@ -1,7 +1,14 @@
 import styles from './Form.module.css';
-import PropTypes from "prop-types";
+import { FC } from 'react';
 
-function Form({ children, heading, onSubmit, name, autoComplete = 'on' }) {
+type TProps = {
+  heading?: string;
+  onSubmit: (e: React.SyntheticEvent) => void;
+  name: string;
+  autoComplete?: string;
+};
+
+const Form: FC<TProps> = ({ children, heading, onSubmit, name, autoComplete = 'on' }) => {
   return (
     <form onSubmit={onSubmit} className={styles.form} name={name} noValidate autoComplete={autoComplete}>
       {heading && <h2 className='text text_type_main-medium text_centered'>{heading}</h2>}
@@ -10,14 +17,6 @@ function Form({ children, heading, onSubmit, name, autoComplete = 'on' }) {
       </div>
     </form>
   )
-}
-
-Form.propTypes = {
-  children: PropTypes.node.isRequired,
-  heading: PropTypes.string,
-  onSubmit: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
-  autoComplete: PropTypes.string,
-}
+};
 
 export default Form;

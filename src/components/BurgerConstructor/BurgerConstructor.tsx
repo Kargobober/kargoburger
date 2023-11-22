@@ -210,7 +210,7 @@ function BurgerConstructor() {
         </section>
 
         <section className={styles['price-section']}>
-          <Price value={totalPrice} digitsSize='medium' svgSize={32} />
+          <Price value={totalPrice} digitsSize='medium' svgSize='32' />
           <Button htmlType="button" type="primary" size="medium"
             onClick={handleOrder}
             disabled={!selectedBun}>

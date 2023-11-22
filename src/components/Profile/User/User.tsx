@@ -10,18 +10,19 @@ import { useLocation } from 'react-router';
 import { getChangeUserDataPending, getChangeUserDataSuccess, getUserState, getUserSuccess } from '../../../services/selectors/authSelector';
 import { changeUserData } from '../../../services/middlewares/authQueries';
 import { stellarToast } from '../../../utils/utils';
+import { TUser } from '../../../utils/api';
 
-function User() {
+function User(): JSX.Element {
   const dispatch = useDispatch();
   const location = useLocation();
 
   const [userName, setUserName] = useState('');
   const [hasUserNameError, setHasUserNameError] = useState(false);
 
-  const user = useSelector(getUserState);
-  const userSuccess = useSelector(getUserSuccess);
-  const changeUserDataPending = useSelector(getChangeUserDataPending);
-  const changeUserDataSuccess = useSelector(getChangeUserDataSuccess);
+  const user = useSelector(getUserState) as TUser | null;
+  const userSuccess = useSelector(getUserSuccess) as boolean;
+  const changeUserDataPending = useSelector(getChangeUserDataPending) as boolean;
+  const changeUserDataSuccess = useSelector(getChangeUserDataSuccess) as boolean | null;
 
   const [email, setEmail] = useState('');
   const [hasEmailError, setHasEmailError] = useState(false);
@@ -36,30 +37,30 @@ function User() {
 
 
 
-  const onChangeUserName = evt => {
-    setUserName(evt.target.value);
+  const onChangeUserName: React.ChangeEventHandler<HTMLInputElement> = e => {
+    setUserName(e.target.value);
   };
-  const onFocusUserName = evt => {
+  const onFocusUserName = (e: React.FocusEvent<HTMLInputElement>) => {
     setHasUserNameError(false);
     setIsFocus(true);
   };
-  const onBlurUserName = evt => {
-    if (evt.target.value.length < 2) setHasUserNameError(true);
+  const onBlurUserName = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (e.target.value.length < 2) setHasUserNameError(true);
     setIsFocus(false);
   };
 
 
 
-  const onChangeEmail = evt => {
-    setEmail(evt.target.value);
+  const onChangeEmail: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    setEmail(e.target.value);
   };
-  const onFocusEmail = evt => {
+  const onFocusEmail: React.ChangeEventHandler<HTMLInputElement> = e => {
     setHasEmailError(false);
     setIsFocus(true);
   };
-  const onBlurEmail = evt => {
-    const regExpSucces = emailRegExp.test(evt.target.value);
-    const length = evt.target.value.length;
+  const onBlurEmail: React.ChangeEventHandler<HTMLInputElement> = e => {
+    const regExpSucces = emailRegExp.test(e.target.value);
+    const length = e.target.value.length;
 
     setIsFocus(false);
 
@@ -74,30 +75,32 @@ function User() {
   };
 
 
-  const onChangePassword = evt => {
-    setPassword(evt.target.value);
+  const onChangePassword: React.ChangeEventHandler<HTMLInputElement> = e => {
+    setPassword(e.target.value);
     setWasChanged(true);
   };
-  const onFocusPassword = evt => {
+  const onFocusPassword: React.ChangeEventHandler<HTMLInputElement> = e => {
     setHasPasswordError(false);
     setIsFocus(true);
   };
-  const onBlurPassword = evt => {
-    setHasPasswordError((evt.target.value.length > 5) ? false : (evt.target.value.length > 0) ? true : false);
+  const onBlurPassword: React.ChangeEventHandler<HTMLInputElement> = e => {
+    setHasPasswordError((e.target.value.length > 5) ? false : (e.target.value.length > 0) ? true : false);
     setIsFocus(false);
   };
 
 // КНОПКИ
-  const onSubmit = evt => {
-    evt.preventDefault();
+  const onSubmit = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    //@ts-ignore
     dispatch(changeUserData({ name: userName, email, password }));
   };
-  const revertChanges = (evt) => {
-    evt.preventDefault();
-    setUserName(user.name);
-    setEmail(user.email);
-    setPassword('');
-    setWasChanged(false);
+  const revertChanges = () => {
+    if (user && user.name && user.email) {
+      setUserName(user.name);
+      setEmail(user.email);
+      setPassword('');
+      setWasChanged(false);
+    }
   };
 
 
