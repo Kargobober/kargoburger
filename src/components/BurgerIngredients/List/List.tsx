@@ -6,14 +6,16 @@ import styles from './List.module.css';
 import { getTopCoords, handleError } from '../../../utils/utils';
 
 import Card from '../Card/Card';
-import { getCountedFiltredIngredients, getErrorStatus, getLoadingStatus, ingredientsSmart } from '../../../services/selectors/ingredientsSelector';
+import { getCountedFiltredIngredients, getErrorStatus, getLoadingStatus } from '../../../services/selectors/ingredientsSelector';
 import { ingredientsQuery } from '../../../services/middlewares/ingredientsQuery';
 import { TIngredientCounted, TSuperRef } from '../../../utils/types';
 
 
 
 type TIngredientsSmart = {
-  [key in keyof typeof ingredientsSmart]: TIngredientCounted[];
+  buns: TIngredientCounted[];
+  sauces: TIngredientCounted[];
+  mainFillings: TIngredientCounted[];
 };
 
 // первый параметр нельзя удалить. Второй параметр появляется из-за дальнейшей обёртки в forwardRef

@@ -42,7 +42,6 @@ function HeaderLink ({ sectionName, Icon, customStyle, to }: THeaderLinkProps): 
         >
           {sectionName}
         </p>
-        <a></a>
       </NavLink>
     </div>
   )
