@@ -33,7 +33,7 @@ function ForgotPasswordPage(): JSX.Element {
 
 
 
-  const onChangeEmail: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+  const onChangeEmail: React.ChangeEventHandler<HTMLInputElement> = e => {
     setEmail(e.target.value);
   };
   const onFocusEmail: React.FocusEventHandler<HTMLInputElement> = e => {
@@ -56,7 +56,7 @@ function ForgotPasswordPage(): JSX.Element {
     }
   };
 
-  const onSubmit = (e: React.SyntheticEvent) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(setEmailOnStorage(email));
     //@ts-ignore

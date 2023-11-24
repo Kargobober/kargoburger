@@ -42,11 +42,11 @@ function RegisterPage() {
   const onChangeUserName: React.ChangeEventHandler<HTMLInputElement> = evt => {
     setUserName(evt.target.value);
   };
-  const onFocusUserName = (evt: React.FocusEvent<HTMLInputElement>) => {
+  const onFocusUserName: React.FocusEventHandler<HTMLInputElement> = evt => {
     setHasUserNameError(false);
     setIsFocus(true);
   };
-  const onBlurUserName = (evt: React.FocusEvent<HTMLInputElement>) => {
+  const onBlurUserName: React.FocusEventHandler<HTMLInputElement> = evt => {
     if (evt.target.value.length < 2) setHasUserNameError(true);
     setIsFocus(false);
   };
@@ -86,7 +86,7 @@ function RegisterPage() {
     setIsFocus(false);
   };
 
-  const onSubmit = (evt: React.SyntheticEvent) => {
+  const onSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     /* для танков только один аргумент может быть полезной нагрузкой,
       потому вносим данные в объект */

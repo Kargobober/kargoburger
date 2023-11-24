@@ -36,7 +36,7 @@ function LoginPage() {
 
 
 
-  const onChangeEmail: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+  const onChangeEmail: React.ChangeEventHandler<HTMLInputElement> = e => {
     setEmail(e.target.value);
   };
   const onFocusEmail: React.FocusEventHandler<HTMLInputElement> = e => {
@@ -71,7 +71,7 @@ function LoginPage() {
     setIsFocus(false);
   };
 
-  const onSubmit = (evt: React.SyntheticEvent) => {
+  const onSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     dispatch(login(email, password));
   };

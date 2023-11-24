@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 type TProps = {
   heading?: string;
-  onSubmit: (e: React.SyntheticEvent) => void;
+  onSubmit: React.FormEventHandler<HTMLFormElement>;
   name: string;
   autoComplete?: string;
 };

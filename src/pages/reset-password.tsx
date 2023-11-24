@@ -57,20 +57,20 @@ function ResetPasswordPage() {
   };
 
 
-  const onChangeKey: React.ChangeEventHandler<HTMLInputElement> = (evt) => {
+  const onChangeKey: React.ChangeEventHandler<HTMLInputElement> = evt => {
     setKey(evt.target.value);
   };
-  const onFocusKey: React.FocusEventHandler<HTMLInputElement> = (evt) => {
+  const onFocusKey: React.FocusEventHandler<HTMLInputElement> = evt => {
     setHasKeyError(false);
     setIsFocus(true);
   };
-  const onBlurKey: React.FocusEventHandler<HTMLInputElement> = (evt) => {
+  const onBlurKey: React.FocusEventHandler<HTMLInputElement> = evt => {
     if (evt.target.value.length < 4) setHasKeyError(true);
     setIsFocus(false);
   };
 
 
-  const onSubmit = (evt: React.SyntheticEvent) => {
+  const onSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     //@ts-ignore
     dispatch(resetPassword({password, code: key}));
