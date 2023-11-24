@@ -12,6 +12,14 @@ body {
   color: inherit;
 }
 
+.linkGlobal:hover {
+  color: inherit;
+}
+
+.linkGlobal:active {
+  color: var(--colors-interface-success);
+}
+
 .listGlobal {
   padding: 0;
   margin: 0;
