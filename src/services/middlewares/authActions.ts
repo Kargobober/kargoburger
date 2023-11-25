@@ -45,7 +45,7 @@ export function getUser() {
         method: 'GET',
         headers: {
         //'Content-Type': 'application/json', - так ругается
-        ...config.headers,
+        ...config.headers, // а так нет
         authorization: localStorage.getItem('accessToken')!,
         }
       },
@@ -96,7 +96,7 @@ export function login(email: string, password: string) {
         /* зануляю, чтобы при повторных попытках ввести неверный пароль
           происходила изменение статуса успешности юзера, которое вызовет useEffect с тостом(уведомление)
           При этом тостик с ошибкой вылезает именно когда false, а не null */
-        dispatch(setUserSuccess(null));
+        // dispatch(setUserSuccess(null));
       });
   }
 }
@@ -105,7 +105,8 @@ export function login(email: string, password: string) {
 export function checkUserAuth() {
   return (dispatch: AppDispatch) => {
     dispatch(setAuthPending(true));
-    if (localStorage.getItem('accessToken')) {
+    const myToken = localStorage.getItem('accessToken');
+    if (myToken) {
       dispatch(getUser())
         .catch(err => {
           localStorage.removeItem('accessToken');

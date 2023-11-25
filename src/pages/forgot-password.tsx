@@ -72,6 +72,7 @@ function ForgotPasswordPage(): JSX.Element {
         dispatch(setResetCodeSuccess('sended'));
         break;
       case false:
+        dispatch(setResetCodeSuccess(null));
         stellarToast('Что-то пошло не так', 'error');
         break;
       default:

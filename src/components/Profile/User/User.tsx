@@ -10,6 +10,7 @@ import { useLocation } from 'react-router';
 import { getChangeUserDataPending, getChangeUserDataSuccess, getUserState, getUserSuccess } from '../../../services/selectors/authSelector';
 import { changeUserData } from '../../../services/middlewares/authQueries';
 import { stellarToast } from '../../../utils/utils';
+import { setChangeUserDataSuccess } from '../../../services/slices/authSlice';
 
 function User(): JSX.Element {
   const dispatch = useDispatch();
@@ -132,9 +133,11 @@ function User(): JSX.Element {
   useEffect(() => {
     switch(changeUserDataSuccess) {
       case true:
+        dispatch(setChangeUserDataSuccess(null));
         stellarToast('Данные успешно обновлены', 'ok');
         break;
       case false:
+        dispatch(setChangeUserDataSuccess(null));
         stellarToast('Что-то пошло не так', 'error');
         break;
       default:

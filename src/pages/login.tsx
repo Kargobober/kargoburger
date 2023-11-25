@@ -14,6 +14,7 @@ import { getUserPending, getUserSuccess } from '../services/selectors/authSelect
 import { useNavigate } from 'react-router';
 import { Toaster } from 'react-hot-toast';
 import { stellarToast } from '../utils/utils';
+import { setUserSuccess } from '../services/slices/authSlice';
 
 function LoginPage() {
   const dispatch = useDispatch();
@@ -80,12 +81,13 @@ function LoginPage() {
     switch(userSuccess) {
       // при успехе, защищенный роут перенаправит домой
       case false:
+        dispatch(setUserSuccess(null));
         stellarToast('Почта или пароль неверны', 'error');
         break;
       default:
         break;
     }
-  }, [userSuccess, navigate]);
+  }, [userSuccess, navigate, dispatch]);
 
 
 

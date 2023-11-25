@@ -28,16 +28,9 @@ function IngredientDetails(): JSX.Element {
       // исп-ую написанную ранее функцию
       const foundIngredient = findIngredientObj(id, ingredientsData);
       // сохраняю ингредиент для модалки в раздел хранилища ingredientDetails
-      if (foundIngredient) {
-        dispatch(setInfo(foundIngredient));
-      } else {
-        navigate('*');
-      };
-    } else {
-      navigate('*');
+      if (foundIngredient) dispatch(setInfo(foundIngredient));
     }
-    // именно такая зависимость позволит перезагружать страницу и не терять модалку
-  }, [ingredientsData]);
+  }, [ingredientsData]); // именно такая зависимость позволит перезагружать страницу и не терять модалку
 
   return (
     <div className={styles.container}>

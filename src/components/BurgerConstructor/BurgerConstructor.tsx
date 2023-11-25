@@ -22,7 +22,7 @@ import { useLocation, useNavigate } from 'react-router';
 import { getIngredients } from '../../services/selectors/ingredientsSelector';
 import { getUserFromState } from '../../services/selectors/authSelector';
 import { TIngredientCounted } from '../../utils/types';
-import { TPreparedOrder } from '../Profile/LogOut/LogOut';
+import { TPreparedOrder } from '../Profile/LogOut/LogOutPage';
 
 function BurgerConstructor() {
   // сохраняем высоту окна в стэйт, чтобы при ее изменении перерисовывать компонент с новой доступной ему высотой

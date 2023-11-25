@@ -89,6 +89,14 @@ const authSlice = createSlice({
     setResetCodeSuccess: (state, action: PayloadAction<boolean | 'sended' | null>) => {
       state.resetCodeSuccess = action.payload;
     },
+
+    setLogOutSuccess: (state, action: PayloadAction<boolean | null>) => {
+      state.logOutSuccess = action.payload;
+    },
+
+    setChangeUserDataSuccess: (state, action: PayloadAction<boolean | null>) => {
+      state.changeUserDataSuccess = action.payload;
+    },
   },
   extraReducers: builder => {
     builder.addCase(sendResetCode.pending, (state) => {
@@ -168,5 +176,7 @@ export const {
   setAuthPending,
   setResetPasswordSuccess,
   setResetCodeSuccess,
+  setLogOutSuccess,
+  setChangeUserDataSuccess,
 } = authSlice.actions;
 export default authSlice.reducer;

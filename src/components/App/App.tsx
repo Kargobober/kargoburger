@@ -18,7 +18,7 @@ import ResetPasswordPage from "../../pages/reset-password";
 import ProfilePage from "../../pages/profile";
 import User from "../Profile/User/User";
 import Orders from "../Profile/Orders/Orders";
-import LogOut from "../Profile/LogOut/LogOut";
+import LogOutPage from "../Profile/LogOut/LogOutPage";
 import NotFound404Page from "../../pages/not-found-404";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
@@ -57,7 +57,7 @@ function App (): JSX.Element {
           <Route path='profile' element={<OnlyAuth component={<ProfilePage />} />} >
             <Route index element={<User />} />
             <Route path='orders' element={<Orders />} />
-            <Route path='logout' element={<LogOut />} />
+            <Route path='logout' element={<LogOutPage />} />
           </Route>
         </Route>
 

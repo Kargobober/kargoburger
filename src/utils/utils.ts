@@ -7,7 +7,7 @@ import { TIngredient, TIngredientExtraId } from './types';
 type TErrorHandler = (text: string, error?: unknown) => void;
 
 export const handleError: TErrorHandler = (text, error = '') => {
-  console.log(text + error);
+  console.log(text, error);
 };
 
 export const getTopCoords = (elem: HTMLElement) => {

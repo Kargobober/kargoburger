@@ -42,7 +42,6 @@ export async function tokenCatcher<T>(url: string, options: RequestInit, err: an
     const headersInit: HeadersInit = {};
     options.headers = headersInit;
     options.headers.authorization = refreshData.accessToken;
-    // я не менял тип объекта настроек (options), лишь добавил обязательное поле authorization
     const res = await fetch(url, options);
     const data = await handleResponse<T>(res);
     return data;

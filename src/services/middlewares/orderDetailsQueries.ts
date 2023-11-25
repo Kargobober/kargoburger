@@ -16,9 +16,7 @@ export const postOrder = createAsyncThunk(
           authorization: localStorage.getItem('accessToken')!,
         },
         method: 'POST',
-        body: JSON.stringify({
-          ingredients: payload,
-        }),
+        body: JSON.stringify(payload),
       }
     )
       .then(handleResponse<TResponseOrder>);
