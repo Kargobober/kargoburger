@@ -1,14 +1,14 @@
 import styles from './OrderDetails.module.css';
 import orderAcceptedSvg from '../../images/order-accepted.svg';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 import { getOrderIsLoading, getOrderNumber, getOrderSuccess } from '../../services/selectors/orderDetailsSelector';
 import { MoonLoader } from 'react-spinners';
 import { colorInterfaceAccent } from '../../utils/constants';
 
 function OrderDetails(): JSX.Element {
-  const orderNumber = useSelector(getOrderNumber) as number | string;
-  const isLoading = useSelector(getOrderIsLoading) as boolean;
-  const success = useSelector(getOrderSuccess) as boolean;
+  const orderNumber = useSelector(getOrderNumber);
+  const isLoading = useSelector(getOrderIsLoading);
+  const success = useSelector(getOrderSuccess);
 
 
   return (

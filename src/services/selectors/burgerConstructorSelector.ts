@@ -1,6 +1,8 @@
-export const getSelectedBun = (state) => state.burgerConstructor.selectedBun;
-export const getSelectedProducts = (state) => state.burgerConstructor.selectedProducts;
-export const getTotalPrice = (state) => {
+import { RootState } from "../types";
+
+export const getSelectedBun = (state: RootState) => state.burgerConstructor.selectedBun;
+export const getSelectedProducts = (state: RootState) => state.burgerConstructor.selectedProducts;
+export const getTotalPrice = (state: RootState) => {
   let totalPrice = 0;
   let bunsPrice = 0;
   if(state.burgerConstructor.selectedBun) {

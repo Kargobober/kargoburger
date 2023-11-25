@@ -1,10 +1,33 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { ProductsTypeList, TIngredientCounted } from "../../utils/types";
 
-const initialState = {
+type TIngredientDetail = {
+  _id: string;
+    name: string;
+    type?: ProductsTypeList;
+    proteins: number;
+    fat: number;
+    carbohydrates: number;
+    calories: number;
+    price?: number;
+    image: string;
+    image_mobile?: string;
+    image_large?: string;
+    __v?: number;
+    qty?: number;
+    extraId?: string;
+};
+
+type TStateIngredientDetail = {
+  ingredient: TIngredientDetail;
+  isFilled: boolean;
+};
+
+const initialState: TStateIngredientDetail = {
   ingredient: {
     _id: '',
     name: '',
-    type: '',
+    type: undefined,
     proteins: 0,
     fat: 0,
     carbohydrates: 0,
@@ -14,15 +37,17 @@ const initialState = {
     image_mobile: 'URL',
     image_large: 'URL',
     __v: 0,
+    qty: 0,
+    extraId: '',
   },
   isFilled: false,
 };
-
+// Pick<TStateIngredientDetail, 'ingredient'>
 export const ingredientDetailsSlice = createSlice({
   name: 'ingredientDetails',
   initialState,
   reducers: {
-    setInfo: (state, action) => {
+    setInfo: (state, action: PayloadAction<TIngredientDetail>) => {
       Object.assign(state.ingredient, action.payload);
       state.isFilled = true;
     },

@@ -1,2 +1,4 @@
-export const getIngredientDetailsStatus = (state) => state.ingredientDetails.isFilled;
-export const getIngredientDetails = (state) => state.ingredientDetails.ingredient;
+import { RootState } from "../types";
+
+export const getIngredientDetailsStatus = (state: RootState) => state.ingredientDetails.isFilled;
+export const getIngredientDetails = (state: RootState) => state.ingredientDetails.ingredient;

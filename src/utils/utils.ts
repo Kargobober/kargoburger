@@ -4,9 +4,11 @@ import toast from 'react-hot-toast';
 import { v4 as uuidv4 } from 'uuid';
 import { TIngredient, TIngredientExtraId } from './types';
 
-export function handleError(text: string, error = '') {
+type TErrorHandler = (text: string, error?: unknown) => void;
+
+export const handleError: TErrorHandler = (text, error = '') => {
   console.log(text + error);
-}
+};
 
 export const getTopCoords = (elem: HTMLElement) => {
   let box = elem.getBoundingClientRect();

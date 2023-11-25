@@ -1,11 +1,10 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import { useEffect } from "react";
 import { checkUserAuth } from "../../services/middlewares/authActions";
 import { getAuthPending, getUserFromState } from "../../services/selectors/authSelector";
 import { colorInterfaceAccent } from "../../utils/constants";
 import { MoonLoader } from "react-spinners";
-import { TUser } from "../../utils/api";
 
 type TProps = {
   onlyUnAuth?: boolean;
@@ -20,8 +19,8 @@ const Protected = ({ onlyUnAuth = false, component }: TProps) => {
     dispatch(checkUserAuth());
   }, [dispatch]);
 
-  const authPending = useSelector(getAuthPending) as boolean;
-  const user = useSelector(getUserFromState) as TUser | null;
+  const authPending = useSelector(getAuthPending);
+  const user = useSelector(getUserFromState);
 
   if (authPending) {
     // Запрос еще выполняется

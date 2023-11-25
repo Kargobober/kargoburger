@@ -1,32 +1,4 @@
-export type TError = {
-  readonly success: boolean;
-  readonly message: string;
-};
-
-export type TUser = {
-  email: string;
-  name: string;
-};
-
-type TResponseRefreshToken = {
-  readonly success: boolean;
-  readonly accessToken: string;
-  readonly refreshToken: string;
-};
-
-type THeadersWithAuth = {                        // делаем заголовки обязательными
-  headers: {
-    [K in keyof HeadersInit]?: HeadersInit[K]; // а внутри заголовков все ключи необязательные
-  } & {
-    authorization: string;                    // кроме добавочного поля авторизации
-  }
-};
-
-type TRequestWithAuthorization = Omit<RequestInit, 'headers'> & THeadersWithAuth;
-
-type TCatcher<T, U> = (url: string, options: U, err: any) => Promise<T>;
-
-
+import { TCatcher, TResponseRefreshToken } from "./types";
 
 export const config = {
   baseUrl: 'https://norma.nomoreparties.space/api',
@@ -36,26 +8,27 @@ export const config = {
 };
 
 
-
+// Типизировать негативный ответ промиса не нужно, т.к. res.ok = false может быть из-за множества разных причин
 export async function handleResponse<T>(response: Response) {
   const data: Promise<T> = await response.json();
   if (response.ok) return data;
   return Promise.reject(data);
 }
 
-export async function fetchWithRefresh<T, U = RequestInit>(url: string, options: U, catcher: TCatcher<T, U>) {
+export async function fetchWithRefresh<T>(url: string, options: RequestInit, catcher: TCatcher<T>) {
   try {
-    const res = await fetch(url, options as unknown as RequestInit);
+    const res = await fetch(url, options);
     const data = await handleResponse<T>(res);
     return data;
-  } catch (err: any) {
+  } catch (err) {
     // кэтчер (у меня это tokenCatcher) асинхронная функция, потому надо ждать её ответа
     const data = await catcher(url, options, err);
     return data;
   }
 }
 
-export async function tokenCatcher(url: string, options: TRequestWithAuthorization, err: TError) {
+// Типизировать негативный ответ промиса не нужно, т.к. res.ok = false может быть из-за множества разных причин
+export async function tokenCatcher<T>(url: string, options: RequestInit, err: any) {
   if (err.message === 'jwt expired') {
     const refreshData = await refreshToken<TResponseRefreshToken>();
 
@@ -65,10 +38,13 @@ export async function tokenCatcher(url: string, options: TRequestWithAuthorizati
 
     localStorage.setItem("accessToken", refreshData.accessToken);
     localStorage.setItem("refreshToken", refreshData.refreshToken);
+    // https://stackoverflow.com/questions/67346496/typescript-authorization-does-not-exist-on-type-headersinit
+    const headersInit: HeadersInit = {};
+    options.headers = headersInit;
     options.headers.authorization = refreshData.accessToken;
     // я не менял тип объекта настроек (options), лишь добавил обязательное поле authorization
-    const res = await fetch(url, options as unknown as RequestInit);
-    const data = await handleResponse<TResponseRefreshToken>(res);
+    const res = await fetch(url, options);
+    const data = await handleResponse<T>(res);
     return data;
   } else {
     return Promise.reject(err);

@@ -1,5 +1,7 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/hooks";
+// если использовать стандартный диспатч, то TS не будет ругаться на вызов labuda()
+// import { useDispatch } from "react-redux";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import * as THistory from 'history';
 
@@ -28,12 +30,15 @@ function App (): JSX.Element {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // const labuda = () => {};
+
   /* в текущей позиции истории (location) в стейте (state) в поле background записывается
     весь location предыдущей точки истории, потому тип  THistory.Location */
   const historyState = location.state as { background?: THistory.Location} | null;
 
   useEffect(() => {
     dispatch(checkUserAuth());
+    // dispatch(labuda());
   }, []);
 
   return (

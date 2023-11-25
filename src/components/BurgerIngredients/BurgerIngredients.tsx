@@ -5,7 +5,7 @@ import styles from './BurgerIngredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import List from './List/List';
 import { getLoadingStatus } from '../../services/selectors/ingredientsSelector';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 import { TSuperRef } from '../../utils/types';
 
 
@@ -13,7 +13,7 @@ function BurgerIngredients(): JSX.Element {
   const [current, setCurrent] = useState('Булки');
   const navElem = useRef<HTMLElement>(null);
   const fourfoldRef = useRef<TSuperRef>(null);
-  const ingredientsLoading = useSelector(getLoadingStatus) as boolean;
+  const ingredientsLoading = useSelector(getLoadingStatus);
 
 
 

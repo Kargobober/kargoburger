@@ -1,17 +1,19 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { config, handleResponse } from "../../utils/api";
+import { config, handleResponse } from "../../utils/api/api";
+import { TRequestOrder, TResponseOrder } from "../../utils/api/types";
 
 
 
 export const postOrder = createAsyncThunk(
   'order/post',
-  (payload, thunkAPI) => {
+  (payload: TRequestOrder) => {
     return fetch(
       `${config.baseUrl}/orders`,
       {
         headers: {
           ...config.headers,
-          authorization: localStorage.getItem('accessToken'),
+          // токен будет, т.к. мы проверяем его наличие до отправки заказа
+          authorization: localStorage.getItem('accessToken')!,
         },
         method: 'POST',
         body: JSON.stringify({
@@ -19,6 +21,6 @@ export const postOrder = createAsyncThunk(
         }),
       }
     )
-      .then(handleResponse);
+      .then(handleResponse<TResponseOrder>);
   }
 );

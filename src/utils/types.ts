@@ -1,6 +1,6 @@
 export type TWithExtraId<T> = T & { readonly extraId: string };
 
-enum ProductsTypeList {
+export enum ProductsTypeList {
   bun = 'bun',
   main = 'main',
   sauce = 'sauce',

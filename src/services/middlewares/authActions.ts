@@ -1,10 +1,12 @@
-import { config, fetchWithRefresh, handleResponse, tokenCatcher } from "../../utils/api";
+import { config, fetchWithRefresh, handleResponse, tokenCatcher } from "../../utils/api/api";
+import { TRequestRegistration, TResponseGetUser, TResponseLogin, TResponseRegistration } from "../../utils/api/types";
 import { handleError } from "../../utils/utils";
 import { clearError, setAuthPending, setError, setRegisterPending, setRegisterSuccess, setUser, setUserPending, setUserSuccess } from "../slices/authSlice";
+import { AppDispatch } from "../types";
 
 
-export function registerUser(user) {
-  return (dispatch) => {
+export function registerUser(user: TRequestRegistration) {
+  return (dispatch: AppDispatch) => {
     dispatch(setRegisterPending(true));
 
     return fetch(
@@ -16,7 +18,7 @@ export function registerUser(user) {
       }
     )
       .then(res => {
-        return handleResponse(res);
+        return handleResponse<TResponseRegistration>(res);
       })
       .then(data => {
         dispatch(clearError());
@@ -26,8 +28,8 @@ export function registerUser(user) {
         localStorage.setItem('refreshToken', data.refreshToken);
       })
       .catch(err => {
-        dispatch(setError(err.message));
-        handleError('Ошибка регистрации: ', err.message);
+        dispatch(setError(err));
+        handleError('Ошибка регистрации: ', err);
       })
       .finally(() => {
         dispatch(setRegisterPending(false));
@@ -36,14 +38,15 @@ export function registerUser(user) {
 }
 
 export function getUser() {
-  return (dispatch) => {
-    return fetchWithRefresh(
+  return (dispatch: AppDispatch) => {
+    return fetchWithRefresh<TResponseGetUser>(
       `${config.baseUrl}/auth/user`,
       {
         method: 'GET',
         headers: {
-        'Content-Type': 'application/json',
-        authorization: localStorage.getItem('accessToken'),
+        //'Content-Type': 'application/json', - так ругается
+        ...config.headers,
+        authorization: localStorage.getItem('accessToken')!,
         }
       },
       tokenCatcher
@@ -59,9 +62,9 @@ export function getUser() {
   };
 }
 
-export function login(email, password) {
+export function login(email: string, password: string) {
 
-  return (dispatch) => {
+  return (dispatch: AppDispatch) => {
     dispatch(setUserPending(true));
 
     return fetch(
@@ -77,15 +80,16 @@ export function login(email, password) {
         }),
       }
     )
-      .then(handleResponse)
+      .then(handleResponse<TResponseLogin>)
       .then(data => {
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('refreshToken', data.refreshToken);
         dispatch(setUser(data.user));
+        dispatch(setUserSuccess(true));
       })
       .catch(err => {
         dispatch(setUserSuccess(false));
-        handleError('Ошибка при попытке входа в аккаунт: ', err.message)
+        handleError('Ошибка при попытке входа в аккаунт: ', err)
       })
       .finally(() => {
         dispatch(setUserPending(false));
@@ -99,7 +103,7 @@ export function login(email, password) {
 
 // вызывается при монтировании App
 export function checkUserAuth() {
-  return (dispatch) => {
+  return (dispatch: AppDispatch) => {
     dispatch(setAuthPending(true));
     if (localStorage.getItem('accessToken')) {
       dispatch(getUser())
@@ -108,7 +112,7 @@ export function checkUserAuth() {
           localStorage.removeItem('refreshToken');
           dispatch(setUser(null));
           dispatch(setUserSuccess(false));
-          handleError('Ошибка авторизации: ', err.message);
+          handleError('Ошибка авторизации: ', err);
         })
         .finally(() => {
           dispatch( setAuthPending(false) )

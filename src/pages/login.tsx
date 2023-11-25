@@ -8,7 +8,7 @@ import ActionsZone from '../components/Form/ActionsZone/ActionsZone';
 import AdditionalActions from '../components/Form/AdditionalActions/AdditionalActions';
 import Action from '../components/Form/Action/Action';
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/hooks';
 import { login } from '../services/middlewares/authActions';
 import { getUserPending, getUserSuccess } from '../services/selectors/authSelector';
 import { useNavigate } from 'react-router';
@@ -31,8 +31,8 @@ function LoginPage() {
   // см. register.jsx
   const [isFocus, setIsFocus] = useState(false);
 
-  const userPending = useSelector(getUserPending) as boolean;
-  const userSuccess = useSelector(getUserSuccess) as boolean | null;
+  const userPending = useSelector(getUserPending);
+  const userSuccess = useSelector(getUserSuccess);
 
 
 

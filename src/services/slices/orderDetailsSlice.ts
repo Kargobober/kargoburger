@@ -1,8 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { postOrder } from "../middlewares/orderDetailsQueries";
 
+type TStateOrderDetail = {
+  name: string;
+  order: {
+    number: number;
+  };
+  success: boolean | undefined;
+  isLoading: boolean;
+  error: unknown;
+  needDetails: boolean;
+};
 
-const initialState = {
+const initialState: TStateOrderDetail = {
   name: '',
   order: {
     number: 0,
@@ -17,32 +27,32 @@ export const orderDetailsSlice = createSlice({
   name: 'orderDetails',
   initialState,
   reducers: {
-    setNeedingDetails: (state, action) => {
+    setNeedingDetails: (state, action: PayloadAction<boolean>) => {
       state.needDetails = action.payload;
     },
     resetOrderNumber: (state) => {
-      state.order.number = 0;
+      state.order.number = initialState.order.number;
     }
   },
-  extraReducers: {
-    [postOrder.pending.type]: (state) => {
+  extraReducers: builder => {
+    builder.addCase(postOrder.pending, (state) => {
       state.success = undefined;
       state.isLoading = true;
       state.error = '';
-    },
-    [postOrder.fulfilled.type]: (state, action) => {
+    })
+    builder.addCase(postOrder.fulfilled, (state, action) => {
       state.name = action.payload.name;
       state.order.number = action.payload.order.number;
       state.success = action.payload.success;
       state.isLoading = false;
       state.error = '';
-    },
-    [postOrder.rejected.type]: (state, action) => {
+    })
+    builder.addCase(postOrder.rejected, (state, action) => {
       state.success = false;
       state.isLoading = false;
-      state.error = action.error;
-    },
-  }
+      state.error = action.payload;
+    })
+  },
 });
 
 export const { setNeedingDetails, resetOrderNumber } = orderDetailsSlice.actions;

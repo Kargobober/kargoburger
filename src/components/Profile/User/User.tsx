@@ -4,13 +4,12 @@ import { Toaster } from 'react-hot-toast';
 import EditZone from '../../Form/EditZone/EditZone';
 import ActionsZone from '../../Form/ActionsZone/ActionsZone';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../../services/hooks';
 import styles from './User.module.css';
 import { useLocation } from 'react-router';
 import { getChangeUserDataPending, getChangeUserDataSuccess, getUserState, getUserSuccess } from '../../../services/selectors/authSelector';
 import { changeUserData } from '../../../services/middlewares/authQueries';
 import { stellarToast } from '../../../utils/utils';
-import { TUser } from '../../../utils/api';
 
 function User(): JSX.Element {
   const dispatch = useDispatch();
@@ -19,10 +18,10 @@ function User(): JSX.Element {
   const [userName, setUserName] = useState('');
   const [hasUserNameError, setHasUserNameError] = useState(false);
 
-  const user = useSelector(getUserState) as TUser | null;
-  const userSuccess = useSelector(getUserSuccess) as boolean;
-  const changeUserDataPending = useSelector(getChangeUserDataPending) as boolean;
-  const changeUserDataSuccess = useSelector(getChangeUserDataSuccess) as boolean | null;
+  const user = useSelector(getUserState);
+  const userSuccess = useSelector(getUserSuccess);
+  const changeUserDataPending = useSelector(getChangeUserDataPending) ;
+  const changeUserDataSuccess = useSelector(getChangeUserDataSuccess);
 
   const [email, setEmail] = useState('');
   const [hasEmailError, setHasEmailError] = useState(false);
@@ -91,7 +90,6 @@ function User(): JSX.Element {
 // КНОПКИ
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    //@ts-ignore
     dispatch(changeUserData({ name: userName, email, password }));
   };
   const revertChanges = () => {

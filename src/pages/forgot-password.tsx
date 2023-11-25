@@ -1,7 +1,7 @@
 import styles from './forgot-password.module.css';
 
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/hooks';
 import { useNavigate } from 'react-router';
 
 import { sendResetCode } from '../services/middlewares/authQueries';
@@ -28,8 +28,8 @@ function ForgotPasswordPage(): JSX.Element {
   // см. register.jsx
   const [isFocus, setIsFocus] = useState(false);
 
-  const resetCodeSuccess = useSelector(getResetCodeSuccess) as boolean | null;
-  const resetPasswordPending = useSelector(getResetPasswordPending) as boolean;
+  const resetCodeSuccess = useSelector(getResetCodeSuccess);
+  const resetPasswordPending = useSelector(getResetPasswordPending);
 
 
 
@@ -59,8 +59,7 @@ function ForgotPasswordPage(): JSX.Element {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(setEmailOnStorage(email));
-    //@ts-ignore
-    dispatch(sendResetCode(email));
+    dispatch(sendResetCode({email}));
   };
 
   useEffect(() => {

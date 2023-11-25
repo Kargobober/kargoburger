@@ -1,17 +1,19 @@
-export const getResetPasswordSuccess = (state) => state.auth.resetPasswordSuccess;
-export const getResetPasswordPending = (state) => state.auth.resetPasswordPending;
-export const getResetCodeSuccess = (state) => state.auth.resetCodeSuccess;
+import { RootState } from "../types";
 
-export const getUserSuccess = (state) => state.auth.userSuccess;
-export const getUserPending = (state) => state.auth.userPending;
-export const getUserState = (state) => state.auth.user;
+export const getResetPasswordSuccess = (state: RootState) => state.auth.resetPasswordSuccess;
+export const getResetPasswordPending = (state: RootState) => state.auth.resetPasswordPending;
+export const getResetCodeSuccess = (state: RootState) => state.auth.resetCodeSuccess;
 
-export const getChangeUserDataSuccess = (state) => state.auth.changeUserDataSuccess;
-export const getChangeUserDataPending = (state) => state.auth.changeUserDataPending;
+export const getUserSuccess = (state: RootState) => state.auth.userSuccess;
+export const getUserPending = (state: RootState) => state.auth.userPending;
+export const getUserState = (state: RootState) => state.auth.user;
 
-export const getLogOutSuccess = (state) => state.auth.logOutSuccess;
-export const getLogOutPending = (state) => state.auth.logOutPending;
+export const getChangeUserDataSuccess = (state: RootState) => state.auth.changeUserDataSuccess;
+export const getChangeUserDataPending = (state: RootState) => state.auth.changeUserDataPending;
 
-export const getAuthPending = (state) => state.auth.authPending;
+export const getLogOutSuccess = (state: RootState) => state.auth.logOutSuccess;
+export const getLogOutPending = (state: RootState) => state.auth.logOutPending;
 
-export const getUserFromState = (state) => state.auth.user;
+export const getAuthPending = (state: RootState) => state.auth.authPending;
+
+export const getUserFromState = (state: RootState) => state.auth.user;

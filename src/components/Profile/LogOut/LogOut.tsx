@@ -2,7 +2,7 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useEffect } from 'react';
 import styles from './LogOut.module.css';
 import { useNavigate } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../../services/hooks';
 import { getLogOutPending, getLogOutSuccess } from '../../../services/selectors/authSelector';
 import { logOut } from '../../../services/middlewares/authQueries';
 
@@ -17,8 +17,8 @@ function LogOut(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const logOutPending = useSelector(getLogOutPending) as boolean;
-  const logOutSuccess = useSelector(getLogOutSuccess) as boolean;
+  const logOutPending = useSelector(getLogOutPending);
+  const logOutSuccess = useSelector(getLogOutSuccess);
 
 
   const holdThisDude = () => {
@@ -45,7 +45,7 @@ function LogOut(): JSX.Element {
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       // навигировать на вход или это будет делать защищенный роут?
-      navigate('/login');
+      // navigate('/login');
     }
   }, [logOutSuccess]);
 
