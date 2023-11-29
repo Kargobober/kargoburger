@@ -26,7 +26,8 @@ const Protected = ({ onlyUnAuth = false, component }: TProps) => {
     // Запрос еще выполняется
     return (
       <MoonLoader
-          color={colorInterfaceAccent}
+          // не получилось передать переменной
+          color='#4c4cff'
           size={120}
           cssOverride={{
             marginTop: '120px',

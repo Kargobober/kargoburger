@@ -6,7 +6,7 @@
   width: 100%;
   max-width: 1280px;
   box-sizing: border-box;
-  padding-top: calc(var(--offset-base-size) * 30);
+  padding-top: 40px;
   padding-left: calc(var(--offset-base-size) * 5);
   padding-right: calc(var(--offset-base-size) * 5);
 }
@@ -48,5 +48,6 @@
 .navSection {
   max-width: 320px;
   width: 100%;
+  margin-top: 80px;
 }
 

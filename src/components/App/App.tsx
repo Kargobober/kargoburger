@@ -24,12 +24,20 @@ import NotFound404Page from "../../pages/not-found-404";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import IngredientPage from "../../pages/ingredient";
+import { ingredientsQuery } from "../../services/middlewares/ingredientsQuery";
+import OrderPage from "../../pages/orderPage";
+import FeedPage from "../../pages/feed";
+import OrderInfo from "../OrderInfo/OrderInfo";
 
 
 function App (): JSX.Element {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(ingredientsQuery());
+  }, []);
 
   // const labuda = () => {};
 
@@ -54,6 +62,10 @@ function App (): JSX.Element {
           <Route path='reset-password' element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
 
           <Route path='ingredients/:id' element={<IngredientPage />} />
+          <Route path='feed/:id' element={<OrderPage />} />
+          <Route path='profile/orders/:id' element={<OrderPage />} />
+
+          <Route path='feed' element={<FeedPage />} />
 
           <Route path='profile' element={<OnlyAuth component={<ProfilePage />} />} >
             <Route index element={<User />} />
@@ -67,7 +79,7 @@ function App (): JSX.Element {
 
       {historyState?.background && (
         <Routes>
-          <Route path='ingredients/:id' element={
+          <Route path='/ingredients/:id' element={
             <Modal heading='Детали ингредиента'
               onClose={() => {
                 dispatch(clearInfo());
@@ -75,6 +87,28 @@ function App (): JSX.Element {
               }}
             >
               <IngredientDetails />
+            </Modal>
+          }/>
+
+          <Route path='/profile/orders/:id' element={
+            <Modal
+              onClose={() => {
+                // dispatch();
+                navigate('/profile/orders');
+              }}
+            >
+              <OrderInfo />
+            </Modal>
+          }/>
+
+          <Route path='/feed/:id' element={
+            <Modal
+              onClose={() => {
+                // dispatch();
+                navigate('/feed');
+              }}
+            >
+              <OrderInfo />
             </Modal>
           }/>
         </Routes>

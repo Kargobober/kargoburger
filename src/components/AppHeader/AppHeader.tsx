@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 function AppHeader(): JSX.Element {
   const headerLinks = [
     { name: 'Конструктор', img: BurgerIcon, to: '/' },
-    { name: 'Лента заказов', img: ListIcon, to: '/orders-global' },
+    { name: 'Лента заказов', img: ListIcon, to: '/feed' },
     { name: 'Личный кабинет', img: ProfileIcon, to: '/profile' },
   ] //кавычки не ставим в значении поля иконок, иначе реакт не поймёт
 

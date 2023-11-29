@@ -1,21 +1,14 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from '../services/hooks';
+import { useSelector } from '../services/hooks';
 import { useParams } from 'react-router';
 import { getIngredients } from '../services/selectors/ingredientsSelector';
 import { findIngredientObj } from '../utils/utils';
 import styles from './ingredient.module.css';
 import stylesGlobal from '../index.css';
-import { ingredientsQuery } from '../services/middlewares/ingredientsQuery';
 import { TIngredientExtraId } from '../utils/types';
 
 const IngredientPage = () => {
-  const dispatch = useDispatch();
-
   const { id } = useParams();
-
-  useEffect(() => {
-    dispatch(ingredientsQuery());
-  }, []);
 
   const ingredientsData = useSelector(getIngredients);
   const [ingredient, setIngredient] = useState<TIngredientExtraId | null>(null);

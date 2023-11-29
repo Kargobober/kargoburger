@@ -1,0 +1,10 @@
+.ordersList {
+  display: grid;
+  grid-column-start: 2;
+  grid-column-end: 4;
+  width: 100%;
+  row-gap: calc(var(--offset-base-size) * 6);
+  overflow: auto;
+  padding-right: calc(var(--offset-base-size) * 2);
+  box-sizing: border-box;
+}
