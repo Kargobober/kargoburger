@@ -11,7 +11,7 @@ import { countIngredient, findIngredientObj } from '../../utils/utils';
 import { useSelector } from '../../services/hooks';
 import { getIngredients, getLoadingStatus } from '../../services/selectors/ingredientsSelector';
 
-type TData = {
+export type TData = {
   number: number;
   name: string;
   statusRus: string;
@@ -43,26 +43,25 @@ const OrderInfo: FC = () => {
   }, [isLoading, ingredientsFromServer])
 
   return (
-    <section>
-      <p>#{number}</p>
+    <section className={styles.section}>
+      <h2 className={`text text_type_main-medium mb-2 mt-5`}>{name}</h2>
+      <p className={`text text_type_main-default ${statusRus === 'Выполнен' ? styles.success : ''}`}>{statusRus}</p>
 
-      <h2>{name}</h2>
-      <p>{statusRus}</p>
-
-      <h3>Состав:</h3>
-      <ol>
-        {ingredients.map(el => (<Item
+      <h3 className='text text_type_main-medium mt-15 mb-6'>Состав:</h3>
+      <ol className={`mb-10 ${styles.list} listGlobal custom-scroll`}>
+        {ingredients.map((el, i) => (<Item
             image={el.image}
             image_mobile={el.image_mobile}
             name={el.name}
             qty={el.qty}
             price={el.price}
+            key={i}
           />
         ))}
       </ol>
-      <div>
-        <FormattedDate date={new Date(time)}/>
-        <Price value={price} digitsSize='medium'/>
+      <div className={styles.footer}>
+        <FormattedDate date={new Date(time)} className='text text_type_main-default text_color_inactive' />
+        <Price value={price} digitsSize='default' />
       </div>
     </section>
   )

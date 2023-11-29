@@ -1,0 +1,24 @@
+.item {
+  /* width: 100%; */
+  display: grid;
+  grid-template-columns: 10% 50% 30%;
+  column-gap: calc(var(--offset-base-size) * 4);
+  align-items: center;
+}
+
+.circle {
+  width: 64px;
+  height: 64px;
+  border: 2px solid var(--colors-interface-accent);
+  border-radius: 100px;
+  padding: 4px 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: var(--background-alt);
+}
+
+.image {
+  height: 100%;
+  object-fit: cover;
+  object-position: -21px 0;
+}

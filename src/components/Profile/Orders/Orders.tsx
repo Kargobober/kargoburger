@@ -11,18 +11,22 @@ const testData = {
     {
       ingredients: [
         "643d69a5c3f7b9001cfa093c",
+        "643d69a5c3f7b9001cfa0941",
+        "643d69a5c3f7b9001cfa0948",
+        "643d69a5c3f7b9001cfa0945",
+        "643d69a5c3f7b9001cfa0949",
+        "643d69a5c3f7b9001cfa094a",
         "643d69a5c3f7b9001cfa093c",
         "643d69a5c3f7b9001cfa0941",
         "643d69a5c3f7b9001cfa0941",
         "643d69a5c3f7b9001cfa0941",
         "643d69a5c3f7b9001cfa0941",
         "643d69a5c3f7b9001cfa0941",
-        "643d69a5c3f7b9001cfa0941",
       ],
-      _id: "11",
+      _id: "114",
       status: "done",
-      number: 1111,
-      createdAt: "2021-06-23T14:43:22.587Z",
+      number: 1000,
+      createdAt: "2007-06-23T10:10:22.587Z",
       updatedAt: "2021-06-23T14:43:22.603Z",
       name: 'Spicy mega-bruch',
     },
@@ -48,8 +52,6 @@ const testData = {
       ingredients: [
         "643d69a5c3f7b9001cfa093c",
         "643d69a5c3f7b9001cfa093c",
-        "643d69a5c3f7b9001cfa0941",
-        "643d69a5c3f7b9001cfa0941",
         "643d69a5c3f7b9001cfa0941",
         "643d69a5c3f7b9001cfa0941",
         "643d69a5c3f7b9001cfa0941",
@@ -140,7 +142,7 @@ const Orders = () => {
 
   return (
     <>
-      <ol className={styles.ordersList + ` listGlobal custom-scroll`} ref={listRef} style={{ height: permittedHeight }}>
+      <ol className={styles.ordersList + ` listGlobal custom-scroll pt-1`} ref={listRef} style={{ height: permittedHeight }}>
         {testData.orders.map((el, i) => {
           return (
             <Order ingredients={el.ingredients}
@@ -150,11 +152,12 @@ const Orders = () => {
               name={el.name}
               key={i}
               status={el.status}
+              usageCase='profile/orders'
             />
           )
         })}
       </ol>
-      <Outlet />
+      {/* <Outlet /> */}
     </>
   )
 };

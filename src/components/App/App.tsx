@@ -27,7 +27,7 @@ import IngredientPage from "../../pages/ingredient";
 import { ingredientsQuery } from "../../services/middlewares/ingredientsQuery";
 import OrderPage from "../../pages/orderPage";
 import FeedPage from "../../pages/feed";
-import OrderInfo from "../OrderInfo/OrderInfo";
+import OrderInfo, { TData } from "../OrderInfo/OrderInfo";
 
 
 function App (): JSX.Element {
@@ -43,7 +43,7 @@ function App (): JSX.Element {
 
   /* в текущей позиции истории (location) в стейте (state) в поле background записывается
     весь location предыдущей точки истории, потому тип  THistory.Location */
-  const historyState = location.state as { background?: THistory.Location} | null;
+  const historyState = location.state as { background?: THistory.Location, data?: TData } | null;
 
   useEffect(() => {
     dispatch(checkUserAuth());
@@ -89,13 +89,21 @@ function App (): JSX.Element {
               <IngredientDetails />
             </Modal>
           }/>
+        </Routes>
+      )}
 
-          <Route path='/profile/orders/:id' element={
+      {historyState?.data && (
+        <Routes>
+          <Route path='/profile/orders/:idPO' element={
             <Modal
               onClose={() => {
                 // dispatch();
                 navigate('/profile/orders');
               }}
+              pt='10' pr='10' pb='10' pl='10'
+              heading={`#${historyState.data.number}`}
+              extraClass='text text_type_digits-default'
+              lineHeight="2.286"
             >
               <OrderInfo />
             </Modal>
@@ -107,6 +115,10 @@ function App (): JSX.Element {
                 // dispatch();
                 navigate('/feed');
               }}
+              pt='10' pr='10' pb='10' pl='10'
+              heading={`#${historyState.data.number}`}
+              extraClass='text text_type_digits-default'
+              lineHeight="2.286"
             >
               <OrderInfo />
             </Modal>

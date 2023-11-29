@@ -15,11 +15,12 @@ type TOrderProps = {
   createdAt: string;
   name: string;
   status: string;
+  usageCase: 'feed' | 'profile/orders';
 };
 
 
 
-const Order: FC<TOrderProps> = ({ ingredients, _id, number, createdAt, name, status }) => {
+const Order: FC<TOrderProps> = ({ ingredients, _id, number, createdAt, name, status, usageCase }) => {
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -44,7 +45,7 @@ const Order: FC<TOrderProps> = ({ ingredients, _id, number, createdAt, name, sta
         setIsNull(true);
       } else {
         // и только послё всего этого меняем стейт (минимизируем ререндеры)
-        setIngredientsArr([...ingredientsArrNew]);
+        setIngredientsArr(ingredientsArrNew);
         setIsNull(false);
       }
     };
@@ -69,9 +70,9 @@ const Order: FC<TOrderProps> = ({ ingredients, _id, number, createdAt, name, sta
   const price = ingredientsArr.reduce((acc, el) => acc + el!.price, 0);
 
   return (
-    <li className={`${styles.item} ${isNull ? styles.nullish : ''}`}>
+    <li className={`${styles.item} ${isNull ? styles.nullish : ''} `}>
       <Link to={isNull ? 'https://yandex.ru/support/market/return/terms.html#return__money'
-                : `/profile/orders/${_id}`}
+                : `/${usageCase}/${_id}`}
         state = {{
           background: location,
           data: {
@@ -83,7 +84,7 @@ const Order: FC<TOrderProps> = ({ ingredients, _id, number, createdAt, name, sta
             price
           }
         }}
-        className='linkGlobal'
+        className={`linkGlobal ${styles.link}`}
         target={!isNull ? '' : '_blank'}
         rel={!isNull ? '' : "noopener noreferrer"}
       >
@@ -110,12 +111,12 @@ const Order: FC<TOrderProps> = ({ ingredients, _id, number, createdAt, name, sta
             </div>
 
             <div>
-              <h4 className='text text_type_main-medium mb-2'>{name}</h4>
-              <p className={`text text_type_main-default
-              ${status === 'done' ? styles.success : ''}`}
-              >
-                {statusRus}
-              </p>
+              <h4 className={`text text_type_main-medium ${usageCase === 'feed' ? 'mb-6' : 'mb-2'} mt-6`}>{name}</h4>
+              {usageCase !== 'feed' ? (
+                <p className={`text text_type_main-default mb-6 ${status === 'done' ? styles.success : ''}`}>
+                  {statusRus}
+                </p>
+              ) : null}
             </div>
 
             <div className={styles.footer}>
@@ -138,7 +139,7 @@ const Order: FC<TOrderProps> = ({ ingredients, _id, number, createdAt, name, sta
                           alt={el!.name}
                           className={styles.image}
                         />
-                        <span className={`text text_type_main-default ${styles.counter}`}>+{arr.length - i}</span>
+                        {<span className={`text text_type_main-default ${arr.length - i === 1 ? '' : styles.counter}`}>+{arr.length - i}</span>}
                       </li>
                     );
 

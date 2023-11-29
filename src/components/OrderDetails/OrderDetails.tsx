@@ -13,7 +13,7 @@ function OrderDetails(): JSX.Element {
 
   return (
     <div className={`${styles.container}`}>
-      <h3 className={`text text_type_digits-large ${styles.heading}`}>{orderNumber ? orderNumber : ' . . . . . '}</h3>
+      <h3 className={`text text_type_digits-large ${styles.heading} text_decor_shadow`}>{orderNumber ? orderNumber : ' . . . . . '}</h3>
       <p className='text text_type_main-medium mt-8'>идентификатор заказа</p>
       {!isLoading && success ? (
         <img src={orderAcceptedSvg} alt="Статус заказа" className='mt-15 mb-15' />
