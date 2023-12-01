@@ -2,6 +2,7 @@ import { FC, useRef, useState, useEffect } from 'react';
 import styles from './feed.module.css';
 import Order from '../components/Order/Order';
 import { getTopCoords } from '../utils/utils';
+import { StatusKind, TResponseGetOrder } from '../utils/api/types';
 
 const FeedPage: FC = () => {
   const testData = {
@@ -113,7 +114,7 @@ const FeedPage: FC = () => {
         ],
         _id: "114",
         status: "done",
-        number: 1000,
+        number: 25567,
         createdAt: "2007-06-23T10:10:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z",
         name: 'Spicy mega-bruch',
@@ -135,7 +136,7 @@ const FeedPage: FC = () => {
         ],
         _id: "114",
         status: "done",
-        number: 1000,
+        number: 25565,
         createdAt: "2007-06-23T10:10:22.587Z",
         updatedAt: "2021-06-23T14:43:22.603Z",
         name: 'Spicy mega-bruch',
@@ -464,7 +465,7 @@ const FeedPage: FC = () => {
 
     total: 26510,
     totalToday: 124,
-  };
+  } as unknown as TResponseGetOrder;
   // логика доступной высота, для скролла
   const listRef = useRef<HTMLOListElement>(null);
   const [permittedHeight, setPermittedHeight] = useState(744);
@@ -483,8 +484,8 @@ const FeedPage: FC = () => {
   }, [windowHeight]);
 
   const { orders, total, totalToday } = testData;
-  const completedOrders = orders.filter(el => el.status === 'done');
-  const pendingdOrders = orders.filter(el => el.status === 'pending');
+  const completedOrders = orders.filter(el => el.status === StatusKind.DONE);
+  const pendingdOrders = orders.filter(el => el.status === StatusKind.PENDING);
 
   return (
     <main className={`${styles.main} pl-5 pr-5`}>
@@ -493,7 +494,7 @@ const FeedPage: FC = () => {
 
       <section>
         {/* h3 фикция - Список заказов */}
-        <ol className={styles.ordersList + ` listGlobal custom-scroll pt-1`} ref={listRef} style={{ height: permittedHeight }}>
+        <ol className={styles.ordersList + ` listGlobal custom-scroll pt-1 pb-3`} ref={listRef} style={{ height: permittedHeight }}>
           {/* h4 - заголовок каждого заказа */}
           {testData.orders.map((el, i) => {
             return (
@@ -503,7 +504,7 @@ const FeedPage: FC = () => {
                 createdAt={el.createdAt}
                 name={el.name}
                 key={i}
-                status={el.status}
+                status={el.status!}
                 usageCase='feed'
               />
             )

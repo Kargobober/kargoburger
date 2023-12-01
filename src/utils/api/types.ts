@@ -77,15 +77,40 @@ export type TResponseIngredients = {
 /**
  * @param ingredient array of '_id'
  */
-export type TRequestOrder = {
+export type TRequestPostOrder = {
   ingredients: string[];
 };
-export type TResponseOrder = {
+export type TResponsePostOrder = {
   name: string;
   order: {
     number: number;
   };
   success: boolean;
+};
+
+export enum StatusKind {
+  CREATED = 'created',
+  PENDING = 'pending',
+  DONE = 'done',
+}
+
+export type TOrder = {
+  _id: string;
+  ingredients: string[];
+  owner: string;
+  status: StatusKind | null;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
+  __v: number;
+};
+
+export type TResponseGetOrder = {
+  success: boolean;
+  orders: Array<TOrder>;
+  total: number;
+  totalToday: number;
 };
 
 /**

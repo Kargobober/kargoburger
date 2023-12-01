@@ -3,6 +3,7 @@ import Order from '../../Order/Order';
 import styles from './Orders.module.css';
 import { getTopCoords } from '../../../utils/utils';
 import { Outlet } from 'react-router';
+import { TResponseGetOrder } from '../../../utils/api/types';
 
 const testData = {
   success: true,
@@ -120,7 +121,7 @@ const testData = {
 
   total: 26510,
   totalToday: 124,
-};
+} as unknown as TResponseGetOrder;
 
 const Orders = () => {
   const listRef = useRef<HTMLOListElement>(null);
@@ -142,7 +143,7 @@ const Orders = () => {
 
   return (
     <>
-      <ol className={styles.ordersList + ` listGlobal custom-scroll pt-1`} ref={listRef} style={{ height: permittedHeight }}>
+      <ol className={styles.ordersList + ` listGlobal custom-scroll pt-1 pb-3`} ref={listRef} style={{ height: permittedHeight }}>
         {testData.orders.map((el, i) => {
           return (
             <Order ingredients={el.ingredients}
@@ -151,13 +152,12 @@ const Orders = () => {
               createdAt={el.createdAt}
               name={el.name}
               key={i}
-              status={el.status}
+              status={el.status!}
               usageCase='profile/orders'
             />
           )
         })}
       </ol>
-      {/* <Outlet /> */}
     </>
   )
 };

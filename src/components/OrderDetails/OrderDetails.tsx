@@ -1,3 +1,5 @@
+// КОНТЕНТ МОДАЛКИ ПРИ НАЖАТИИ "ОФОРМИТЬ ЗАКАЗ"
+
 import styles from './OrderDetails.module.css';
 import orderAcceptedSvg from '../../images/order-accepted.svg';
 import { useSelector } from '../../services/hooks';

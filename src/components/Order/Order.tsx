@@ -1,12 +1,13 @@
 import { FC, useEffect, useState } from 'react';
 import Price from '../Price/Price';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
-import { findIngredientObj } from '../../utils/utils';
+import { findIngredientObj, translateOrderStatus } from '../../utils/utils';
 import { useDispatch, useSelector } from '../../services/hooks';
 import { getIngredients, getLoadingStatus } from '../../services/selectors/ingredientsSelector';
 import { TIngredientExtraId } from '../../utils/types';
 import styles from './Order.module.css';
 import { Link, useLocation } from 'react-router-dom';
+import { StatusKind } from '../../utils/api/types';
 
 type TOrderProps = {
   ingredients: string[];
@@ -14,7 +15,7 @@ type TOrderProps = {
   number: number;
   createdAt: string;
   name: string;
-  status: string;
+  status: StatusKind;
   usageCase: 'feed' | 'profile/orders';
 };
 
@@ -51,28 +52,14 @@ const Order: FC<TOrderProps> = ({ ingredients, _id, number, createdAt, name, sta
     };
   }, [ingredientsFromServer, isLoading]);
 
-  let statusRus: string;
-  switch (status) {
-    case 'created':
-      statusRus = 'Создан';
-      break;
-    case 'pending':
-      statusRus = 'Готовится';
-      break;
-    case 'done':
-      statusRus = 'Выполнен';
-      break;
-    default:
-      statusRus = '';
-      break;
-  };
+  const statusRus = translateOrderStatus(status);
 
   const price = ingredientsArr.reduce((acc, el) => acc + el!.price, 0);
 
   return (
     <li className={`${styles.item} ${isNull ? styles.nullish : ''} `}>
       <Link to={isNull ? 'https://yandex.ru/support/market/return/terms.html#return__money'
-                : `/${usageCase}/${_id}`}
+                : `/${usageCase}/${number}`}
         state = {{
           background: location,
           data: {
@@ -113,7 +100,7 @@ const Order: FC<TOrderProps> = ({ ingredients, _id, number, createdAt, name, sta
             <div>
               <h4 className={`text text_type_main-medium ${usageCase === 'feed' ? 'mb-6' : 'mb-2'} mt-6`}>{name}</h4>
               {usageCase !== 'feed' ? (
-                <p className={`text text_type_main-default mb-6 ${status === 'done' ? styles.success : ''}`}>
+                <p className={`text text_type_main-default mb-6 ${status === StatusKind.DONE ? styles.success : ''}`}>
                   {statusRus}
                 </p>
               ) : null}

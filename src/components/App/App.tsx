@@ -62,8 +62,8 @@ function App (): JSX.Element {
           <Route path='reset-password' element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
 
           <Route path='ingredients/:id' element={<IngredientPage />} />
-          <Route path='feed/:id' element={<OrderPage />} />
-          <Route path='profile/orders/:id' element={<OrderPage />} />
+          <Route path='feed/:number' element={<OrderPage />} />
+          <Route path='profile/orders/:number' element={<OrderPage />} />
 
           <Route path='feed' element={<FeedPage />} />
 
@@ -94,7 +94,7 @@ function App (): JSX.Element {
 
       {historyState?.data && (
         <Routes>
-          <Route path='/profile/orders/:idPO' element={
+          <Route path='/profile/orders/:number' element={
             <Modal
               onClose={() => {
                 // dispatch();
@@ -109,7 +109,7 @@ function App (): JSX.Element {
             </Modal>
           }/>
 
-          <Route path='/feed/:id' element={
+          <Route path='/feed/:number' element={
             <Modal
               onClose={() => {
                 // dispatch();
