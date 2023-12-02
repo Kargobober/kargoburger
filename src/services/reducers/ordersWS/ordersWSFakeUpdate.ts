@@ -1,18 +1,8 @@
 import { TResponseGetOrders } from '../../../utils/api/types';
-import {
-  OrdersWSActionType,
-  OrdersWSActions,
-} from '../../types/ordersWS';
-
-export const ordersWSFakeUpdate = (prevData: TResponseGetOrders, actions: OrdersWSActions): TResponseGetOrders => {
-  let data = prevData;
-  actions.forEach((action) => {
-    switch (action.type) {
-      case OrdersWSActionType.DATA:
-        data = action.data;
-        break;
-    }
-  });
-
+import { Data } from '../../types/ordersWS';
+// так и не понял как что и зачем
+export const ordersWSFakeUpdate = (prevdata: TResponseGetOrders, action: Data): TResponseGetOrders => {
+  let data = prevdata;
+  data = action.data;
   return data;
 };

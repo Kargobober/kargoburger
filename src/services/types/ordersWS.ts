@@ -16,5 +16,3 @@ export type Data = {
 };
 
 export type OrdersWSAction = Data;
-
-export type OrdersWSActions = Array<OrdersWSAction>;

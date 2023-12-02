@@ -1,7 +1,6 @@
 import { WebsocketStatus } from '../../types/ordersWS';
 import { TResponseGetOrders } from "../../../utils/api/types";
 import { createReducer } from '@reduxjs/toolkit'
-import { ordersWSFakeUpdate } from './ordersWSFakeUpdate';
 import { wsOpen, wsClose, wsMessage, wsError, wsConnecting } from "./actions";
 
 export type OrdersWSStore = {
@@ -14,17 +13,8 @@ const initialState: OrdersWSStore = {
   status: WebsocketStatus.OFFLINE,
   connectionError: '',
   data: {
-    success: undefined,
-    orders: [{
-      _id: '',
-      ingredients: [],
-      status: null,
-      name: '',
-      createdAt: '',
-      updatedAt: '',
-      number: 0,
-      __v: 0,
-    }],
+    success: null,
+    orders: [],
     total: 0,
     totalToday: 0,
   },
@@ -46,7 +36,7 @@ export const ordersWSReducer = createReducer(initialState, (builder) => {
       state.connectionError = action.payload;
     })
     .addCase(wsMessage, (state, action) => {
-      state.data = ordersWSFakeUpdate(state.data, action.payload)
+      state.data = action.payload;
     })
 });
 

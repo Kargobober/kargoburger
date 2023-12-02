@@ -1,24 +1,24 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { socketMiddleware } from "./middlewares/socket-middleware";
 import {
-  connect as LiveTableWsConnect,
-  disconnect as LiveTableWsDisconnect,
-  wsConnecting as LiveTableWsConnecting,
-  wsOpen as LiveTableWsOpen,
-  wsClose as LiveTableWsClose,
-  wsMessage as LiveTableWsNessage,
-  wsError as LiveTableWsError
+  connect as OrdersWsConnect,
+  disconnect as OrdersWsDisconnect,
+  wsConnecting as OrdersWsConnecting,
+  wsOpen as OrdersWsOpen,
+  wsClose as OrdersWsClose,
+  wsMessage as OrdersWsNessage,
+  wsError as OrdersWsError
 } from "./reducers/ordersWS/actions";
 import { rootReducer } from "./types";
 
 const wsActions = {
-  wsConnect: LiveTableWsConnect,
-  wsDisconnect: LiveTableWsDisconnect,
-  wsConnecting: LiveTableWsConnecting,
-  onOpen: LiveTableWsOpen,
-  onClose: LiveTableWsClose,
-  onError: LiveTableWsError,
-  onMessage: LiveTableWsNessage,
+  wsConnect: OrdersWsConnect,
+  wsDisconnect: OrdersWsDisconnect,
+  wsConnecting: OrdersWsConnecting,
+  onOpen: OrdersWsOpen,
+  onClose: OrdersWsClose,
+  onError: OrdersWsError,
+  onMessage: OrdersWsNessage,
 };
 
 const ordersWSMiddleware = socketMiddleware(wsActions);
