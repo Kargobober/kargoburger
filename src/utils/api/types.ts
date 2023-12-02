@@ -107,8 +107,15 @@ export type TOrder = {
 };
 
 export type TResponseGetOrder = {
-  success: boolean;
+  success: boolean | undefined;
   orders: Array<TOrder>;
+  total: number;
+  totalToday: number;
+};
+
+export type TResponseGetOrders = {
+  success: boolean | undefined;
+  orders: Array<Omit<TOrder, 'owner'>>;
   total: number;
   totalToday: number;
 };
