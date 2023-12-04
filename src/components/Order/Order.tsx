@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import Price from '../Price/Price';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
 import { findIngredientObj, translateOrderStatus } from '../../utils/utils';
-import { useDispatch, useSelector } from '../../services/hooks';
+import { useSelector } from '../../services/hooks';
 import { getIngredients, getLoadingStatus } from '../../services/selectors/ingredientsSelector';
 import { TIngredientExtraId } from '../../utils/types';
 import styles from './Order.module.css';
@@ -23,7 +23,6 @@ type TOrderProps = {
 
 const Order: FC<TOrderProps> = ({ ingredients, _id, number, createdAt, name, status, usageCase }) => {
   const location = useLocation();
-  const dispatch = useDispatch();
 
   const ingredientsFromServer = useSelector(getIngredients);
   const isLoading = useSelector(getLoadingStatus);
@@ -99,11 +98,11 @@ const Order: FC<TOrderProps> = ({ ingredients, _id, number, createdAt, name, sta
 
             <div>
               <h4 className={`text text_type_main-medium ${usageCase === 'feed' ? 'mb-6' : 'mb-2'} mt-6`}>{name}</h4>
-              {usageCase !== 'feed' ? (
+              {usageCase !== 'feed' && (
                 <p className={`text text_type_main-default mb-6 ${status === StatusKind.DONE ? styles.success : ''}`}>
                   {statusRus}
                 </p>
-              ) : null}
+              )}
             </div>
 
             <div className={styles.footer}>

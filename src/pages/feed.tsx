@@ -39,7 +39,7 @@ const FeedPage: FC = () => {
     }
   }, [windowHeight]);
 
-  const { data } = useSelector(state => state.ordersWS);
+  const data = useSelector(state => state.ordersWS.data);
   const success = useSelector(state => state.ordersWS.data.success);
 
   const [completedOrders, setCompletedOrders] = useState<Omit<TOrder, "owner">[]>([]);
