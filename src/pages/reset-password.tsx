@@ -1,12 +1,12 @@
 import styles from './reset-password.module.css';
 
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/hooks';
 import { useNavigate } from 'react-router';
 
 import { resetPassword } from '../services/middlewares/authQueries';
 import { getResetCodeSuccess, getResetPasswordPending, getResetPasswordSuccess, getUserFromState, getUserPending, getUserSuccess } from '../services/selectors/authSelector';
-import { setResetCodeSuccess, setResetPasswordSuccess } from '../services/slices/authSlice';
+import { setResetCodeSuccess, setResetPasswordSuccess, setUserSuccess } from '../services/slices/authSlice';
 
 import { Button, PasswordInput, Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { Toaster } from 'react-hot-toast';
@@ -17,7 +17,6 @@ import AdditionalActions from '../components/Form/AdditionalActions/AdditionalAc
 import Action from '../components/Form/Action/Action';
 import { stellarToast } from '../utils/utils';
 import { login } from '../services/middlewares/authActions';
-import { TUser } from '../utils/api';
 
 function ResetPasswordPage() {
   const dispatch = useDispatch();
@@ -32,13 +31,13 @@ function ResetPasswordPage() {
   // см. register.jsx
   const [isFocus, setIsFocus] = useState(false);
 
-  const resetCodeSuccess = useSelector(getResetCodeSuccess) as boolean | null;
-  const resetPasswordSucces = useSelector(getResetPasswordSuccess) as boolean | null;
-  const resetPasswordPending = useSelector(getResetPasswordPending) as boolean;
+  const resetCodeSuccess = useSelector(getResetCodeSuccess);
+  const resetPasswordSucces = useSelector(getResetPasswordSuccess);
+  const resetPasswordPending = useSelector(getResetPasswordPending);
 
   // данные для автомат. входа после смены пароля
-  const user = useSelector(getUserFromState) as TUser;
-  const userSuccess = useSelector(getUserSuccess) as boolean | null;
+  const user = useSelector(getUserFromState);
+  const userSuccess = useSelector(getUserSuccess);
 
   const onChangePassword: React.ChangeEventHandler<HTMLInputElement> = evt => {
     setPassword(evt.target.value);
@@ -72,8 +71,7 @@ function ResetPasswordPage() {
 
   const onSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    //@ts-ignore
-    dispatch(resetPassword({password, code: key}));
+    dispatch(resetPassword({password, token: key}));
   };
 
 
@@ -82,19 +80,27 @@ function ResetPasswordPage() {
     switch(resetPasswordSucces) {
       case true:
         stellarToast('Пароль успешно изменён! Выполняется вход в аккаунт...', 'ok');
-        dispatch(login(user.email, password));
-        /* обнулим статус успешности, чтобы при возврате назад,ы
+        /* обнулим статус успешности, чтобы при возврате назад,
           на forgot-password (т.к. reset-password мы реплейсим на home),
           не было переадресации домой */
         /* ошибочное решение в комментарии выше – после авторизации
           пользователь не должен попадать на экраны восстановления пароля,
           и защищенный роут перенаправляет как раз домой */
-        /* зануляем статусы, чтобы при выходе из аккаунта,
-          другой человек не получал некорректные уведомления */
+        /* НО ВСЁ ЖЕ зануляем статусы, чтобы при выходе из аккаунта,
+          другой человек не получал некорректные уведомления.
+          И чтобы просто уведомления не дублировались */
         dispatch(setResetPasswordSuccess(null));
         dispatch(setResetCodeSuccess(null));
+        if (user) {
+          dispatch(login(user.email, password));
+        } else {
+          /* Если вдруг не получится получить юзера при автоматическом входе */
+          stellarToast('Пароль изменён, но не удалось выполнить вход', 'error');
+        }
         break;
       case false:
+        dispatch(setResetPasswordSuccess(null));
+        dispatch(setResetCodeSuccess('sended'));
         stellarToast('Что-то пошло не так', 'error');
         break;
       default:
@@ -104,8 +110,13 @@ function ResetPasswordPage() {
 
   useEffect(() => {
     switch(user && userSuccess) {
-      // при успешном получении данных о пользователе - защищ. роут перенаправит нас
+      case true:
+        // при успешном получении данных о пользователе - защищ. роут перенаправит нас
+        dispatch(setUserSuccess(null));
+        dispatch(setResetCodeSuccess(null));
+        break;
       case false:
+        dispatch(setUserSuccess(null));
         stellarToast('Не удалось войти, попробуйте ещё раз позднее', 'error');
         break;
       default:

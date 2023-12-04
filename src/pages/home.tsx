@@ -1,14 +1,14 @@
 import Main from '../components/Main/Main';
 import Modal from '../components/Modal/Modal';
 
-import { useSelector } from 'react-redux';
+import { useSelector } from '../services/hooks';
 
 import { getErrorStatus } from '../services/selectors/ingredientsSelector';
 import { getOrderSuccess } from '../services/selectors/orderDetailsSelector';
 
 function HomePage(): JSX.Element {
-  const isErrorOnIngredients = useSelector(getErrorStatus) as boolean;
-  const isOrderSucces = useSelector(getOrderSuccess) as boolean | undefined;
+  const isErrorOnIngredients = useSelector(getErrorStatus);
+  const isOrderSucces = useSelector(getOrderSuccess);
   return (
     <>
       <Main />

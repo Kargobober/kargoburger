@@ -1,7 +1,28 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { changeUserData, logOut, resetPassword, sendResetCode } from "../middlewares/authQueries";
+import { TUser } from "../../utils/api/types";
 
-const initialState = {
+type TStateAuth = {
+  user: TUser | null;
+  registerSuccess: boolean | null;
+  registerPending: boolean;
+  error: unknown;
+  userPending: boolean;
+  userSuccess: boolean | null;
+  authPending: boolean;
+  // ↓ статус успешности отправки кода сброса пароля
+  resetCodeSuccess: boolean | 'sended' | null;
+  // ↓ статус обработки запросов получения кода сброса И смены пароля
+  resetPasswordPending: boolean,
+  // ↓ статус успешности изменения пароля
+  resetPasswordSuccess: boolean | null;
+  changeUserDataPending: boolean,
+  changeUserDataSuccess: boolean | null;
+  logOutPending: boolean,
+  logOutSuccess: boolean | null;
+};
+
+const initialState: TStateAuth = {
   // имя и адрес почты, пароль не сохранять!
   user: null,
   registerSuccess: null,
@@ -26,108 +47,120 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    setUser: (state, action) => {
+    setUser: (state, action: PayloadAction<TUser | null>) => {
       state.user = action.payload;
     },
-    setEmailOnStorage: (state, action) => {
-      state.user = { email: action.payload };
+    setEmailOnStorage: (state, action: PayloadAction<string>) => {
+      if (state.user === null) {
+        state.user = {email: action.payload, name: ''};
+      } else {
+        state.user.email = action.payload;
+      }
     },
 
-    setRegisterPending: (state, action) => {
+    setRegisterPending: (state, action: PayloadAction<boolean>) => {
       state.registerPending = action.payload;
     },
-    setRegisterSuccess: (state, action) => {
+    setRegisterSuccess: (state, action: PayloadAction<boolean | null>) => {
       state.registerSuccess = action.payload;
     },
 
-    setError: (state, action) => {
+    setError: (state, action: PayloadAction<unknown>) => {
       state.error = action.payload;
     },
     clearError: (state) => {
       state.error = initialState.error;
     },
 
-    setUserPending: (state, action) => {
+    setUserPending: (state, action: PayloadAction<boolean>) => {
       state.userPending = action.payload;
     },
-    setUserSuccess: (state, action) => {
+    setUserSuccess: (state, action: PayloadAction<boolean | null>) => {
       state.userSuccess = action.payload;
     },
 
-    setAuthPending: (state, action) => {
+    setAuthPending: (state, action: PayloadAction<boolean>) => {
       state.authPending = action.payload;
     },
 
-    setResetPasswordSuccess: (state, action) => {
+    setResetPasswordSuccess: (state, action: PayloadAction<boolean | null>) => {
       state.resetPasswordSuccess = action.payload;
     },
-    setResetCodeSuccess: (state, action) => {
+    setResetCodeSuccess: (state, action: PayloadAction<boolean | 'sended' | null>) => {
       state.resetCodeSuccess = action.payload;
     },
+
+    setLogOutSuccess: (state, action: PayloadAction<boolean | null>) => {
+      state.logOutSuccess = action.payload;
+    },
+
+    setChangeUserDataSuccess: (state, action: PayloadAction<boolean | null>) => {
+      state.changeUserDataSuccess = action.payload;
+    },
   },
-  extraReducers: {
-    [sendResetCode.pending.type]: (state) => {
+  extraReducers: builder => {
+    builder.addCase(sendResetCode.pending, (state) => {
       state.resetPasswordPending = true;
       state.resetCodeSuccess = null;
       state.error = '';
-    },
-    [sendResetCode.fulfilled.type]: (state) => {
+    })
+    builder.addCase(sendResetCode.fulfilled, (state) => {
       state.resetPasswordPending = false;
       state.resetCodeSuccess = true;
-    },
-    [sendResetCode.rejected.type]: (state, action) => {
+    })
+    builder.addCase(sendResetCode.rejected, (state, action) => {
       state.resetPasswordPending = false;
       state.resetCodeSuccess = false;
       state.error = action.payload;
-    },
+    })
 
-    [resetPassword.pending.type]: (state) => {
+    builder.addCase(resetPassword.pending, (state) => {
       state.resetPasswordPending = true;
       state.resetPasswordSuccess = null;
       state.error = '';
-    },
-    [resetPassword.fulfilled.type]: (state) => {
+    })
+    builder.addCase(resetPassword.fulfilled, (state) => {
       state.resetPasswordPending = false;
       state.resetPasswordSuccess = true;
-    },
-    [resetPassword.rejected.type]: (state, action) => {
+    })
+    builder.addCase(resetPassword.rejected, (state, action) => {
       state.resetPasswordPending = false;
       state.resetPasswordSuccess = false;
       state.error = action.payload;
-    },
+    })
 
-    [changeUserData.pending.type]: (state) => {
+    builder.addCase(changeUserData.pending, (state) => {
       state.changeUserDataPending = true;
       state.changeUserDataSuccess = null;
       state.error = '';
-    },
-    [changeUserData.fulfilled.type]: (state, action) => {
+    })
+    builder.addCase(changeUserData.fulfilled, (state, action) => {
       state.user = action.payload.user;
       state.changeUserDataPending = false;
       state.changeUserDataSuccess = true;
-    },
-    [changeUserData.rejected.type]: (state, action) => {
+    })
+    builder.addCase(changeUserData.rejected, (state, action) => {
       state.changeUserDataPending = false;
       state.changeUserDataSuccess = false;
       state.error = action.payload;
-    },
+    })
 
-    [logOut.pending.type]: (state) => {
+    builder.addCase(logOut.pending, (state) => {
       state.logOutPending = true;
       state.logOutSuccess = null;
       state.error = '';
-    },
-    [logOut.fulfilled.type]: (state) => {
+    })
+    builder.addCase(logOut.fulfilled, (state) => {
       state.logOutPending = false;
       state.logOutSuccess = true;
       state.user = null;
       state.userSuccess = null;
-    },
-    [logOut.rejected.type]: (state, action) => {
+    })
+    builder.addCase(logOut.rejected, (state, action) => {
       state.logOutPending = false;
       state.logOutSuccess = false;
       state.error = action.payload;
-    },
+    })
   },
 });
 
@@ -143,5 +176,7 @@ export const {
   setAuthPending,
   setResetPasswordSuccess,
   setResetCodeSuccess,
+  setLogOutSuccess,
+  setChangeUserDataSuccess,
 } = authSlice.actions;
 export default authSlice.reducer;

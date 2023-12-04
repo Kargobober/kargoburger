@@ -1,13 +1,12 @@
 import styles from './IngredientDetails.module.css';
 import stylesGlobal from '../../index.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { getIngredientDetails } from '../../services/selectors/ingredientDetailsSelector';
 import { useNavigate, useParams } from 'react-router';
 import { findIngredientObj } from '../../utils/utils';
 import { getIngredients } from '../../services/selectors/ingredientsSelector';
 import { setInfo } from '../../services/slices/ingredientDetailsSlice';
 import { useEffect } from 'react';
-import { TIngredient } from '../../utils/types';
 
 function IngredientDetails(): JSX.Element {
   const dispatch = useDispatch();
@@ -17,11 +16,11 @@ function IngredientDetails(): JSX.Element {
   const { id } = useParams();
 
   // все ингредиенты, с сервера
-  const ingredientsData = useSelector(getIngredients) as TIngredient[];
+  const ingredientsData = useSelector(getIngredients);
 
   // ↓ ингредиент для модалки, из хранилища, раздел ingredientDetails
-  const ingredient = useSelector(getIngredientDetails) as TIngredient;
-  const { image_large, name, calories, proteins, fat, carbohydrates } = ingredient;
+  const ingredient = useSelector(getIngredientDetails);
+  const { image_large, name, calories, proteins, fat, carbohydrates, image } = ingredient;
 
 
   useEffect(() => {
@@ -29,16 +28,13 @@ function IngredientDetails(): JSX.Element {
       // исп-ую написанную ранее функцию
       const foundIngredient = findIngredientObj(id, ingredientsData);
       // сохраняю ингредиент для модалки в раздел хранилища ingredientDetails
-      dispatch(setInfo(foundIngredient));
-      // именно такая зависимость позволит перезагружать страницу и не терять модалку
-    } else {
-      navigate('*');
+      if (foundIngredient) dispatch(setInfo(foundIngredient));
     }
-  }, [ingredientsData]);
+  }, [ingredientsData]); // именно такая зависимость позволит перезагружать страницу и не терять модалку
 
   return (
     <div className={styles.container}>
-      <img src={image_large} alt={name} className={styles.image} />
+      <img src={image_large || image} alt={name} className={styles.image} />
 
       <h3
         className={`

@@ -15,6 +15,7 @@ function ProfilePage() {
     },
     {
       name: 'История заказов',
+      // если указать пути относительными, то не работали стили NavLink (вкладки не становились активными)
       path: '/profile/orders',
       clue: `В этом разделе вы можете
       просмотреть свою историю заказов`,
@@ -40,8 +41,10 @@ function ProfilePage() {
       case '/profile/orders':
         setClue(profileTabs[1].clue);
         break;
-      default:
+      case './profile/logout':
         setClue(profileTabs[2].clue);
+        break;
+      default:
         break;
     }
   }, [location]);

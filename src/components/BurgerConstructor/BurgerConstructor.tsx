@@ -3,13 +3,13 @@ import { useEffect, useState, useRef } from 'react';
 import styles from './BurgerConstructor.module.css';
 
 import { findIngredientObj, getTopCoords, handleError } from '../../utils/utils';
+import { useDispatch, useSelector } from '../../services/hooks';
 
 import { BurgerIcon, Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import Price from '../Price/Price';
 import Item from './Item/Item';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
-import { useDispatch, useSelector } from 'react-redux';
 import { getSelectedBun, getSelectedProducts, getTotalPrice } from '../../services/selectors/burgerConstructorSelector';
 import { getOrderDetailsNeeding, getOrderError, getOrderSuccess } from '../../services/selectors/orderDetailsSelector';
 import { resetOrderNumber, setNeedingDetails } from '../../services/slices/orderDetailsSlice';
@@ -21,9 +21,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { useLocation, useNavigate } from 'react-router';
 import { getIngredients } from '../../services/selectors/ingredientsSelector';
 import { getUserFromState } from '../../services/selectors/authSelector';
-import { TError, TUser } from '../../utils/api';
-import { TIngredient, TIngredientCounted, TIngredientExtraId } from '../../utils/types';
-import { TPreparedOrder } from '../Profile/LogOut/LogOut';
+import { TIngredientCounted } from '../../utils/types';
+import { TPreparedOrder } from '../Profile/LogOut/LogOutPage';
 
 function BurgerConstructor() {
   // сохраняем высоту окна в стэйт, чтобы при ее изменении перерисовывать компонент с новой доступной ему высотой
@@ -34,23 +33,19 @@ function BurgerConstructor() {
   const [fillingsHeight, setFillingsHeight] = useState(560);
   const dispatch = useDispatch();
 
-  const needDetails = useSelector(getOrderDetailsNeeding) as boolean;
-  const isOrderSucces = useSelector(getOrderSuccess) as boolean;
-  const error = useSelector(getOrderError) as string | TError;
+  const needDetails = useSelector(getOrderDetailsNeeding);
+  const isOrderSucces = useSelector(getOrderSuccess);
+  const error = useSelector(getOrderError);
 
   const location = useLocation();
   const navigate = useNavigate();
 
   const hState: TPreparedOrder = location.state;
 
-  const user = useSelector(getUserFromState) as TUser;
+  const user = useSelector(getUserFromState);
 
   useEffect(() => {
-    if (typeof(error) === 'string') {
       error && handleError('Ошибка при создании заказа: ', error);
-    } else {
-      error.message && handleError('Ошибка при создании заказа: ', error.message);
-    }
   }, [error]);
 
   const modal = (
@@ -63,18 +58,21 @@ function BurgerConstructor() {
     </Modal>
   );
 
-  const ingredients = useSelector(getIngredients) as TIngredient[];
-  const selectedBun = useSelector(getSelectedBun) as TIngredientExtraId | null;
-  const selectedProducts = useSelector(getSelectedProducts) as TIngredientExtraId[];
-  const totalPrice = useSelector(getTotalPrice) as number;
+  const ingredients = useSelector(getIngredients);
+  const selectedBun = useSelector(getSelectedBun);
+  const selectedProducts = useSelector(getSelectedProducts);
+  const totalPrice = useSelector(getTotalPrice);
 
   // логика для тройного моллюска (src/components/Profile/LogOut)
   useEffect(() => {
     if (ingredients.length && hState && hState.burgConstructor.selectedBunId && hState.burgConstructor.selectedProductsId.length) {
       const selectedBun = findIngredientObj(hState.burgConstructor.selectedBunId, ingredients);
       const selectedProducts = hState.burgConstructor.selectedProductsId.map(id => findIngredientObj(id, ingredients));
-      dispatch(addItem(selectedBun));
-      selectedProducts.forEach(item => dispatch(addItem(item)));
+      if(selectedBun) {
+        // qty: 0, т.к. количество считает селектор
+        dispatch(addItem({ ...selectedBun, qty: 0 }));
+      }
+      selectedProducts.forEach(item => { if (item) dispatch(addItem({ ...item, qty: 0 })) });
     }
   }, [ingredients.length, hState]);
 
@@ -114,8 +112,7 @@ function BurgerConstructor() {
     }
     if (user === null ? false : (user.name && user.email ? true : false)) {
       dispatch(setNeedingDetails(true));
-     //@ts-ignore
-      dispatch(postOrder(assembledBurger));
+      dispatch(postOrder({ ingredients: assembledBurger }));
     } else {
       navigate('/login');
     }

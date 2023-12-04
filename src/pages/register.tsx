@@ -1,7 +1,7 @@
 import styles from './register.module.css';
 import { useState } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../services/hooks';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import Form from '../components/Form/Form';

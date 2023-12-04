@@ -2,9 +2,10 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useEffect } from 'react';
 import styles from './LogOut.module.css';
 import { useNavigate } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../../services/hooks';
 import { getLogOutPending, getLogOutSuccess } from '../../../services/selectors/authSelector';
 import { logOut } from '../../../services/middlewares/authQueries';
+import { setLogOutSuccess } from '../../../services/slices/authSlice';
 
 export type TPreparedOrder = {
   burgConstructor: {
@@ -13,12 +14,12 @@ export type TPreparedOrder = {
   };
 };
 
-function LogOut(): JSX.Element {
+function LogOutPage(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const logOutPending = useSelector(getLogOutPending) as boolean;
-  const logOutSuccess = useSelector(getLogOutSuccess) as boolean;
+  const logOutPending = useSelector(getLogOutPending);
+  const logOutSuccess = useSelector(getLogOutSuccess);
 
 
   const holdThisDude = () => {
@@ -42,10 +43,21 @@ function LogOut(): JSX.Element {
 
   useEffect(() => {
     if (logOutSuccess) {
+      /* Проблема была в том, что человек нажимает выйти:
+      - logOutSuccess становит true
+      - токены удаляются
+      - защищ. роут направляет меня на loginPage
+      - если снова нажать "Войти", то мы обратно возвращаемся на /profile/logout (из-за <Navigate to={from} /> в ProtectedRoute),
+        но т.к. я не занулял logOutSuccess, то сразу срабатывает useEffect и снова удаляет токены (logOutSuccess всё ещё true)
+      */
+      // Дело было НЕ в почти одинаковых названиях компонента и функции выхода
+      dispatch(setLogOutSuccess(null));
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
+
       // навигировать на вход или это будет делать защищенный роут?
-      navigate('/login');
+      // navigate('/login');
+      // да, он сам снавигирует
     }
   }, [logOutSuccess]);
 
@@ -78,4 +90,4 @@ function LogOut(): JSX.Element {
   )
 }
 
-export default LogOut;
+export default LogOutPage;

@@ -8,12 +8,13 @@ import ActionsZone from '../components/Form/ActionsZone/ActionsZone';
 import AdditionalActions from '../components/Form/AdditionalActions/AdditionalActions';
 import Action from '../components/Form/Action/Action';
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/hooks';
 import { login } from '../services/middlewares/authActions';
 import { getUserPending, getUserSuccess } from '../services/selectors/authSelector';
 import { useNavigate } from 'react-router';
 import { Toaster } from 'react-hot-toast';
 import { stellarToast } from '../utils/utils';
+import { setUserSuccess } from '../services/slices/authSlice';
 
 function LoginPage() {
   const dispatch = useDispatch();
@@ -31,8 +32,8 @@ function LoginPage() {
   // см. register.jsx
   const [isFocus, setIsFocus] = useState(false);
 
-  const userPending = useSelector(getUserPending) as boolean;
-  const userSuccess = useSelector(getUserSuccess) as boolean | null;
+  const userPending = useSelector(getUserPending);
+  const userSuccess = useSelector(getUserSuccess);
 
 
 
@@ -80,12 +81,13 @@ function LoginPage() {
     switch(userSuccess) {
       // при успехе, защищенный роут перенаправит домой
       case false:
+        dispatch(setUserSuccess(null));
         stellarToast('Почта или пароль неверны', 'error');
         break;
       default:
         break;
     }
-  }, [userSuccess, navigate]);
+  }, [userSuccess, navigate, dispatch]);
 
 
 

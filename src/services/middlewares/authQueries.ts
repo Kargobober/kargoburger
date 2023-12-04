@@ -1,51 +1,56 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { config, fetchWithRefresh, handleResponse, tokenCatcher } from "../../utils/api";
+import { config, fetchWithRefresh, handleResponse, tokenCatcher } from "../../utils/api/api";
+import {
+  TRequestChangeUserData,
+  TRequestPasswordForgot,
+  TRequestPasswordReset,
+  TResponseChangeUserData,
+  TResponseLogOut,
+  TResponsePasswordForgot,
+  TResponsePasswordReset
+} from "../../utils/api/types";
 
 export const sendResetCode = createAsyncThunk(
   'auth/sendResetCode',
-  (payload) => {
+  (payload: TRequestPasswordForgot) => {
     return fetch(
       `${config.baseUrl}/password-reset`,
       {
         headers: config.headers,
         method: 'POST',
         body: JSON.stringify({
-          email: payload,
+          email: payload.email,
         }),
       }
     )
-      .then(handleResponse);
+      .then(handleResponse<TResponsePasswordForgot>);
   }
 );
 
 export const resetPassword = createAsyncThunk(
   'auth/resetPassword',
-  (payload) => {
+  (payload: TRequestPasswordReset) => {
     return fetch(
       `${config.baseUrl}/password-reset/reset`,
       {
         headers: config.headers,
         method: 'POST',
-        body: JSON.stringify({
-          password: payload.password,
-          // не токен, а код из письма
-          token: payload.code,
-        }),
+        body: JSON.stringify(payload),
       }
     )
-      .then(handleResponse);
+      .then(handleResponse<TResponsePasswordReset>);
   }
 );
 
 export const changeUserData = createAsyncThunk(
   'auth/changeUserData',
-  (payload) => {
-    return fetchWithRefresh(
+  (payload: TRequestChangeUserData) => {
+    return fetchWithRefresh<TResponseChangeUserData>(
       `${config.baseUrl}/auth/user`,
       {
         headers: {
           ...config.headers,
-          authorization: localStorage.getItem('accessToken'),
+          authorization: localStorage.getItem('accessToken')!,
         },
         method: 'PATCH',
         body: JSON.stringify({
@@ -72,6 +77,6 @@ export const logOut = createAsyncThunk(
         }),
       }
     )
-      .then(handleResponse);
+      .then(handleResponse<TResponseLogOut>);
   }
 );

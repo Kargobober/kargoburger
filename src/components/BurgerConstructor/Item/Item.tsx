@@ -1,18 +1,23 @@
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './Item.module.css'
-import { useDispatch, useSelector } from 'react-redux';
+
+import { useDispatch, useSelector } from '../../../services/hooks';
+/* если оставить хук useSelector обычным, то даже если указать в дженерике useSelector<RootState>,
+  то тип возвращаемого значения анонимного селектора определяется как unknown. С именнованными всё нормально */
+// import { useDispatch, useSelector } from 'react-redux';
+
 import { moveItem, removeItem } from '../../../services/slices/burgerConstructorSlice';
 import { useDrag, useDrop } from 'react-dnd';
 import { getSelectedProducts } from '../../../services/selectors/burgerConstructorSelector';
-import { TIngredientExtraId } from '../../../utils/types';
+import { TIngredientExtraIdCounted } from '../../../utils/types';
 
 type TProps = {
-  ingredient: TIngredientExtraId;
+  ingredient: TIngredientExtraIdCounted;
   index: number;
 };
 
 type TDragItem = {
-  data: TIngredientExtraId;
+  data: TIngredientExtraIdCounted;
 };
 
 type TCollectedProps = {
@@ -27,8 +32,7 @@ function Item({ ingredient, index }: TProps): JSX.Element {
   const thumbnail = ingredient.image_mobile || '';
 
   const dispatch = useDispatch();
-
-  const selectedProducts = useSelector(getSelectedProducts) as TIngredientExtraId[];
+  const selectedProducts = useSelector(getSelectedProducts);
 
   const [{ isDragging }, dragRef, dragPreviewRef] = useDrag<TDragItem, unknown, TCollectedProps>({
     type: 'sort',

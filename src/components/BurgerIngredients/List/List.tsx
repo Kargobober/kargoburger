@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, forwardRef, useImperativeHandle, memo, FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../../services/hooks';
 
 import styles from './List.module.css';
 
@@ -7,21 +7,10 @@ import { getTopCoords, handleError } from '../../../utils/utils';
 
 import Card from '../Card/Card';
 import { getCountedFiltredIngredients, getErrorStatus, getLoadingStatus } from '../../../services/selectors/ingredientsSelector';
-import { ingredientsQuery } from '../../../services/middlewares/ingredientsQuery';
-import { TIngredientCounted, TSuperRef } from '../../../utils/types';
-
-
-
-type TIngredientsSmart = {
-  buns: TIngredientCounted[];
-  sauces: TIngredientCounted[];
-  mainFillings: TIngredientCounted[];
-};
+import { TSuperRef } from '../../../utils/types';
 
 // первый параметр нельзя удалить. Второй параметр появляется из-за дальнейшей обёртки в forwardRef
 const List = forwardRef((props, ref: React.ForwardedRef<TSuperRef>) => {
-  const dispatch = useDispatch();
-
   const listRef = useRef<HTMLDivElement>(null);
   const bunsRef = useRef<HTMLHeadingElement>(null);
   const saucesRef = useRef<HTMLHeadingElement>(null);
@@ -43,17 +32,14 @@ const List = forwardRef((props, ref: React.ForwardedRef<TSuperRef>) => {
 
 
 
-  const isLoading = useSelector(getLoadingStatus) as boolean;
-  const hasError = useSelector(getErrorStatus) as boolean;
+  const isLoading = useSelector(getLoadingStatus);
+  const hasError = useSelector(getErrorStatus);
   useEffect(() => {
     hasError && handleError('Ошибка при загрузке ингредиентов с сервера.');
   }, [hasError]);
 
-  useEffect(() => {
-    dispatch(ingredientsQuery());
-  }, []);
   // Получаем обработанные данные из хранилища, сам результат обработки в хранилище не хранится. Не знаю, верно ли это
-  const data = useSelector(getCountedFiltredIngredients) as TIngredientsSmart;
+  const data = useSelector(getCountedFiltredIngredients);
 
 
 

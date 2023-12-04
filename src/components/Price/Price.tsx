@@ -8,9 +8,10 @@ type TProps = {
   value: string | number;
   digitsSize: 'default' | 'medium' | 'large';
   svgSize?: string;
+  extraStyle?: Record<string, string>;
 };
 
-const Price: FC<TProps> = ({ value, digitsSize, svgSize = '24' }) => {
+const Price: FC<TProps> = ({ value, digitsSize, svgSize = '24', extraStyle = {} }) => {
   const priceContainer = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const Price: FC<TProps> = ({ value, digitsSize, svgSize = '24' }) => {
   });
 
   return (
-    <div className={styles['price-container']} ref={priceContainer}>
+    <div className={styles['price-container']} ref={priceContainer} style={extraStyle}>
       <p className={`text text_type_digits-${digitsSize}`}>
         {value}
       </p>

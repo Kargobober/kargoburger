@@ -3,10 +3,13 @@ import toast from 'react-hot-toast';
 // для uuid установлен ещё один пакет
 import { v4 as uuidv4 } from 'uuid';
 import { TIngredient, TIngredientExtraId } from './types';
+import { StatusKind } from './api/types';
 
-export function handleError(text: string, error = '') {
-  console.log(text + error);
-}
+type TErrorHandler = (text: string, error?: unknown) => void;
+
+export const handleError: TErrorHandler = (text, error = '') => {
+  console.log(text, error);
+};
 
 export const getTopCoords = (elem: HTMLElement) => {
   let box = elem.getBoundingClientRect();
@@ -38,4 +41,39 @@ export const findIngredientObj = (id: string, arr: TIngredient[]): TIngredientEx
   } else {
     return null;
   }
+};
+
+
+export const countIngredient = (idArr: string[]) => {
+  const result = idArr.reduce((acc: Record<string, number>, id) => {
+    if(!acc[id]) {
+      acc[id] = 1;
+    } else {
+      acc[id] += 1;
+    }
+    return acc;
+  }, {});
+
+  return result;
+  /* получили объект, в котором каждый ключ - айдишник (неуник-ый) ингредиента,
+    а значение - число повторений данного айдишника */
+};
+
+export const translateOrderStatus = (status: StatusKind) => {
+  let statusRus: string;
+  switch (status) {
+    case StatusKind.CREATED:
+      statusRus = 'Создан';
+      break;
+    case StatusKind.PENDING:
+      statusRus = 'Готовится';
+      break;
+    case StatusKind.DONE:
+      statusRus = 'Выполнен';
+      break;
+    default:
+      statusRus = '';
+      break;
+  };
+  return statusRus;
 };

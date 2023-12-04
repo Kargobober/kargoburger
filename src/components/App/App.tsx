@@ -1,5 +1,8 @@
+//
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../services/hooks";
+// если использовать стандартный диспатч, то TS не будет ругаться на вызов labuda()
+// import { useDispatch } from "react-redux";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import * as THistory from 'history';
 
@@ -16,11 +19,15 @@ import ResetPasswordPage from "../../pages/reset-password";
 import ProfilePage from "../../pages/profile";
 import User from "../Profile/User/User";
 import Orders from "../Profile/Orders/Orders";
-import LogOut from "../Profile/LogOut/LogOut";
+import LogOutPage from "../Profile/LogOut/LogOutPage";
 import NotFound404Page from "../../pages/not-found-404";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import IngredientPage from "../../pages/ingredient";
+import { ingredientsQuery } from "../../services/middlewares/ingredientsQuery";
+import OrderPage from "../../pages/orderPage";
+import FeedPage from "../../pages/feed";
+import OrderInfo, { TData } from "../OrderInfo/OrderInfo";
 
 
 function App (): JSX.Element {
@@ -28,12 +35,19 @@ function App (): JSX.Element {
   const location = useLocation();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    dispatch(ingredientsQuery());
+  }, []);
+
+  // const labuda = () => {};
+
   /* в текущей позиции истории (location) в стейте (state) в поле background записывается
     весь location предыдущей точки истории, потому тип  THistory.Location */
-  const historyState = location.state as { background?: THistory.Location} | null;
+  const historyState = location.state as { background?: THistory.Location, data?: TData } | null;
 
   useEffect(() => {
     dispatch(checkUserAuth());
+    // dispatch(labuda());
   }, []);
 
   return (
@@ -48,11 +62,15 @@ function App (): JSX.Element {
           <Route path='reset-password' element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
 
           <Route path='ingredients/:id' element={<IngredientPage />} />
+          <Route path='feed/:number' element={<OrderPage />} />
+          <Route path='profile/orders/:number' element={<OrderPage />} />
+
+          <Route path='feed' element={<FeedPage />} />
 
           <Route path='profile' element={<OnlyAuth component={<ProfilePage />} />} >
             <Route index element={<User />} />
             <Route path='orders' element={<Orders />} />
-            <Route path='logout' element={<LogOut />} />
+            <Route path='logout' element={<LogOutPage />} />
           </Route>
         </Route>
 
@@ -61,7 +79,7 @@ function App (): JSX.Element {
 
       {historyState?.background && (
         <Routes>
-          <Route path='ingredients/:id' element={
+          <Route path='/ingredients/:id' element={
             <Modal heading='Детали ингредиента'
               onClose={() => {
                 dispatch(clearInfo());
@@ -69,6 +87,40 @@ function App (): JSX.Element {
               }}
             >
               <IngredientDetails />
+            </Modal>
+          }/>
+        </Routes>
+      )}
+
+      {historyState?.data && (
+        <Routes>
+          <Route path='/profile/orders/:number' element={
+            <Modal
+              onClose={() => {
+                // dispatch();
+                navigate('/profile/orders');
+              }}
+              pt='10' pr='10' pb='10' pl='10'
+              heading={`#${historyState.data.number}`}
+              extraClass='text text_type_digits-default'
+              lineHeight="2.286"
+            >
+              <OrderInfo />
+            </Modal>
+          }/>
+
+          <Route path='/feed/:number' element={
+            <Modal
+              onClose={() => {
+                // dispatch();
+                navigate('/feed');
+              }}
+              pt='10' pr='10' pb='10' pl='10'
+              heading={`#${historyState.data.number}`}
+              extraClass='text text_type_digits-default'
+              lineHeight="2.286"
+            >
+              <OrderInfo />
             </Modal>
           }/>
         </Routes>

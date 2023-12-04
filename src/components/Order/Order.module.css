@@ -1,0 +1,85 @@
+.hat {
+  display: flex;
+  justify-content: space-between;
+}
+
+.errorHeading {
+  white-space: pre-line;
+}
+
+.success {
+  color: var(--colors-interface-success);
+}
+/* один заказ */
+.item {
+  display: flex;
+  flex-direction: column;
+  padding: calc(var(--offset-base-size) * 6);
+  border-radius: 40px;
+  background-color: var(--background);
+  row-gap: calc(var(--offset-base-size) * 6);
+  transition: all ease-out .3;
+}
+
+.item:hover {
+  outline: 2px solid var(--colors-interface-accent);
+  transform: scale(0.995);
+}
+
+.imagesList {
+  display: flex;
+  position: relative;
+}
+
+/* кругляш, картинка */
+.circle {
+  width: 64px;
+  height: 64px;
+  border: 2px solid var(--colors-interface-accent);
+  border-radius: 100px;
+  padding: 4px 0;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: var(--background-alt);
+}
+
+.image {
+  height: 100%;
+  object-fit: cover;
+  object-position: -21px 0;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  /* можно написать функцию для перевода из
+  hex в rgb, чтобы использовать одну кастомную css-переменную,
+  указанную в hex-системе */
+  background-color: rgba(28, 28, 33, .6);
+  width: 100%;
+  height: 100%;
+}
+
+.link {
+  transition: all ease-out .2s;
+}
+
+.link:hover {
+  transform: scale(0.995);
+}
+
+.link:active {
+  color: inherit;
+  opacity: .5;
+}

@@ -1,23 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from '../services/hooks';
 import { useParams } from 'react-router';
 import { getIngredients } from '../services/selectors/ingredientsSelector';
 import { findIngredientObj } from '../utils/utils';
 import styles from './ingredient.module.css';
 import stylesGlobal from '../index.css';
-import { ingredientsQuery } from '../services/middlewares/ingredientsQuery';
-import { TIngredient, TIngredientExtraId } from '../utils/types';
+import { TIngredientExtraId } from '../utils/types';
 
 const IngredientPage = () => {
-  const dispatch = useDispatch();
-
   const { id } = useParams();
 
-  useEffect(() => {
-    dispatch(ingredientsQuery());
-  }, []);
-
-  const ingredientsData = useSelector(getIngredients) as TIngredient[];
+  const ingredientsData = useSelector(getIngredients);
   const [ingredient, setIngredient] = useState<TIngredientExtraId | null>(null);
 
   useEffect(() => {
@@ -26,13 +19,13 @@ const IngredientPage = () => {
 
   if (!ingredient) return null;
 
-  const { image_large, name, calories, proteins, fat, carbohydrates } = ingredient;
+  const { image_large, name, calories, proteins, fat, carbohydrates, image } = ingredient;
 
   return (
     <div className={styles.container}>
       <h1 className='text text_type_main-large mt-30'>Детали ингредиента</h1>
 
-      <img src={image_large} alt={name} className={styles.image} />
+      <img src={image_large || image} alt={name} className={styles.image} />
 
       <h2
         className={`

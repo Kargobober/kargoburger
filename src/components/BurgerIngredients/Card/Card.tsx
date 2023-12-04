@@ -6,7 +6,7 @@ import styles from './Card.module.css';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import Price from '../../Price/Price';
 import { addItem } from '../../../services/slices/burgerConstructorSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../../services/hooks';
 import { v4 as uuidv4 } from 'uuid';
 import { DragPreviewImage, useDrag } from 'react-dnd';
 import { useLocation, useNavigate } from 'react-router-dom';

@@ -25,3 +25,43 @@ body {
   margin: 0;
   list-style: none;
 }
+
+.little-item-0 {
+  z-index: 6;
+}
+
+.little-item-1 {
+  transform: translateX(-16px);
+  z-index: 5;
+}
+
+.little-item-2 {
+  transform: translateX(-32px);
+  z-index: 4;
+}
+
+.little-item-3 {
+  transform: translateX(-48px);
+  z-index: 3;
+}
+
+.little-item-4 {
+  transform: translateX(-64px);
+  z-index: 2;
+}
+
+.little-item-5 {
+  transform: translateX(-80px);
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.text_decor_shadow {
+  text-shadow: 0px 4px 32px rgba(51, 51, 255, 0.50), 0px 0px 8px rgba(51, 51, 255, 0.25), 0px 0px 16px rgba(51, 51, 255, 0.25);
+}
+
+.custom-scroll::-webkit-scrollbar {
+	height: 12px;
+}

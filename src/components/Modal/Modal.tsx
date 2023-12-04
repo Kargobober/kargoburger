@@ -8,14 +8,22 @@ import styles from './Modal.module.css';
 import ModalHeader from '../ModalHeader/ModalHeader';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
 
+/**
+ * @param extraClass стили для заголовка
+ * @param lineHeight высота строки для заголовка
+ */
 type TProps = {
   heading?: string;
   onClose?: () => void;
   pb?: number | string;
   pt?: number | string;
+  pl?: number | string;
+  pr?: number | string;
+  extraClass?: string;
+  lineHeight?: string;
 };
 
-const Modal: FC<TProps> = ({ children, heading, onClose, pb = 15, pt = 10 }) => {
+const Modal: FC<TProps> = ({ children, heading, onClose, pt = 10, pr = 10, pb = 15, pl = 10, extraClass, lineHeight }) => {
 
   useEffect(() => {
     if (onClose) {
@@ -32,8 +40,8 @@ const Modal: FC<TProps> = ({ children, heading, onClose, pb = 15, pt = 10 }) => 
 
   return ReactDOM.createPortal((
     <>
-      <div className={`${styles['modal-container']} pt-${pt} pr-10 pb-${pb} pl-10`}>
-        <ModalHeader heading={heading} onClose={onClose} />
+      <div className={`${styles['modal-container']} pt-${pt} pr-${pr} pb-${pb} pl-${pl}`}>
+        <ModalHeader heading={heading} onClose={onClose}  extraClass={extraClass} lineHeight={lineHeight} />
         {children}
       </div>
       <ModalOverlay onClose={onClose} />
