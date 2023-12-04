@@ -7,6 +7,8 @@ import { Provider } from "react-redux";
 import { store } from "./services/store";
 import { BrowserRouter } from "react-router-dom";
 
+// Спринт 17, покрытие тестами
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
