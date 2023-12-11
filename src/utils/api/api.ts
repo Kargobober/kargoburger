@@ -38,10 +38,13 @@ export async function tokenCatcher<T>(url: string, options: RequestInit, err: an
 
     localStorage.setItem("accessToken", refreshData.accessToken);
     localStorage.setItem("refreshToken", refreshData.refreshToken);
+
     // https://stackoverflow.com/questions/67346496/typescript-authorization-does-not-exist-on-type-headersinit
     const headersInit: HeadersInit = {};
     options.headers = headersInit;
-    options.headers.authorization = refreshData.accessToken;
+
+    // см. заметки конспекта, id = 'создание заказа с refreshToken'
+    options.headers = { ...config.headers, authorization: refreshData.accessToken };
     const res = await fetch(url, options);
     const data = await handleResponse<T>(res);
     return data;

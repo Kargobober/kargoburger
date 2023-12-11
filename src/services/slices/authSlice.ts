@@ -9,7 +9,7 @@ type TStateAuth = {
   error: unknown;
   userPending: boolean;
   userSuccess: boolean | null;
-  authPending: boolean;
+  authPending: boolean | null;
   // ↓ статус успешности отправки кода сброса пароля
   resetCodeSuccess: boolean | 'sended' | null;
   // ↓ статус обработки запросов получения кода сброса И смены пароля
@@ -22,7 +22,7 @@ type TStateAuth = {
   logOutSuccess: boolean | null;
 };
 
-const initialState: TStateAuth = {
+export const authInitialState: TStateAuth = {
   // имя и адрес почты, пароль не сохранять!
   user: null,
   registerSuccess: null,
@@ -30,7 +30,7 @@ const initialState: TStateAuth = {
   error: '',
   userPending: false,
   userSuccess: null,
-  authPending: false,
+  authPending: null,
   // ↓ статус успешности отправки кода сброса пароля
   resetCodeSuccess: null,
   // ↓ статус обработки запросов получения кода сброса И смены пароля
@@ -45,7 +45,7 @@ const initialState: TStateAuth = {
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState,
+  initialState: authInitialState,
   reducers: {
     setUser: (state, action: PayloadAction<TUser | null>) => {
       state.user = action.payload;
@@ -69,7 +69,7 @@ const authSlice = createSlice({
       state.error = action.payload;
     },
     clearError: (state) => {
-      state.error = initialState.error;
+      state.error = authInitialState.error;
     },
 
     setUserPending: (state, action: PayloadAction<boolean>) => {
@@ -79,7 +79,7 @@ const authSlice = createSlice({
       state.userSuccess = action.payload;
     },
 
-    setAuthPending: (state, action: PayloadAction<boolean>) => {
+    setAuthPending: (state, action: PayloadAction<boolean | null>) => {
       state.authPending = action.payload;
     },
 

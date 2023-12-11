@@ -37,15 +37,18 @@ const Protected = ({ onlyUnAuth = false, component }: TProps) => {
     );
   }
 
-  if (onlyUnAuth && (user === null ? false : (user.email && user.name))) {
+  if (authPending === false && onlyUnAuth && (user === null ? false : (user.email && user.name))) {
     // Пользователь авторизован, но запрос предназначен только для неавторизованных пользователей
     // Нужно сделать редирект на главную страницу или на тот адрес, что записан в location.state.from
     const { from } = location.state || { from: { pathname: "/" } };
     return <Navigate to={from} />;
   }
 
-  if (!onlyUnAuth && !user) {
-    // Сервер не ответил
+
+  // см. конспект, заметки, id = 'Пропажа модального окна при перезагрузке страницы'
+  if (authPending === false && !onlyUnAuth && !user) {
+    // страница только для авторизованных, но юзера нет в хранилище
+    // Сервер не ответил положительно
     return <Navigate to="/login" state={{ from: location }} />;
   }
 

@@ -43,10 +43,7 @@ function Card({ card }: { card: TIngredientCounted }) {
 
   const handleDoubleClick = () => {
     // добавить товар в конструктор бургера
-    dispatch(addItem({
-      ...card,
-      extraId: uuidv4(),
-    }));
+    dispatch(addItem(card));
   };
 
   const handleBothClick = (evt: React.MouseEvent) => {

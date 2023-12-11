@@ -1,7 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { TIngredientExtraIdCounted } from "../../utils/types";
+import { TIngredientCounted, TIngredientExtraIdCounted } from "../../utils/types";
+import { getUniqId } from "../../utils/utils";
 
-type TStateBurgerConstructor = {
+export type TStateBurgerConstructor = {
   selectedBun: TIngredientExtraIdCounted | null;
   // для пустого массива тип через "... | null " описывать не нужно
   selectedProducts: TIngredientExtraIdCounted[];
@@ -22,11 +23,16 @@ export const burgerConstructorSlice = createSlice({
   name: 'burgerConstructor',
   initialState,
   reducers: {
-    addItem: (state, action: PayloadAction<TIngredientExtraIdCounted>) => {
-      if(action.payload.type === 'bun') {
-        state.selectedBun = action.payload;
-      } else {
-        state.selectedProducts.push(action.payload);
+    addItem: {
+      reducer: (state, action: PayloadAction<TIngredientExtraIdCounted>) => {
+        if(action.payload.type === 'bun') {
+          state.selectedBun = action.payload;
+        } else {
+          state.selectedProducts.push(action.payload);
+        }
+      },
+      prepare: (card: TIngredientCounted) => {
+        return { payload: {...card, extraId: getUniqId()} };
       }
     },
     removeItem: (state, action: PayloadAction<string>) => {

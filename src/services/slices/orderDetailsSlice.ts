@@ -1,8 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { getOrder, postOrder } from "../middlewares/orderDetailsQueries";
-import { StatusKind, TOrder } from "../../utils/api/types";
+import { TOrder } from "../../utils/api/types";
 
-type TStateOrderDetail = {
+export type TStateOrderDetail = {
   order: TOrder;
   success: boolean | undefined;
   isLoading: boolean | null;
