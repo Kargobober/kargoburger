@@ -79,3 +79,9 @@ export const translateOrderStatus = (status: StatusKind) => {
   };
   return statusRus;
 };
+
+export function bakeJSON (data: any, needToLog = true) {
+  const bakedData = JSON.stringify(data, null, "\t");
+  if (needToLog) console.log(bakedData);
+  return bakedData;
+}
