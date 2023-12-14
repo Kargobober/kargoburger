@@ -39,7 +39,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "deploy-ngi": "npm run build && scp -r ./build/* kargobober_hack@51.250.31.97:/home/kargobober_hack/mesto-frontend",
+    "deploy-ngi": "npm run build && scp -r ./build/* kargobober_hack@51.250.31.97:/home/kargobober_hack/stellar-frontend",
     "test": "react-scripts test",
     "test-cy": "cypress open",
     "eject": "react-scripts eject"
