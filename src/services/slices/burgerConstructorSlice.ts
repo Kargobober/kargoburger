@@ -14,7 +14,7 @@ type TMoveItem = {
     ingredient: TIngredientExtraIdCounted;
 };
 
-const initialState: TStateBurgerConstructor = {
+export const initialState: TStateBurgerConstructor = {
   selectedBun: null,
   selectedProducts: [],
 };

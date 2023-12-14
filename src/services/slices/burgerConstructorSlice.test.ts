@@ -1,4 +1,10 @@
-import burgerConstructorReducer, { TStateBurgerConstructor, addItem, moveItem, removeItem, resetConstructor } from './burgerConstructorSlice';
+import burgerConstructorReducer, {
+  initialState,
+  TStateBurgerConstructor,
+  addItem,
+  moveItem,
+  removeItem,
+  resetConstructor } from './burgerConstructorSlice';
 import * as utils from '../../utils/utils';
 import { ProductsTypeList } from '../../utils/types';
 
@@ -54,11 +60,6 @@ const sauce = {
 const bunWithId = { ...bun, extraId: 'myBun' };
 const meatWithId = { ...meat, extraId: 'myMeat' };
 const sauceWithId = { ...sauce, extraId: 'mySauce' };
-
-const initialState: TStateBurgerConstructor = {
-  selectedBun: null,
-  selectedProducts: [],
-};
 
 const filledState: TStateBurgerConstructor = {
   selectedBun: bunWithId,

@@ -1,10 +1,11 @@
-import ingredientsReducer from './ingredientsSlice';
+import { ProductsTypeList, TIngredient } from '../../utils/types';
+import ingredientsReducer, { initialState } from './ingredientsSlice';
 
-const ingredients = [
+const ingredients: Array<TIngredient> = [
   {
     _id: '643d69a5c3f7b9001cfa093c',
     name: 'Краторная булка N-200i',
-    type: 'bun',
+    type: ProductsTypeList.bun,
     proteins: 80,
     fat: 24,
     carbohydrates: 53,
@@ -18,7 +19,7 @@ const ingredients = [
   {
     _id: '643d69a5c3f7b9001cfa0941',
     name: 'Биокотлета из марсианской Магнолии',
-    type: 'main',
+    type: ProductsTypeList.main,
     proteins: 420,
     fat: 142,
     carbohydrates: 242,
@@ -32,7 +33,7 @@ const ingredients = [
   {
     _id: '643d69a5c3f7b9001cfa093e',
     name: 'Филе Люминесцентного тетраодонтимформа',
-    type: 'main',
+    type: ProductsTypeList.main,
     proteins: 44,
     fat: 26,
     carbohydrates: 85,
@@ -46,7 +47,7 @@ const ingredients = [
   {
     _id: '643d69a5c3f7b9001cfa0942',
     name: 'Соус Spicy-X',
-    type: 'sauce',
+    type: ProductsTypeList.sauce,
     proteins: 30,
     fat: 20,
     carbohydrates: 40,
@@ -60,7 +61,7 @@ const ingredients = [
   {
     _id: '643d69a5c3f7b9001cfa0943',
     name: 'Соус фирменный Space Sauce',
-    type: 'sauce',
+    type: ProductsTypeList.sauce,
     proteins: 50,
     fat: 22,
     carbohydrates: 11,
@@ -72,12 +73,6 @@ const ingredients = [
     __v: 0
   }
 ];
-
-const initialState = {
-  isLoading: null,
-  hasError: false,
-  ingredientsData: [],
-};
 
 describe('Testing ingredientsSlice', () => {
   test('Testing the pending process', () => {

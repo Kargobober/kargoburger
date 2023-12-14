@@ -35,7 +35,6 @@ const OrderPage: FC = () => {
 
   useEffect(() => {
     if (isLoadingOrd === false && success && order && order.status) {
-      console.log(order.status);
       setStatusRus(translateOrderStatus(order.status));
       const quantityOfEachIngredient = countIngredient(order.ingredients);
       setQtyOfEachIngredient(quantityOfEachIngredient);

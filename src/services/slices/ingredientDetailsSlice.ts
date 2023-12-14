@@ -23,7 +23,7 @@ export type TStateIngredientDetail = {
   isFilled: boolean;
 };
 
-const initialState: TStateIngredientDetail = {
+export const initialState: TStateIngredientDetail = {
   ingredient: {
     _id: '',
     name: '',

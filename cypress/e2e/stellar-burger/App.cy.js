@@ -1,5 +1,10 @@
 import { bakeJSON } from '../../../src/utils/utils';
 
+const ingredientsList = '[class^="List_list__"]';
+const ingredientsSection = '[class^="BurgerIngredients_section__"]';
+const burgerConstructorList = '[class^="BurgerConstructor_list__"]';
+const modalSelector = '#react-modals';
+
 describe('Testing burger constructor page', () => {
   beforeEach(() => {
     cy.intercept('GET', 'ingredients', { fixture: 'ingredients.json' });
@@ -34,7 +39,7 @@ describe('Testing burger constructor page', () => {
   it('The initial constructor is empty', () => {
     // а тут класс идёт первым, так что class^=
     cy.get('main').find('section').eq(1)
-      .find('[class^="BurgerConstructor_list__"]').as('list');
+      .find(burgerConstructorList).as('list');
 
     cy.get('@list').children()
       .should(($children) => { expect($children).to.have.length(0)});
@@ -47,10 +52,10 @@ describe('Testing burger constructor page', () => {
 
   it('The ingredient can be dragged into the constructor', () => {
     cy.get('main').find('section').eq(1)
-      .find('[class^="BurgerConstructor_list__"]').as('list');
+      .find(burgerConstructorList).as('list');
 
-    cy.get('[class^="BurgerIngredients_section__"]')
-      .find('[class^="List_list__"]').find('li').first()
+    cy.get(ingredientsSection)
+      .find(ingredientsList).find('li').first()
       .trigger('dragstart');
 
     cy.get('@list').trigger('drop');
@@ -64,8 +69,8 @@ describe('Testing burger constructor page', () => {
 
 
     // Теперь дропаем основной ингредиент
-    cy.get('[class^="BurgerIngredients_section__"]')
-    .find('[class^="List_list__"]').find('li').eq(5)
+    cy.get(ingredientsSection)
+    .find(ingredientsList).find('li').eq(5)
     .trigger('dragstart');
 
     cy.get('@list').trigger('drop');
@@ -87,21 +92,21 @@ describe('Testing burger constructor page', () => {
   it('Posting order', () => {
     // дропаем ингредиенты в конструктор
     cy.get('main').find('section').eq(1)
-      .find('[class^="BurgerConstructor_list__"]').as('list');
+      .find(burgerConstructorList).as('list');
 
-    cy.get('[class^="BurgerIngredients_section__"]')
-      .find('[class^="List_list__"]').find('li').first()
+    cy.get(ingredientsSection)
+      .find(ingredientsList).find('li').first()
       .trigger('dragstart');
     cy.get('@list').trigger('drop');
 
-    cy.get('[class^="BurgerIngredients_section__"]')
-      .find('[class^="List_list__"]').find('li').eq(5)
+    cy.get(ingredientsSection)
+      .find(ingredientsList).find('li').eq(5)
       .trigger('dragstart');
     cy.get('@list').trigger('drop');
 
 
     // изначально модалка пустая
-    cy.get('#react-modals').children()
+    cy.get(modalSelector).children()
       .should(($children) => { expect($children).to.have.length(0) });
 
     cy.intercept('POST', 'orders', { fixture: 'postOrder.json' });
@@ -128,13 +133,13 @@ describe('Testing burger constructor page', () => {
     });
     cy.get('@buttonPost').click();
 
-    cy.get('#react-modals').find('div').first().as('content');
+    cy.get(modalSelector).find('div').first().as('content');
     cy.get('@content').find('div').last().find('h3').should('contain', '25007');
 
     // выход из модалки
     cy.get('body').type('{esc}');
 
-    cy.get('#react-modals').children()
+    cy.get(modalSelector).children()
       .should(($children) => { expect($children).to.have.length(0) });
   });
 
@@ -147,12 +152,12 @@ describe('Testing burger constructor page', () => {
     });
 
     // модалка пустая?
-    cy.get('#react-modals').children()
+    cy.get(modalSelector).children()
       .should(($children) => { expect($children).to.have.length(0) });
 
     // кликаем на карточку товара
-    cy.get('[class^="BurgerIngredients_section__"]')
-      .find('[class^="List_list__"]')
+    cy.get(ingredientsSection)
+      .find(ingredientsList)
       .find('li').first().click();
 
     // локация должна смениться
@@ -161,7 +166,7 @@ describe('Testing burger constructor page', () => {
     });
 
     // модалка открыта?
-    cy.get('#react-modals').find('div').first().as('content');
+    cy.get(modalSelector).find('div').first().as('content');
 
     cy.get('@content').find('div').last().find('h3')
       .should('contain', 'Краторная булка N-200i');
@@ -185,7 +190,7 @@ describe('Testing burger constructor page', () => {
       expect(location.pathname).to.eq('/');
     });
 
-    cy.get('#react-modals').children()
+    cy.get(modalSelector).children()
       .should(($children) => { expect($children).to.have.length(0) });
   });
 });

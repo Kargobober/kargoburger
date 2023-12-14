@@ -1,25 +1,5 @@
 import { ProductsTypeList } from '../../utils/types';
-import ingredientDetailsReducer, { TStateIngredientDetail, clearInfo, setInfo } from './ingredientDetailsSlice';
-
-const initialState: TStateIngredientDetail = {
-  ingredient: {
-    _id: '',
-    name: '',
-    type: undefined,
-    proteins: 0,
-    fat: 0,
-    carbohydrates: 0,
-    calories: 0,
-    price: 0,
-    image: 'URL',
-    image_mobile: 'URL',
-    image_large: 'URL',
-    __v: 0,
-    qty: 0,
-    extraId: '',
-  },
-  isFilled: false,
-};
+import ingredientDetailsReducer, { initialState, clearInfo, setInfo } from './ingredientDetailsSlice';
 
 const data = {
   _id: '643d69a5c3f7b9001cfa0941',

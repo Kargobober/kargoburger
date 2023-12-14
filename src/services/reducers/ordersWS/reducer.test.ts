@@ -1,3 +1,4 @@
+import { testObj } from '../../../utils/test';
 import { WebsocketStatus } from '../../types/ordersWS';
 import { wsClose, wsConnecting, wsError, wsMessage, wsOpen } from './actions';
 import { ordersWSReducer, ordersWSInitialState } from './reducer';
@@ -57,18 +58,18 @@ describe('Testing ordersWSReducer', () => {
   test('Testing wsError', () => {
     expect(ordersWSReducer(ordersWSInitialState, {
       type: wsError.type,
-      payload: {someKey: 'someValue'}
+      payload: testObj
     })).toEqual({
       ...ordersWSInitialState,
-      connectionError: {someKey: 'someValue'},
+      connectionError: testObj,
     });
 
     expect(ordersWSReducer(undefined, {
       type: wsError.type,
-      payload: {someKey: 'someValue'}
+      payload: testObj
     })).toEqual({
       ...ordersWSInitialState,
-      connectionError: {someKey: 'someValue'},
+      connectionError: testObj,
     });
   });
 
@@ -76,18 +77,18 @@ describe('Testing ordersWSReducer', () => {
   test('Testing wsMessage', () => {
     expect(ordersWSReducer(ordersWSInitialState, {
       type: wsMessage.type,
-      payload: {someKey: 'someValue'}
+      payload: testObj
     })).toEqual({
       ...ordersWSInitialState,
-      data: {someKey: 'someValue'},
+      data: testObj,
     });
 
     expect(ordersWSReducer(undefined, {
       type: wsMessage.type,
-      payload: {someKey: 'someValue'}
+      payload: testObj
     })).toEqual({
       ...ordersWSInitialState,
-      data: {someKey: 'someValue'},
+      data: testObj,
     });
   });
 });

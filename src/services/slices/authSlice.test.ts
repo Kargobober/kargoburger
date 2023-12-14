@@ -1,4 +1,19 @@
-import authReducer, { authInitialState, clearError, setAuthPending, setChangeUserDataSuccess, setEmailOnStorage, setError, setLogOutSuccess, setRegisterPending, setRegisterSuccess, setResetCodeSuccess, setResetPasswordSuccess, setUser, setUserPending, setUserSuccess } from './authSlice';
+import { testError, testErrorExtra, testUserUtil } from '../../utils/test';
+import authReducer, {
+  authInitialState,
+  clearError,
+  setAuthPending,
+  setChangeUserDataSuccess,
+  setEmailOnStorage,
+  setError,
+  setLogOutSuccess,
+  setRegisterPending,
+  setRegisterSuccess,
+  setResetCodeSuccess,
+  setResetPasswordSuccess,
+  setUser,
+  setUserPending,
+  setUserSuccess } from './authSlice';
 
 const testUser = {
   name: 'Kargobober',
@@ -100,14 +115,14 @@ describe('Testing reducers in authSlice', () => {
 
 
   test('Testing setError', () => {
-    expect(authReducer(authInitialState, setError({error: 'I am error!'}))).toEqual({
+    expect(authReducer(authInitialState, setError(testError))).toEqual({
       ...authInitialState,
-      error: {error: 'I am error!'},
+      error: testError,
     });
 
-    expect(authReducer(undefined, setError({error: 'I am error!'}))).toEqual({
+    expect(authReducer(undefined, setError(testError))).toEqual({
       ...authInitialState,
-      error: {error: 'I am error!'},
+      error: testError,
     });
   });
 
@@ -395,22 +410,22 @@ describe('Testing extra reducers in authSlice', () => {
   test('Testing sendResetCode, rejected', () => {
     expect(authReducer(authInitialState, {
       type: 'auth/sendResetCode/rejected',
-      payload: {error: 'I am error!'}
+      payload: testError
     })).toEqual({
       ...authInitialState,
       resetPasswordPending: false,
       resetCodeSuccess: false,
-      error: {error: 'I am error!'},
+      error: testError,
     });
 
     expect(authReducer(undefined, {
       type: 'auth/sendResetCode/rejected',
-      payload: {error: 'I am error!'}
+      payload: testError
     })).toEqual({
       ...authInitialState,
       resetPasswordPending: false,
       resetCodeSuccess: false,
-      error: {error: 'I am error!'},
+      error: testError,
     });
   });
 
@@ -454,22 +469,22 @@ describe('Testing extra reducers in authSlice', () => {
   test('Testing resetPassword, rejected', () => {
     expect(authReducer(authInitialState, {
       type: 'auth/resetPassword/rejected',
-      payload: {error: 'I am ERROR!'}
+      payload: testError
     })).toEqual({
       ...authInitialState,
       resetPasswordPending: false,
       resetPasswordSuccess: false,
-      error: {error: 'I am ERROR!'},
+      error: testError,
     });
 
     expect(authReducer(undefined, {
       type: 'auth/resetPassword/rejected',
-      payload: {error: 'I am ERROR!'}
+      payload: testError
     })).toEqual({
       ...authInitialState,
       resetPasswordPending: false,
       resetPasswordSuccess: false,
-      error: {error: 'I am ERROR!'},
+      error: testError,
     });
   });
 
@@ -495,12 +510,12 @@ describe('Testing extra reducers in authSlice', () => {
   test('Testing changeUserData, fulfilled', () => {
     expect(authReducer(authInitialState, {
       type: 'auth/changeUserData/fulfilled',
-      payload: {success: true, user: {name: 'Aboba', email: 'aboba@abo.ba'}}
+      payload: {success: true, user: testUserUtil}
     })).toEqual({
       ...authInitialState,
       changeUserDataPending: false,
       changeUserDataSuccess: true,
-      user: {name: 'Aboba', email: 'aboba@abo.ba'},
+      user: testUserUtil,
     });
 
     expect(authReducer(undefined, {
@@ -517,22 +532,22 @@ describe('Testing extra reducers in authSlice', () => {
   test('Testing changeUserData, rejected', () => {
     expect(authReducer(authInitialState, {
       type: 'auth/changeUserData/rejected',
-      payload: {error: 'I am message about your mistake!'}
+      payload: testError
     })).toEqual({
       ...authInitialState,
       changeUserDataPending: false,
       changeUserDataSuccess: false,
-      error: {error: 'I am message about your mistake!'},
+      error: testError,
     });
 
     expect(authReducer(undefined, {
       type: 'auth/changeUserData/rejected',
-      payload: {error: 'I am message about your mistake!'}
+      payload: testError
     })).toEqual({
       ...authInitialState,
       changeUserDataPending: false,
       changeUserDataSuccess: false,
-      error: {error: 'I am message about your mistake!'},
+      error: testError,
     });
   });
 
@@ -580,22 +595,22 @@ describe('Testing extra reducers in authSlice', () => {
   test('Testing logOut, rejected', () => {
     expect(authReducer(authInitialState, {
       type: 'auth/logOut/rejected',
-      payload: {error: "You haven't tried the immortal mollusk!"}
+      payload: testErrorExtra
     })).toEqual({
       ...authInitialState,
       logOutPending: false,
       logOutSuccess: false,
-      error:  {error: "You haven't tried the immortal mollusk!"},
+      error:  testErrorExtra,
     });
 
     expect(authReducer(undefined, {
       type: 'auth/logOut/rejected',
-      payload: {error: "You haven't tried the immortal mollusk!"}
+      payload: testErrorExtra
     })).toEqual({
       ...authInitialState,
       logOutPending: false,
       logOutSuccess: false,
-      error:  {error: "You haven't tried the immortal mollusk!"},
+      error:  testErrorExtra,
     });
   });
 });
