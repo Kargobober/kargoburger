@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "user": {
+    "email": "kargobober2007@email.com",
+    "name": "Kebap2007"
+  },
+  "accessToken": "Bearer qwerty-123-auth",
+  "refreshToken": "abra-kadabra"
+}

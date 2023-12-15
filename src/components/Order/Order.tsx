@@ -57,8 +57,9 @@ const Order: FC<TOrderProps> = ({ ingredients, _id, number, createdAt, name, sta
 
   return (
     <li className={`${styles.item} ${isNull ? styles.nullish : ''} `}>
-      <Link to={isNull ? 'https://yandex.ru/support/market/return/terms.html#return__money'
-                : `/${usageCase}/${number}`}
+      <Link
+        to={isNull ? 'https://yandex.ru/support/market/return/terms.html#return__money'
+          : `${number}`}
         state = {{
           background: location,
           data: {

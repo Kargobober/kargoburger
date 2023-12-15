@@ -41,7 +41,7 @@ function ProfilePage() {
       case '/profile/orders':
         setClue(profileTabs[1].clue);
         break;
-      case './profile/logout':
+      case '/profile/logout':
         setClue(profileTabs[2].clue);
         break;
       default:

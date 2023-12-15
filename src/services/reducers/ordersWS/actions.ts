@@ -1,5 +1,4 @@
 import { TResponseGetOrders } from '../../../utils/api/types';
-import { OrdersWSAction } from '../../types/ordersWS';
 import { createAction } from '@reduxjs/toolkit';
 
 export const connect = createAction<string, 'ORDERS_WS_CONNECT'>('ORDERS_WS_CONNECT');

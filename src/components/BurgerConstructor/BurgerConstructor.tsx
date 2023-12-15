@@ -129,10 +129,7 @@ function BurgerConstructor() {
     accept: 'ingredient',
     // деструктуризация объекта
     drop: ({ card }) => {
-      dispatch(addItem({
-        ...card,
-        extraId: uuidv4(),
-      }));
+      dispatch(addItem(card));
     },
     collect: monitor => ({
       isHover: monitor.isOver(),

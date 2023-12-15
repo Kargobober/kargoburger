@@ -9,7 +9,7 @@ export type OrdersWSStore = {
   data: TResponseGetOrders
 }
 
-const initialState: OrdersWSStore = {
+export const ordersWSInitialState: OrdersWSStore = {
   status: WebsocketStatus.OFFLINE,
   connectionError: '',
   data: {
@@ -20,7 +20,7 @@ const initialState: OrdersWSStore = {
   },
 };
 
-export const ordersWSReducer = createReducer(initialState, (builder) => {
+export const ordersWSReducer = createReducer(ordersWSInitialState, (builder) => {
   builder
     .addCase(wsConnecting, (state) => {
       state.status = WebsocketStatus.CONNECTING;
@@ -41,7 +41,7 @@ export const ordersWSReducer = createReducer(initialState, (builder) => {
 });
 
 /*
-коммент автора лайв-таблицыЖ: createSlice не выводит экшены с type литерального типа и
+коммент автора лайв-таблицы: createSlice не выводит экшены с type литерального типа и
 совсем строгую типизацию так не получить
 
 см. оригинальный код мидлвары для WS

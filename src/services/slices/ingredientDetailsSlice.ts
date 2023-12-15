@@ -1,29 +1,29 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ProductsTypeList, TIngredientCounted } from "../../utils/types";
+import { ProductsTypeList } from "../../utils/types";
 
 type TIngredientDetail = {
   _id: string;
-    name: string;
-    type?: ProductsTypeList;
-    proteins: number;
-    fat: number;
-    carbohydrates: number;
-    calories: number;
-    price?: number;
-    image: string;
-    image_mobile?: string;
-    image_large?: string;
-    __v?: number;
-    qty?: number;
-    extraId?: string;
+  name: string;
+  type?: ProductsTypeList;
+  proteins: number;
+  fat: number;
+  carbohydrates: number;
+  calories: number;
+  price?: number;
+  image: string;
+  image_mobile?: string;
+  image_large?: string;
+  __v?: number;
+  qty?: number;
+  extraId?: string;
 };
 
-type TStateIngredientDetail = {
+export type TStateIngredientDetail = {
   ingredient: TIngredientDetail;
   isFilled: boolean;
 };
 
-const initialState: TStateIngredientDetail = {
+export const initialState: TStateIngredientDetail = {
   ingredient: {
     _id: '',
     name: '',

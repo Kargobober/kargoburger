@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { TIngredient, TIngredientExtraId } from './types';
 import { StatusKind } from './api/types';
 
+export const getUniqId = () => uuidv4();
+
 type TErrorHandler = (text: string, error?: unknown) => void;
 
 export const handleError: TErrorHandler = (text, error = '') => {
@@ -36,7 +38,7 @@ export const findIngredientObj = (id: string, arr: TIngredient[]): TIngredientEx
   const ingredient = arr.find(item => item._id === id ? true : false);
   if (ingredient) {
     // нельзя мутировать объект почему-то ↓
-    const ingredientUniq = { ...ingredient, extraId: uuidv4() };
+    const ingredientUniq = { ...ingredient, extraId: getUniqId() };
     return ingredientUniq;
   } else {
     return null;
@@ -77,3 +79,9 @@ export const translateOrderStatus = (status: StatusKind) => {
   };
   return statusRus;
 };
+
+export function bakeJSON (data: any, needToLog = true) {
+  const bakedData = JSON.stringify(data, null, "\t");
+  if (needToLog) console.log(bakedData);
+  return bakedData;
+}
