@@ -2,6 +2,7 @@
   "name": "react-burger-starter",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
     "@ya.praktikum/react-developer-burger-ui-components": "^1.14.0",
@@ -34,12 +35,15 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/uuid": "^9.0.7",
     "cypress": "^13.6.1",
+    "gh-pages": "^6.1.1",
     "typescript": "^4.9.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "deploy-ngi": "npm run build && scp -r ./build/* kargobober_hack@51.250.31.97:/home/kargobober_hack/stellar-frontend",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "test-cy": "cypress open",
     "eject": "react-scripts eject"
