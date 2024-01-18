@@ -30,4 +30,5 @@
 * CSS3
 
 ## Cсылка на проект[⏩ kargoburger.nomoredomainsmonster.ru](https://kargoburger.nomoredomainsmonster.ru/)
-Версия на GitHub Pages[⏩ kargobober.github.io](https://kargobober.github.io/react-stellar-burger/)
+Если сайт недоступен по ссылке выше (возможны проблемы с хостингом), то попробуйте ссылку ниже =)
+## Версия на GitHub Pages[⏩ kargobober.github.io](https://kargobober.github.io/)
