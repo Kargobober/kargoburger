@@ -53,7 +53,7 @@ function App (): JSX.Element {
   return (
     <>
       <Routes location={historyState?.background || location}>
-        <Route path='/' element={<Layout />} >
+        <Route path='/react-stellar-burger/' element={<Layout />} >
           <Route index element={<HomePage />} />
 
           <Route path='login' element={<OnlyUnAuth component={<LoginPage />} />} />
