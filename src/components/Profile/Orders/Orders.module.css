@@ -8,3 +8,14 @@
   padding-right: calc(var(--offset-base-size) * 2);
   box-sizing: border-box;
 }
+
+.stub {
+  padding-top: calc(var(--offset-base-size) * 41);
+  display: grid;
+  grid-column-start: 2;
+  grid-column-end: 4;
+  width: 100%;
+  row-gap: calc(var(--offset-base-size) * 6);
+  padding-right: calc(var(--offset-base-size) * 2);
+  box-sizing: border-box;
+}

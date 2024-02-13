@@ -48,10 +48,15 @@ const Orders = () => {
 
 
 
-  const { data } = useSelector(state => state.ordersWS);
-  const success = useSelector(state => state.ordersWS.data.success);
+  const data = useSelector(state => state.ordersWS.data);
 
-  if (data && success) return (
+  if (data && data.success && data.orders.length === 0) return (
+    <section className={styles.stub}>
+      <h2 className='text text_type_main-default text_centered'>Вы пока не сделали ни одного заказа😮</h2>
+    </section>
+  )
+
+  if (data && data.success && data.orders.length > 0) return (
     <>
       <ol className={styles.ordersList + ` listGlobal custom-scroll pt-1 pb-3`} ref={listRef} style={{ height: permittedHeight }}>
         {data.orders.map(el => {
@@ -71,13 +76,16 @@ const Orders = () => {
     </>
   )
 
-  return (<MoonLoader color='#4c4cff'
-    size={120}
-    cssOverride={{
-      marginTop: '120px',
-    }}
-    speedMultiplier={0.4}
-  />)
+  return (
+    <MoonLoader
+      color='#4c4cff'
+      size={120}
+      cssOverride={{
+        marginTop: '120px',
+      }}
+      speedMultiplier={0.4}
+    />
+  )
 };
 
 export default Orders;
