@@ -19,6 +19,7 @@
   background-color: var(--background);
   row-gap: calc(var(--offset-base-size) * 6);
   transition: all ease-out .3;
+  max-height: 230px;
 }
 
 .item:hover {

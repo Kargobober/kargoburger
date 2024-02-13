@@ -28,12 +28,17 @@ import { ingredientsQuery } from "../../services/middlewares/ingredientsQuery";
 import OrderPage from "../../pages/orderPage";
 import FeedPage from "../../pages/feed";
 import OrderInfo, { TData } from "../OrderInfo/OrderInfo";
+import { REPONAME } from "../../utils/constants";
 
 
 function App (): JSX.Element {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development' && location.pathname === `/${REPONAME}`) navigate('/');
+  }, []);
 
   useEffect(() => {
     dispatch(ingredientsQuery());
@@ -53,7 +58,7 @@ function App (): JSX.Element {
   return (
     <>
       <Routes location={historyState?.background || location}>
-        <Route path='/react-stellar-burger/' element={<Layout />} >
+        <Route path='/' element={<Layout />} >
           <Route index element={<HomePage />} />
 
           <Route path='login' element={<OnlyUnAuth component={<LoginPage />} />} />

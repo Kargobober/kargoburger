@@ -31,6 +31,7 @@ export const ordersWSReducer = createReducer(ordersWSInitialState, (builder) => 
     })
     .addCase(wsClose, (state) => {
       state.status = WebsocketStatus.OFFLINE;
+      state.data = ordersWSInitialState.data;
     })
     .addCase(wsError, (state, action) => {
       state.connectionError = action.payload;

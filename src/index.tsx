@@ -6,12 +6,13 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store } from "./services/store";
 import { BrowserRouter } from "react-router-dom";
+import { BASENAME } from "./utils/constants";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       {/* перенес роутер сюда, иначе была ошибка */}
-      <BrowserRouter>
+      <BrowserRouter basename={BASENAME}>
         <App />
       </BrowserRouter>
     </Provider>
