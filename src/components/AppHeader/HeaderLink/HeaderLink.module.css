@@ -14,3 +14,9 @@
 .link:visited {
   color: inherit;
 }
+
+@media screen and (max-width: 500px) {
+  .link {
+    padding: calc(var(--offset-base-size) * 3) calc(var(--offset-base-size) * 2);
+  }
+}

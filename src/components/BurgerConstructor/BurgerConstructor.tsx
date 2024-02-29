@@ -17,7 +17,6 @@ import { postOrder } from '../../services/middlewares/orderDetailsQueries';
 import burgerIconSvg from '../../images/burger.svg';
 import { useDrop } from 'react-dnd';
 import { addItem, resetConstructor } from '../../services/slices/burgerConstructorSlice';
-import { v4 as uuidv4 } from 'uuid';
 import { useLocation, useNavigate } from 'react-router';
 import { getIngredients } from '../../services/selectors/ingredientsSelector';
 import { getUserFromState } from '../../services/selectors/authSelector';

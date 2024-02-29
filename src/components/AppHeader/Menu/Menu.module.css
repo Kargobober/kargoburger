@@ -1,0 +1,30 @@
+.containerModal {
+  position: relative;
+}
+
+.containerContent {
+  position: relative;
+  z-index: 20;
+  background-color: var(--background);
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: calc(var(--offset-base-size) * 5);
+  padding-right: calc(var(--offset-base-size) * 5);
+}
+
+@media screen and (max-width: 500px) {
+  .containerContent {
+    height: 100vh;
+    padding-top: calc(var(--offset-base-size) * 4);
+  }
+
+  .header {
+    padding-left: calc(var(--offset-base-size) * 2);
+    padding-right: calc(var(--offset-base-size) * 2);
+  }
+}

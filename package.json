@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://kargobober.github.io/kargoburger",
   "dependencies": {
+    "@alfalab/core-components-popover": "^6.2.1",
     "@reduxjs/toolkit": "^1.9.7",
     "@ya.praktikum/react-developer-burger-ui-components": "^1.14.0",
     "clsx": "^1.2.1",

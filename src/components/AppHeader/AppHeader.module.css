@@ -23,3 +23,35 @@
   justify-self: start;
   column-gap: calc(var(--offset-base-size) * 2);
 }
+
+.nav-bar-item {
+  flex-shrink: 0;
+}
+
+.buttonMenuContent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.menuWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.popover.popover {
+  width: 100%;
+  background-color: var(--background);
+  border: 0px solid;
+}
+
+.logoMobile {
+  max-height: 40px;
+}
+
+@media screen and (max-width: 1050px) {
+  .header {
+    justify-content: space-between;
+  }
+}
