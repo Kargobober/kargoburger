@@ -1,13 +1,14 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import { BurgerIcon, ListIcon, Logo, MenuIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './AppHeader.module.css';
+import stylesTransition from './AppHeaderTransition.module.css';
 import HeaderLink from './HeaderLink/HeaderLink';
 import { Link, useLocation } from 'react-router-dom';
-import { Popover } from '@alfalab/core-components-popover';
 import useWindowSize from '../../utils/hooks/useWindowSize';
 import Menu from './Menu/Menu';
 import logoMobile from '../../images/logo-mobile.svg';
 import Modal from '../Modal/Modal';
+import { CSSTransition } from 'react-transition-group';
 
 function AppHeader(): JSX.Element {
   const location = useLocation();
@@ -18,6 +19,8 @@ function AppHeader(): JSX.Element {
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const [content, setContent] = useState<ReactNode>(null);
+
+  const refTransition = useRef<HTMLDivElement>(null);
 
   const headerLinks = [
     { name: 'Конструктор', img: BurgerIcon, to: '/' },
@@ -118,14 +121,23 @@ function AppHeader(): JSX.Element {
   return (
     <header className={`${styles.header} ${windowSize.width < 500 ? 'pt-3 pb-3' : 'pt-4 pb-4'}`}>
       {content}
-      {/* поповер должен размещаться внутри return, иначе не срабатывало */}
-      {isModalOpen && <Modal
-        onClose={toggleModal}
-        heading='Меню'
-        extraClassContainer={styles.modalContainer}
+      <CSSTransition
+        nodeRef={refTransition}
+        in={isModalOpen}
+        timeout={300}
+        classNames={{ ...stylesTransition }}
+        unmountOnExit
       >
-        <Menu data={headerLinks} />
-      </Modal>}
+        <Modal
+          ref={refTransition}
+          key={Date.now()}
+          onClose={toggleModal}
+          heading='Меню'
+          extraClassContainer={styles.modalContainer}
+        >
+          <Menu data={headerLinks} />
+        </Modal>
+      </CSSTransition>
     </header>
   )
 }

@@ -1,4 +1,4 @@
-import { useEffect, FC } from 'react';
+import { useEffect, FC, forwardRef, ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
 import { modalRoot } from '../../utils/modal';
@@ -22,20 +22,24 @@ type TProps = {
   extraClass?: string;
   lineHeight?: string;
   extraClassContainer?: string;
+  children: ReactNode;
 };
 
-const Modal: FC<TProps> = ({
-  children,
-  heading,
-  onClose,
-  pt = 10,
-  pr = 10,
-  pb = 15,
-  pl = 10,
-  extraClass,
-  lineHeight,
-  extraClassContainer,
-}) => {
+const Modal = forwardRef((
+  {
+    children,
+    heading,
+    onClose,
+    pt = 10,
+    pr = 10,
+    pb = 15,
+    pl = 10,
+    extraClass,
+    lineHeight,
+    extraClassContainer,
+  }: TProps,
+  ref: React.ForwardedRef<HTMLDivElement>
+) => {
 
   useEffect(() => {
     if (onClose) {
@@ -52,13 +56,13 @@ const Modal: FC<TProps> = ({
 
   return ReactDOM.createPortal((
     <>
-      <div className={`${styles['modal-container']} pt-${pt} pr-${pr} pb-${pb} pl-${pl} ${extraClassContainer}`}>
-        <ModalHeader heading={heading} onClose={onClose}  extraClass={extraClass} lineHeight={lineHeight} />
+      <div className={`${styles['modal-container']} pt-${pt} pr-${pr} pb-${pb} pl-${pl} ${extraClassContainer}`} ref={ref}>
+        <ModalHeader heading={heading} onClose={onClose} extraClass={extraClass} lineHeight={lineHeight} />
         {children}
       </div>
       <ModalOverlay onClose={onClose} />
     </>
   ), modalRoot);
-}
+});
 
 export default Modal;
