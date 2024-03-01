@@ -17,6 +17,25 @@
   padding-right: calc(var(--offset-base-size) * 5);
 }
 
+.buttonProfile {
+  width: 100%;
+  padding: calc(var(--offset-base-size) * 4) calc(var(--offset-base-size) * 5);
+  display: flex;
+  align-items: center;
+}
+
+.personIcoWrapper {
+  margin-right: calc(var(--offset-base-size) * 2);
+}
+
+.arrowWrapper {
+  margin-left: auto;
+}
+
+.profileLinks {
+  padding: calc(var(--offset-base-size) * 2.5) calc(var(--offset-base-size) * 5 + 24px + var(--offset-base-size) * 2);
+}
+
 @media screen and (max-width: 500px) {
   .containerContent {
     height: 100vh;
@@ -26,5 +45,13 @@
   .header {
     padding-left: calc(var(--offset-base-size) * 2);
     padding-right: calc(var(--offset-base-size) * 2);
+  }
+
+  .buttonProfile {
+    padding: calc(var(--offset-base-size) * 3) calc(var(--offset-base-size) * 2);
+  }
+
+  .profileLinks {
+    padding: calc(var(--offset-base-size) * 2.5) calc(var(--offset-base-size) * 2 + 24px + var(--offset-base-size) * 2);
   }
 }
