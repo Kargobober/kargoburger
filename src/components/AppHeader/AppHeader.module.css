@@ -43,7 +43,8 @@
 .popover.popover {
   width: 100%;
   background-color: var(--background);
-  border: 0px solid;
+  border: none;
+  padding-bottom: calc(var(--offset-base-size) * 4);
 }
 
 .logoMobile {

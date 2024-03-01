@@ -1,3 +1,4 @@
 :root:root {
   --color-light-modal-bg-primary: var(--background);
+  --shadow-m: none;
 }

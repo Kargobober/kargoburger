@@ -70,7 +70,7 @@ const Menu: FC<TProps> = ({data, handler}) => {
                 <div className={styles.personIcoWrapper}>
                   <ProfileIcon type={isProfileButtonActive ? 'primary' : 'secondary'} />
                 </div>
-                Личный кабинет
+                {data[2].name}
                 <div className={styles.arrowWrapper}>
                   <ArrowDownIcon type={isProfileButtonActive ? 'primary' : 'secondary'} />
                 </div>

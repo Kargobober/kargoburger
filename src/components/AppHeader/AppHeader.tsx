@@ -13,7 +13,7 @@ function AppHeader(): JSX.Element {
 
   const windowSize = useWindowSize();
 
-  const [popoverIsOpen, setPopoverIsOpen] = useState(false);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const [content, setContent] = useState<ReactNode>(null);
@@ -25,7 +25,7 @@ function AppHeader(): JSX.Element {
   ] //кавычки не ставим в значении поля иконок, иначе реакт не поймёт
 
   const togglePopover = () => {
-    setPopoverIsOpen(prev => !prev);
+    setIsPopoverOpen(prev => !prev);
     buttonRef.current?.blur();
   };
 
@@ -111,7 +111,7 @@ function AppHeader(): JSX.Element {
   }, [windowSize.width]);
 
   useEffect(() => {
-    togglePopover();
+    if (isPopoverOpen) togglePopover();
   }, [location]);
 
   return (
@@ -119,7 +119,7 @@ function AppHeader(): JSX.Element {
       {content}
       {/* поповер должен размещаться внутри return, иначе не срабатывало */}
       <Popover
-        open={buttonRef.current ? popoverIsOpen : false}
+        open={buttonRef.current ? isPopoverOpen : false}
         anchorElement={buttonRef.current}
         position='bottom-end'
         offset={[0, -55]}
