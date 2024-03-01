@@ -42,17 +42,36 @@
 
 .popover.popover {
   width: 100%;
-  background-color: var(--background);
+  margin: 0 auto;
+  background-color: var(--background-element);
   border: none;
   padding-bottom: calc(var(--offset-base-size) * 4);
+  box-sizing: border-box;
 }
 
 .logoMobile {
   max-height: 40px;
 }
 
+.modalContainer {
+  width: 100vw;
+  top: 0;
+  left: 0;
+  transform: initial;
+
+  border-radius: 0px;
+  border: none;
+  box-shadow: none;
+}
+
 @media screen and (max-width: 1050px) {
   .header {
     justify-content: space-between;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .modalContainer {
+    height: 100vh;
   }
 }

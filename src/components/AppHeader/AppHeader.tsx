@@ -7,13 +7,14 @@ import { Popover } from '@alfalab/core-components-popover';
 import useWindowSize from '../../utils/hooks/useWindowSize';
 import Menu from './Menu/Menu';
 import logoMobile from '../../images/logo-mobile.svg';
+import Modal from '../Modal/Modal';
 
 function AppHeader(): JSX.Element {
   const location = useLocation();
 
   const windowSize = useWindowSize();
 
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const [content, setContent] = useState<ReactNode>(null);
@@ -24,8 +25,8 @@ function AppHeader(): JSX.Element {
     { name: 'Личный кабинет', img: ProfileIcon, to: '/profile' },
   ] //кавычки не ставим в значении поля иконок, иначе реакт не поймёт
 
-  const togglePopover = () => {
-    setIsPopoverOpen(prev => !prev);
+  const toggleModal = () => {
+    setIsModalOpen(prev => !prev);
     buttonRef.current?.blur();
   };
 
@@ -70,7 +71,7 @@ function AppHeader(): JSX.Element {
         type='button'
         className={`text text_type_main-default text_color_primary buttonGlobal ${styles['nav-button']} pr-5`}
         ref={buttonRef}
-        onClick={togglePopover}
+        onClick={toggleModal}
       >
         <div className={styles.buttonMenuContent}>
           <span className='pr-2'>Меню</span>
@@ -90,7 +91,7 @@ function AppHeader(): JSX.Element {
         type='button'
         className={`text text_type_main-default text_color_primary buttonGlobal ${styles['nav-button']} pr-2`}
         ref={buttonRef}
-        onClick={togglePopover}
+        onClick={toggleModal}
       >
         <div className={styles.buttonMenuContent}>
           <MenuIcon type="primary" />
@@ -111,23 +112,20 @@ function AppHeader(): JSX.Element {
   }, [windowSize.width]);
 
   useEffect(() => {
-    if (isPopoverOpen) togglePopover();
+    if (isModalOpen) toggleModal();
   }, [location]);
 
   return (
     <header className={`${styles.header} ${windowSize.width < 500 ? 'pt-3 pb-3' : 'pt-4 pb-4'}`}>
       {content}
       {/* поповер должен размещаться внутри return, иначе не срабатывало */}
-      <Popover
-        open={buttonRef.current ? isPopoverOpen : false}
-        anchorElement={buttonRef.current}
-        position='bottom-end'
-        offset={[0, -55]}
-        useAnchorWidth={false}
-        className={styles.popover}
+      {isModalOpen && <Modal
+        onClose={toggleModal}
+        heading='Меню'
+        extraClassContainer={styles.modalContainer}
       >
-        <Menu data={headerLinks} handler={togglePopover} />
-      </Popover>
+        <Menu data={headerLinks} />
+      </Modal>}
     </header>
   )
 }

@@ -25,7 +25,7 @@ body {
 
 .linkGlobal {
   text-decoration: none;
-  transition: .2s linear;
+  transition: color .2s linear;
   color: inherit;
 }
 

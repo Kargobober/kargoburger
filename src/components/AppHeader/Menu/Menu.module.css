@@ -1,11 +1,6 @@
 .containerModal {
   position: relative;
-}
-
-.containerContent {
-  position: relative;
-  z-index: 20;
-  background-color: var(--background);
+  width: 100%;
 }
 
 .header {
@@ -22,6 +17,12 @@
   padding: calc(var(--offset-base-size) * 4) calc(var(--offset-base-size) * 5);
   display: flex;
   align-items: center;
+  transition: opacity .2s linear;
+}
+
+.buttonProfile:hover {
+  opacity: .7;
+  cursor: pointer;
 }
 
 .personIcoWrapper {
@@ -30,10 +31,19 @@
 
 .arrowWrapper {
   margin-left: auto;
+  transition: transform .1s linear;
+}
+
+.arrowDown {
+  transform: rotateX(180deg) translateY(3px);
 }
 
 .profileLinks {
   padding: calc(var(--offset-base-size) * 2.5) calc(var(--offset-base-size) * 5 + 24px + var(--offset-base-size) * 2);
+}
+
+.collapseWrapper {
+  transition: height .3s ease-in-out;
 }
 
 @media screen and (max-width: 500px) {

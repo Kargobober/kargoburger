@@ -1,6 +1,5 @@
 .section-common {
   width: 50%;
-  height: 100vh;
   max-width: 600px;
   margin-right: calc(var(--offset-base-size) * 5);
   display: flex;
@@ -26,7 +25,6 @@
 
 .price-section {
   margin-top: calc(var(--offset-base-size) * 10);
-  margin-bottom: 52px;
 
   display: flex;
   column-gap: calc(var(--offset-base-size) * 10);

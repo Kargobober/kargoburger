@@ -21,9 +21,21 @@ type TProps = {
   pr?: number | string;
   extraClass?: string;
   lineHeight?: string;
+  extraClassContainer?: string;
 };
 
-const Modal: FC<TProps> = ({ children, heading, onClose, pt = 10, pr = 10, pb = 15, pl = 10, extraClass, lineHeight }) => {
+const Modal: FC<TProps> = ({
+  children,
+  heading,
+  onClose,
+  pt = 10,
+  pr = 10,
+  pb = 15,
+  pl = 10,
+  extraClass,
+  lineHeight,
+  extraClassContainer,
+}) => {
 
   useEffect(() => {
     if (onClose) {
@@ -40,7 +52,7 @@ const Modal: FC<TProps> = ({ children, heading, onClose, pt = 10, pr = 10, pb = 
 
   return ReactDOM.createPortal((
     <>
-      <div className={`${styles['modal-container']} pt-${pt} pr-${pr} pb-${pb} pl-${pl}`}>
+      <div className={`${styles['modal-container']} pt-${pt} pr-${pr} pb-${pb} pl-${pl} ${extraClassContainer}`}>
         <ModalHeader heading={heading} onClose={onClose}  extraClass={extraClass} lineHeight={lineHeight} />
         {children}
       </div>
