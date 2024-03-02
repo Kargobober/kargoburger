@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, forwardRef, useImperativeHandle, memo, FC } from 'react';
-import { useDispatch, useSelector } from '../../../services/hooks';
+import { useSelector } from '../../../services/hooks';
 
 import styles from './List.module.css';
 

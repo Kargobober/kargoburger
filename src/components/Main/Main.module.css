@@ -1,7 +1,12 @@
 .main {
-  display: flex;
+  box-sizing: border-box;
   max-width: 1280px;
   width: 100%;
-  justify-content: space-between;
-  padding-bottom: calc(var(--offset-base-size) * 13);
+
+  padding: 0 calc(var(--offset-base-size) * 5) calc(var(--offset-base-size) * 13) calc(var(--offset-base-size) * 5);
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  column-gap: calc(var(--offset-base-size) * 10);
 }

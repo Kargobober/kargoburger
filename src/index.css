@@ -1,4 +1,5 @@
 @import './vars.css';
+@import './components/BurgerIngredients/myTab.css';
 
 body {
   width: 100%;

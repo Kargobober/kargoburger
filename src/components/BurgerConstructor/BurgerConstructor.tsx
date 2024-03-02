@@ -22,22 +22,21 @@ import { getIngredients } from '../../services/selectors/ingredientsSelector';
 import { getUserFromState } from '../../services/selectors/authSelector';
 import { TIngredientCounted } from '../../utils/types';
 import { TPreparedOrder } from '../Profile/LogOut/LogOutPage';
+import useWindowSize from '../../utils/hooks/useWindowSize';
 
 function BurgerConstructor() {
-  // сохраняем высоту окна в стэйт, чтобы при ее изменении перерисовывать компонент с новой доступной ему высотой
-  const [windowHeight, setWindowHeight] = useState<number>();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const {width: clientWidth, height: clientHeight} = useWindowSize();
   const sectionElem = useRef<HTMLElement>(null);
   const fillingsElem = useRef<HTMLUListElement>(null);
-  const [sectionHeight, setSectionHeight] = useState(912);
   const [fillingsHeight, setFillingsHeight] = useState(560);
-  const dispatch = useDispatch();
 
   const needDetails = useSelector(getOrderDetailsNeeding);
   const isOrderSucces = useSelector(getOrderSuccess);
   const error = useSelector(getOrderError);
-
-  const location = useLocation();
-  const navigate = useNavigate();
 
   const hState: TPreparedOrder = location.state;
 
@@ -80,26 +79,16 @@ function BurgerConstructor() {
   }, [isOrderSucces]);
 
   useEffect(() => {
-    if (sectionElem.current && fillingsElem.current) {
-      // Получаем координаты верха секции конструктора
-      const sectionTopCoord = getTopCoords(sectionElem.current);
-
-      // Назначаем доступную высоту для секции, чтобы не появлялся скролл всего приложения
-      // 40(в px) – это нижний отступ всего приложения
-      setSectionHeight(document.documentElement.clientHeight - sectionTopCoord - 40);
-
+    if (fillingsElem.current) {
       const fillingsTopCoord = getTopCoords(fillingsElem.current);
-
-      // 292px - хардкод, суммарная высота элементов и отступов под списком начинок
-      setFillingsHeight(document.documentElement.clientHeight - fillingsTopCoord - 292);
-
-      const handleWindowResize = () => {
-        setWindowHeight(document.documentElement.clientHeight)
-        window.addEventListener('resize', handleWindowResize);
-      }
-      return () => { window.removeEventListener('resize', handleWindowResize) };
+      // 52(в px) – это нижний отступ всего приложения
+      // 56 - высота контентой зоны секции кнопки 'оформить заказ'
+      // 40 - высота верхнего отступа секции с кнопкой "оформить заказ"
+      // 80 - высота контента нижней булки
+      // 16 - маргин нижней булки
+      setFillingsHeight(document.documentElement.clientHeight - fillingsTopCoord - 52 - 56 - 40 - 80 - 16);
     }
-  }, [windowHeight]);
+  }, [clientHeight, fillingsElem.current, selectedProducts]);
 
 
   function handleOrder() {
@@ -140,7 +129,7 @@ function BurgerConstructor() {
   return (
     <>
       {needDetails && isOrderSucces !== false && modal}
-      <section className={`${styles['section-common']} pt-25`} ref={sectionElem} style={{ maxHeight: sectionHeight }}>
+      <section className={`${styles['section-common']} pt-25`} ref={sectionElem}>
 
         <section ref={dropRef} className={isHover ? `${styles.innerSection} ${styles.dropTarget}` : styles.innerSection}>
 

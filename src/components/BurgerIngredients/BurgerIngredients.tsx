@@ -54,21 +54,21 @@ function BurgerIngredients(): JSX.Element {
       <h2 className={`${styles.header} text_type_main-large`}>Соберите бургер</h2>
       <nav ref={navElem}>
         <ul className={styles.list}>
-          <li>
+          <li className={styles.item}>
             <a href="#buns" className={styles.link}>
               <Tab value='Булки' active={current === 'Булки'} onClick={setCurrent}>
                 Булки
               </Tab>
             </a>
           </li>
-          <li>
+          <li className={styles.item}>
             <a href="#sauces" className={styles.link}>
               <Tab value='Соусы' active={current === 'Соусы'} onClick={setCurrent}>
                 Соусы
               </Tab>
             </a>
           </li>
-          <li>
+          <li className={styles.item}>
             <a href="#mainFillings" className={styles.link}>
               <Tab value='Начинки' active={current === 'Начинки'} onClick={setCurrent}>
                 Начинки

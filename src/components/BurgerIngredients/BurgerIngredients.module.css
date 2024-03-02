@@ -1,3 +1,15 @@
+.section {
+  box-sizing: border-box;
+  min-width: 320px;
+  max-width: 600px;
+  width: 100%;
+}
+
+.header {
+  margin-top: 0;
+  margin-bottom: calc(var(--offset-base-size) * 5);
+}
+
 .list {
   list-style: none;
   padding: 0;
@@ -5,15 +17,8 @@
   display: flex;
 }
 
-.section {
-  width: 50%;
-  max-width: 600px;
-  margin-left: calc(var(--offset-base-size) * 5);
-}
-
-.header {
-  margin-top: 0;
-  margin-bottom: calc(var(--offset-base-size) * 5);
+.item {
+  flex-grow: 1;
 }
 
 .link {

@@ -1,23 +1,15 @@
 .list {
-  margin: 0;
-  padding: 0;
+  box-sizing: border-box;
+  margin: calc(var(--offset-base-size) * 6) 0 calc(var(--offset-base-size) * 10) 0;
+  padding: 0 calc(var(--offset-base-size) * 2) 0 calc(var(--offset-base-size) * 4);
 
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: calc(var(--offset-base-size) * 8) calc(var(--offset-base-size) * 6);
-
-  margin-top: calc(var(--offset-base-size) * 6);
-  margin-bottom: calc(var(--offset-base-size) * 10);
-}
-
-.list::after {
-  content: '';
-  width: 272px;
 }
 
 .section {
-  min-height: 250px;
+  min-height: 285px;
   overflow: auto;
   scroll-behavior: smooth;
   display: flex;
