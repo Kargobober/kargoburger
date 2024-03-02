@@ -7,6 +7,7 @@ import ingredientDetailsReducer from '../slices/ingredientDetailsSlice';
 import orderDetailsReducer from '../slices/orderDetailsSlice';
 import authReducer from '../slices/authSlice';
 import { ordersWSReducer } from '../reducers/ordersWS/reducer';
+import adaptabilityReducer from '../slices/adaptability';
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
@@ -15,6 +16,7 @@ export const rootReducer = combineReducers({
   orderDetails: orderDetailsReducer,
   auth: authReducer,
   ordersWS: ordersWSReducer,
+  adaptability: adaptabilityReducer,
 });
 
 /**

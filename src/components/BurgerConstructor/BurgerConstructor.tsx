@@ -129,9 +129,9 @@ function BurgerConstructor() {
   return (
     <>
       {needDetails && isOrderSucces !== false && modal}
-      <section className={`${styles['section-common']} pt-25`} ref={sectionElem}>
+      <section className={`${styles.sectionCommon} pt-25`} ref={sectionElem}>
 
-        <section ref={dropRef} className={isHover ? `${styles.innerSection} ${styles.dropTarget}` : styles.innerSection}>
+        <section ref={dropRef} className={isHover ? `${styles.sectionConstructor} ${styles.dropTarget}` : styles.sectionConstructor}>
 
           {!selectedBun && selectedProducts.length === 0 &&
             <div className={styles.stub}>
@@ -170,7 +170,7 @@ function BurgerConstructor() {
           )}
 
           {/* внутренности бургера */}
-          <ul className={`${styles.list} custom-scroll`} ref={fillingsElem} style={{ maxHeight: fillingsHeight }}>
+          <ul className={`${styles.listOfFillings} custom-scroll`} ref={fillingsElem} /*style={{ maxHeight: fillingsHeight }}*/>
             {selectedProducts.length > 0
               && selectedProducts.map((el, index) => <Item
                 key={el.extraId}
@@ -207,7 +207,7 @@ function BurgerConstructor() {
           )}
         </section>
 
-        <section className={styles['price-section']}>
+        <section className={styles.sectionPrice}>
           <Price value={totalPrice} digitsSize='medium' svgSize='32' />
           <Button htmlType="button" type="primary" size="medium"
             onClick={handleOrder}

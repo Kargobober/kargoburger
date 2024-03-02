@@ -52,8 +52,8 @@ function BurgerIngredients(): JSX.Element {
   return (
     <section className={`${styles.section} pt-10`}>
       <h2 className={`${styles.header} text_type_main-large`}>Соберите бургер</h2>
-      <nav ref={navElem} id='nav-of-ingredients'>
-        <ul className={styles.list}>
+      <nav ref={navElem} id='nav-of-ingredients' className={styles.navTabs}>
+        <ul className={styles.listOfTabs}>
           <li className={styles.item}>
             <a href="#buns" className={styles.link}>
               <Tab value='Булки' active={current === 'Булки'} onClick={setCurrent}>

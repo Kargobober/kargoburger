@@ -30,8 +30,6 @@ const List = forwardRef((props, ref: React.ForwardedRef<TSuperRef>) => {
     },
   }));
 
-
-
   const isLoading = useSelector(getLoadingStatus);
   const hasError = useSelector(getErrorStatus);
   useEffect(() => {
@@ -41,37 +39,14 @@ const List = forwardRef((props, ref: React.ForwardedRef<TSuperRef>) => {
   // Получаем обработанные данные из хранилища, сам результат обработки в хранилище не хранится. Не знаю, верно ли это
   const data = useSelector(getCountedFiltredIngredients);
 
-
-
-  // При текущей системе оступов (единица = 4px) подходящая высота секции около 604px (через девтулзы можно обнаружить высоту на которой появляется скролл)
-  // Автоматический расчет доступной высоту выдаёт 604,406. Так что всё чётко - как в больнице :)
-  const [permittedHeight, setPermittedHeight] = useState(604.406);
-  const [windowHeight, setWindowHeight] = useState<number>();
-  useEffect(() => {
-    if (listRef.current) {
-      // Получаем координаты верха секции с карточками
-      const sectionTopCoord = getTopCoords(listRef.current);
-      // Назначаем доступную высоту для секции, чтобы не появлялся скролл всего приложения
-      // 52(в px) – это нижний отступ всего приложения
-      // В стилях тем не менее задаем мин. высоту, чтобы было видно хотя бы один ряд карточек целиком
-      setPermittedHeight(document.documentElement.clientHeight - sectionTopCoord - 52);
-
-      const handleWindowResize = () => {
-        setWindowHeight(document.documentElement.clientHeight)
-      }
-      window.addEventListener('resize', handleWindowResize);
-      return () => { window.removeEventListener('resize', handleWindowResize) };
-    }
-  }, [windowHeight, listRef.current]); //нужна ещё одна зависимость, иначе при загрузке страницы был скролл, а при перемещении куда-либо и обратно на главную - скролл исчезал. Видимо дело в том, что изначаль в рефе null лежит
-
-
   // Здесь был код модалок, см. коммит от 16.11.2023 'expand ↓↓↓'
+
 
 
   return (
     <>
       {/* Комменты про модалки  были здесь */}
-      <div className={`custom-scroll mt-10 ${styles.section}`} ref={listRef} style={{ maxHeight: permittedHeight }}>
+      <div className={`custom-scroll mt-10 ${styles.section}`} ref={listRef}>
         {isLoading ? (
           <p className={`${styles.bund} text text_type_main-medium`}>
             Загружаем наше меню...
@@ -84,7 +59,7 @@ const List = forwardRef((props, ref: React.ForwardedRef<TSuperRef>) => {
             >
               Булки
             </h3>
-            <ul className={styles.list}>
+            <ul className={styles.listOfIngrInCategory}>
               {data.buns.map(el => <Card card={el} key={el._id} />)}
             </ul>
 
@@ -94,7 +69,7 @@ const List = forwardRef((props, ref: React.ForwardedRef<TSuperRef>) => {
             >
               Соусы
             </h3>
-            <ul className={styles.list}>
+            <ul className={styles.listOfIngrInCategory}>
               {data.sauces.map(el => <Card card={el} key={el._id} />)}
             </ul>
 
@@ -104,7 +79,7 @@ const List = forwardRef((props, ref: React.ForwardedRef<TSuperRef>) => {
             >
               Начинки
             </h3>
-            <ul className={styles.list}>
+            <ul className={styles.listOfIngrInCategory}>
               {data.mainFillings.map(el => <Card card={el} key={el._id} />)}
             </ul>
           </>

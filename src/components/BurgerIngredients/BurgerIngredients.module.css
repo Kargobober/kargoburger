@@ -3,6 +3,9 @@
   min-width: 320px;
   max-width: 600px;
   width: 100%;
+
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
 .header {
@@ -10,7 +13,11 @@
   margin-bottom: calc(var(--offset-base-size) * 5);
 }
 
-.list {
+/*.navTabs {
+
+}*/
+
+.listOfTabs {
   list-style: none;
   padding: 0;
   margin: 0;

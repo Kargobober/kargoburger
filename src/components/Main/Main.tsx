@@ -5,10 +5,14 @@ import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useSelector } from '../../services/hooks';
+import { getCoordBottomHeader } from '../../services/selectors/adaptability';
 
 function Main() {
+  const coordBottomHeader = useSelector(getCoordBottomHeader);
+
   return (
-    <main className={styles.main}>
+    <main className={styles.main} style={{ height: `calc(100vh - ${coordBottomHeader}px)`}}>
       <DndProvider backend={HTML5Backend}>
         <BurgerIngredients />
         <BurgerConstructor />

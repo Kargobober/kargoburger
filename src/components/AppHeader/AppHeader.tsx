@@ -9,11 +9,18 @@ import Menu from './Menu/Menu';
 import logoMobile from '../../images/logo-mobile.svg';
 import Modal from '../Modal/Modal';
 import { CSSTransition } from 'react-transition-group';
+import { useDispatch, useSelector } from '../../services/hooks';
+import { setCoordBottomHeaderStore } from '../../services/slices/adaptability';
+import { getCoordBottomHeader } from '../../services/selectors/adaptability';
 
 function AppHeader(): JSX.Element {
+  const dispatch = useDispatch();
   const location = useLocation();
 
   const windowSize = useWindowSize();
+
+  const refHeader = useRef<HTMLHeadingElement>(null);
+  const coordBottomHeader = useSelector(getCoordBottomHeader);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -118,8 +125,17 @@ function AppHeader(): JSX.Element {
     if (isModalOpen) toggleModal();
   }, [location]);
 
+  useEffect(() => {
+    if(refHeader.current){
+      const newCoordBottomHeader = refHeader.current.getBoundingClientRect().bottom + window.scrollY;
+      if (coordBottomHeader !== newCoordBottomHeader) {
+        dispatch(setCoordBottomHeaderStore(newCoordBottomHeader));
+      }
+    }
+  }, [windowSize.width, refHeader.current]);
+
   return (
-    <header className={`${styles.header} ${windowSize.width < 500 ? 'pt-3 pb-3' : 'pt-4 pb-4'}`}>
+    <header className={`${styles.header} ${windowSize.width < 500 ? 'pt-3 pb-3' : 'pt-4 pb-4'}`} ref={refHeader}>
       {content}
       <CSSTransition
         nodeRef={refTransition}
