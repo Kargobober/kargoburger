@@ -61,7 +61,12 @@ function Item({ ingredient, index }: TProps): JSX.Element {
       <div ref={dragRef} className={styles.dragIcon}>
         <DragIcon type="primary" />
       </div>
-      <ConstructorElement text={text} thumbnail={thumbnail} price={price} handleClose={() => { dispatch(removeItem(extraId)) }} />
+      <ConstructorElement
+        text={text}
+        thumbnail={thumbnail}
+        price={price}
+        handleClose={() => { dispatch(removeItem(extraId)) }}
+      />
     </li>
   )
 }

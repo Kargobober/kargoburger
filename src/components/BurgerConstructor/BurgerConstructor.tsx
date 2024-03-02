@@ -88,7 +88,7 @@ function BurgerConstructor() {
       // 16 - маргин нижней булки
       setFillingsHeight(document.documentElement.clientHeight - fillingsTopCoord - 52 - 56 - 40 - 80 - 16);
     }
-  }, [clientHeight, fillingsElem.current, selectedProducts]);
+  }, [clientHeight, clientWidth, fillingsElem.current, selectedProducts]);
 
 
   function handleOrder() {
@@ -144,22 +144,30 @@ function BurgerConstructor() {
           }
 
           {/* верхняя булка */}
-          {selectedBun && <ConstructorElement
-            text={`${selectedBun.name} (верх)`}
-            thumbnail={selectedBun.image}
-            price={selectedBun.price}
-            type="top"
-            extraClass={`mb-4 ml-8 ${styles.bun}`}
-            isLocked={true}
-          />}
-          {selectedProducts.length > 0 && !selectedBun && <ConstructorElement
-            text='Добавьте булку'
-            thumbnail={burgerIconSvg}
-            price={0}
-            type="top"
-            extraClass={`mb-4 ml-8 ${styles.bun}`}
-            isLocked={true}
-          />}
+          {selectedBun && (
+            <div className='pl-8 pr-4'>
+              <ConstructorElement
+                text={`${selectedBun.name} (верх)`}
+                thumbnail={selectedBun.image}
+                price={selectedBun.price}
+                type="top"
+                extraClass={`mb-4 ${styles.bun}`}
+                isLocked={true}
+              />
+            </div>
+          )}
+          {selectedProducts.length > 0 && !selectedBun && (
+            <div className='pl-8 pr-4'>
+              <ConstructorElement
+                text='Добавьте булку'
+                thumbnail={burgerIconSvg}
+                price={0}
+                type="top"
+                extraClass={`mb-4 ${styles.bun}`}
+                isLocked={true}
+              />
+            </div>
+          )}
 
           {/* внутренности бургера */}
           <ul className={`${styles.list} custom-scroll`} ref={fillingsElem} style={{ maxHeight: fillingsHeight }}>
@@ -173,22 +181,30 @@ function BurgerConstructor() {
           </ul>
 
           {/* нижняя булочка */}
-          {selectedBun && <ConstructorElement
-            text={`${selectedBun.name} (низ)`}
-            thumbnail={selectedBun.image}
-            price={selectedBun.price}
-            type="bottom"
-            extraClass={`mt-4 ml-8 ${styles.bun}`}
-            isLocked={true}
-          />}
-          {selectedProducts.length > 0 && !selectedBun && <ConstructorElement
-            text='Хлеб всему квазар'
-            thumbnail={burgerIconSvg}
-            price={0}
-            type="bottom"
-            extraClass={`mt-4 ml-8 ${styles.bun}`}
-            isLocked={true}
-          />}
+          {selectedBun && (
+            <div className='pl-8 pr-4'>
+              <ConstructorElement
+                text={`${selectedBun.name} (низ)`}
+                thumbnail={selectedBun.image}
+                price={selectedBun.price}
+                type="bottom"
+                extraClass={`mt-4 ${styles.bun}`}
+                isLocked={true}
+              />
+            </div>
+          )}
+          {selectedProducts.length > 0 && !selectedBun && (
+            <div className='pl-8 pr-4'>
+              <ConstructorElement
+                text='Хлеб всему квазар'
+                thumbnail={burgerIconSvg}
+                price={0}
+                type="bottom"
+                extraClass={`mt-4 ${styles.bun}`}
+                isLocked={true}
+              />
+            </div>
+          )}
         </section>
 
         <section className={styles['price-section']}>
