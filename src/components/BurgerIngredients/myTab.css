@@ -1,3 +1,6 @@
 .tab.tab {
-  min-width: 106.66px;
+  padding-left: 0; /* из-за жёстко заданных паддингов кнопки не хотели сужаться */
+  padding-right: 0;
+  min-width: 100px;
+  width: 100%;
 }

@@ -1,5 +1,6 @@
 @import './vars.css';
 @import './components/BurgerIngredients/myTab.css';
+@import './crutches.css';
 
 body {
   width: 100%;

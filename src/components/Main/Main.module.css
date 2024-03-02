@@ -10,3 +10,9 @@
   grid-template-rows: 1fr;
   column-gap: calc(var(--offset-base-size) * 10);
 }
+
+@media screen and (max-width: 500px) {
+  .main {
+    padding: 0 calc(var(--offset-base-size) * 2) calc(var(--offset-base-size) * 4) calc(var(--offset-base-size) * 2);
+  }
+}

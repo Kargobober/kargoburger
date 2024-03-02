@@ -18,7 +18,7 @@
 }
 
 .item {
-  flex-grow: 1;
+  flex: 1 1 calc(100% / 3);
 }
 
 .link {
