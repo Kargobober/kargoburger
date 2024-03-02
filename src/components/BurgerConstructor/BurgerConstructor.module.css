@@ -7,7 +7,7 @@
 
 .sectionConstructor {
   box-sizing: border-box;
-  flex: 0 1 auto;
+  flex: 20 1 auto;
   overflow: hidden;
   min-height: 330px;
 
