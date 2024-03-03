@@ -1,8 +1,6 @@
 .section {
   box-sizing: border-box;
-  min-width: 320px;
-  max-width: 600px;
-  width: 100%;
+  overflow: hidden;
 
   display: grid;
   grid-template-columns: 1fr;
@@ -30,4 +28,14 @@
 
 .link {
   text-decoration: none;
+}
+
+@media screen and (max-width: 500px) {
+  .section.section {
+    padding-top: calc(var(--offset-base-size) * 2);
+  }
+
+  .header {
+    margin-bottom: calc(var(--offset-base-size) * 2);
+  }
 }

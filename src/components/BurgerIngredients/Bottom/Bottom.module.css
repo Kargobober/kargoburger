@@ -1,0 +1,6 @@
+.sectionBottom {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  column-gap: calc(var(--offset-base-size) * 4);
+}

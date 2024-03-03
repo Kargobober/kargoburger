@@ -2,17 +2,25 @@
   box-sizing: border-box;
   max-width: 1280px;
   width: 100%;
+  overflow: hidden;
+  min-height: 650px;
 
   padding: 0 calc(var(--offset-base-size) * 5) calc(var(--offset-base-size) * 13) calc(var(--offset-base-size) * 5);
 
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 100%;
   column-gap: calc(var(--offset-base-size) * 10);
+}
+
+@media screen and (max-width: 1049px) {
+  .main {
+    grid-template-columns: 1fr;
+    padding-bottom: calc(var(--offset-base-size) * 5);
+  }
 }
 
 @media screen and (max-width: 500px) {
   .main {
-    padding: 0 calc(var(--offset-base-size) * 2) calc(var(--offset-base-size) * 4) calc(var(--offset-base-size) * 2);
+    padding: 0 calc(var(--offset-base-size) * 2) 0 calc(var(--offset-base-size) * 2);
   }
 }

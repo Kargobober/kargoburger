@@ -18,7 +18,6 @@
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-auto-rows: 1fr;
   gap: calc(var(--offset-base-size) * 8) calc(var(--offset-base-size) * 6);
 }
 
@@ -30,4 +29,12 @@
 .heading {
   width: 100%;
   text-align: start;
+}
+
+@media screen and (max-width: 500px){
+  .listOfIngrInCategory {
+    padding: 0;
+    gap: calc(var(--offset-base-size) * 3) calc(var(--offset-base-size) * 4);
+    margin: calc(var(--offset-base-size) * 4) 0 calc(var(--offset-base-size) * 3) 0;
+  }
 }

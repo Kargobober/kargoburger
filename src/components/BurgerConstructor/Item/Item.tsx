@@ -66,6 +66,7 @@ function Item({ ingredient, index }: TProps): JSX.Element {
         thumbnail={thumbnail}
         price={price}
         handleClose={() => { dispatch(removeItem(extraId)) }}
+        extraClass={styles.constructorElement}
       />
     </li>
   )

@@ -10,16 +10,15 @@
   padding: 0;
   margin: 0;
 
-  width: 100%;
-
   cursor: pointer;
   border-radius: 20px;
 }
 
 .image {
+  min-width: 144px;
   width: 100%;
   max-width: 240px;
-  height: auto;
+  min-height: 72px;
   object-fit: cover;
   object-position: center;
 }
@@ -36,6 +35,16 @@
   outline: 2px solid var(--colors-interface-accent);
 }
 
-.link {
+.buttonAdd {
+  font-weight: bold;
+}
 
+@media screen and (max-width: 500px) {
+  .card {
+    row-gap: calc(var(--offset-base-size) * 2.25);
+  }
+
+  .heading {
+    min-height: 60px;
+  }
 }

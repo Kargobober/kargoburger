@@ -1,15 +1,16 @@
-import { memo } from 'react';
+import { SyntheticEvent, memo } from 'react';
 import { TIngredientCounted } from '../../../utils/types';
 
 import styles from './Card.module.css';
 
-import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Button, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import Price from '../../Price/Price';
 import { addItem } from '../../../services/slices/burgerConstructorSlice';
 import { useDispatch } from '../../../services/hooks';
 import { v4 as uuidv4 } from 'uuid';
 import { DragPreviewImage, useDrag } from 'react-dnd';
 import { useLocation, useNavigate } from 'react-router-dom';
+import useWindowSize from '../../../utils/hooks/useWindowSize';
 
 type TCollectedProps = {
   isDragging: boolean;
@@ -21,6 +22,10 @@ function Card({ card }: { card: TIngredientCounted }) {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+
+  const windowSize = useWindowSize();
+  const typographyForHeading = windowSize.width > 500 ? 'text_type_main-default' : 'text_type_main-small';
+  const typographyForPrice = windowSize.width > 500 ? 'text_type_main-default' : 'text_type_main-small';
 
   const counter = card.qty;
   let waitingForDoubleClick: NodeJS.Timeout | undefined;
@@ -64,16 +69,21 @@ function Card({ card }: { card: TIngredientCounted }) {
     }
   };
 
+  const handleAddition = (evt: SyntheticEvent) => {
+    evt.stopPropagation();
+    dispatch(addItem(card));
+  };
+
 
 
   return (
     <li className={!isDragging ? styles.card : `${styles.card} ${styles.outline}`}
       onClick={handleBothClick}
-      ref={dragRef}
+      ref={windowSize.width > 1050 ? dragRef : null}
     >
       {counter > 0 && <Counter
         count={counter}
-        size="default"
+        size={windowSize.width > 500 ? 'default' : 'small'}
       />}
 
       <DragPreviewImage connect={preview} src={card.image} />
@@ -83,11 +93,23 @@ function Card({ card }: { card: TIngredientCounted }) {
         alt={card.name}
       />
 
-      <Price value={card.price} digitsSize="default" />
+      <Price value={card.price} digitsSize={windowSize.width > 500 ? 'default' : 'small'} />
 
-      <h4 className={`text text_type_main-default ${styles.heading}`}>
+      <h4 className={`text ${typographyForHeading} ${styles.heading}`}>
         {card.name}
       </h4>
+
+      {windowSize.width > 1050 ? null : (
+        <Button
+          htmlType='button'
+          type='secondary'
+          size='small'
+          extraClass={`${styles.buttonAdd} buttonYP_small`}
+          onClick={(e) => handleAddition(e)}
+        >
+          Добавить
+        </Button>
+      )}
     </li>
   )
 }

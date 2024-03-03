@@ -129,7 +129,7 @@ function BurgerConstructor() {
   return (
     <>
       {needDetails && isOrderSucces !== false && modal}
-      <section className={`${styles.sectionCommon} pt-25`} ref={sectionElem}>
+      <section className={`${styles.sectionCommon} pt-25 pb-5`} ref={sectionElem}>
 
         <section ref={dropRef} className={isHover ? `${styles.sectionConstructor} ${styles.dropTarget}` : styles.sectionConstructor}>
 
@@ -211,7 +211,9 @@ function BurgerConstructor() {
           <Price value={totalPrice} digitsSize='medium' svgSize='32' />
           <Button htmlType="button" type="primary" size="medium"
             onClick={handleOrder}
-            disabled={!selectedBun}>
+            disabled={!selectedBun}
+            extraClass='button_decor_shadow'
+          >
             Оформить заказ
           </Button>
         </section>
