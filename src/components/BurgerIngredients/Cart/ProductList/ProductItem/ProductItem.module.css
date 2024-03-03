@@ -1,0 +1,40 @@
+.container {
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  min-height: 96px;
+
+  padding: calc(var(--offset-base-size) * 4) 0;
+
+  display: flex;
+  align-items: top;
+
+  border-bottom: 1px solid var(--background-element);
+}
+
+.container:last-child {
+  border-bottom: none;
+}
+
+.container > svg {
+  flex: 0 0 auto;
+  align-self: center;
+}
+
+.image {
+  width: 80px;
+  flex: 0 0;
+
+  object-position: center;
+  object-fit: contain;
+}
+
+.name {
+  flex: 1 1 auto;
+}
+
+@media screen and (max-width: 500px) {
+  .image {
+    width: 52px;
+  }
+}

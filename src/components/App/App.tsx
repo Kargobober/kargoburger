@@ -107,7 +107,7 @@ function App (): JSX.Element {
               }}
               pt='10' pr='10' pb='10' pl='10'
               heading={`#${historyState.data.number}`}
-              extraClass='text text_type_digits-default'
+              extraClassHeading='text text_type_digits-default'
               lineHeight="2.286"
             >
               <OrderInfo />
@@ -122,7 +122,7 @@ function App (): JSX.Element {
               }}
               pt='10' pr='10' pb='10' pl='10'
               heading={`#${historyState.data.number}`}
-              extraClass='text text_type_digits-default'
+              extraClassHeading='text text_type_digits-default'
               lineHeight="2.286"
             >
               <OrderInfo />

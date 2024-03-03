@@ -15,12 +15,6 @@
 @media screen and (max-width: 1049px) {
   .main {
     grid-template-columns: 1fr;
-    padding-bottom: calc(var(--offset-base-size) * 5);
-  }
-}
-
-@media screen and (max-width: 500px) {
-  .main {
-    padding: 0 calc(var(--offset-base-size) * 2) 0 calc(var(--offset-base-size) * 2);
+    padding: 0;
   }
 }

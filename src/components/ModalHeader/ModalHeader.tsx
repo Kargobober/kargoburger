@@ -5,14 +5,26 @@ import { FC } from 'react';
 type TProps = {
   heading?: string;
   onClose?: () => void;
-  extraClass?: string;
+  extraClassContainer?: string;
+  /**
+   * класс заголовка
+   */
+  extraClassHeading?: string;
   lineHeight?: string;
+  /**
+   * класс контейнера: заголовок + кнопка
+   */
 };
 
-const ModalHeader: FC<TProps> = ({ heading, onClose, extraClass = `text text_type_main-large`, lineHeight = 'none' }) => {
+const ModalHeader: FC<TProps> = ({
+  heading, onClose,
+  extraClassHeading = `text text_type_main-large`,
+  lineHeight = 'none',
+  extraClassContainer,
+}) => {
   return (
-    <div className={styles['modal-header-container']}>
-      <h2 className={`${styles['modal-header-container']} ${extraClass}`}
+    <div className={`${styles['modal-header-container']} ${extraClassContainer}`}>
+      <h2 className={`${styles['modal-header-container']} ${extraClassHeading}`}
         style={{lineHeight}}
       >
         {heading}

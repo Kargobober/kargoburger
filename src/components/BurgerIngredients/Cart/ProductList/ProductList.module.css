@@ -1,0 +1,11 @@
+.listOfProduct {
+  height: 100%;
+  overflow: auto;
+  padding-right: calc(var(--offset-base-size) * 2);
+}
+
+@media screen and (max-width: 500px) {
+  .listOfProduct {
+    padding-right: 0;
+  }
+}

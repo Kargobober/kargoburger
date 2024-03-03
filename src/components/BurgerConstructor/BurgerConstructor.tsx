@@ -212,7 +212,7 @@ function BurgerConstructor() {
           <Button htmlType="button" type="primary" size="medium"
             onClick={handleOrder}
             disabled={!selectedBun}
-            extraClass='button_decor_shadow'
+            extraClass={selectedBun ? 'button_decor_shadow' : ''}
           >
             Оформить заказ
           </Button>

@@ -30,6 +30,13 @@
   text-decoration: none;
 }
 
+@media screen and (max-width: 1049px) {
+  .section {
+    padding-left: calc(var(--offset-base-size) * 2);
+    padding-right: calc(var(--offset-base-size) * 2);
+  }
+}
+
 @media screen and (max-width: 500px) {
   .section.section {
     padding-top: calc(var(--offset-base-size) * 2);

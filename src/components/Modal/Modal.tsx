@@ -19,9 +19,19 @@ type TProps = {
   pt?: number | string;
   pl?: number | string;
   pr?: number | string;
-  extraClass?: string;
-  lineHeight?: string;
+  /**
+   * класс модалки
+   */
   extraClassContainer?: string;
+  /**
+   * класс контейнера шапки
+   */
+  extraClassContainerOfHeading?: string;
+  /**
+   * класс для заголовка внутри шапки
+   */
+  extraClassHeading?: string;
+  lineHeight?: string;
   children: ReactNode;
 };
 
@@ -34,9 +44,10 @@ const Modal = forwardRef((
     pr = 10,
     pb = 15,
     pl = 10,
-    extraClass,
-    lineHeight,
     extraClassContainer,
+    extraClassContainerOfHeading,
+    extraClassHeading,
+    lineHeight,
   }: TProps,
   ref: React.ForwardedRef<HTMLDivElement>
 ) => {
@@ -56,8 +67,17 @@ const Modal = forwardRef((
 
   return ReactDOM.createPortal((
     <>
-      <div className={`${styles['modal-container']} pt-${pt} pr-${pr} pb-${pb} pl-${pl} ${extraClassContainer}`} ref={ref}>
-        <ModalHeader heading={heading} onClose={onClose} extraClass={extraClass} lineHeight={lineHeight} />
+      <div
+        className={`${styles['modal-container']} pt-${pt} pr-${pr} pb-${pb} pl-${pl} ${extraClassContainer}`}
+        ref={ref}
+      >
+        <ModalHeader
+          heading={heading}
+          onClose={onClose}
+          extraClassContainer={extraClassContainerOfHeading}
+          extraClassHeading={extraClassHeading}
+          lineHeight={lineHeight}
+        />
         {children}
       </div>
       <ModalOverlay onClose={onClose} />

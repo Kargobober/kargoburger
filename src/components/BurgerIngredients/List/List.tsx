@@ -50,7 +50,7 @@ const List = forwardRef((props, ref: React.ForwardedRef<TSuperRef>) => {
   return (
     <>
       {/* Комменты про модалки  были здесь */}
-      <div className={`custom-scroll ${windowSize.width > 500 ? 'mt-10' : 'mt-5'} ${styles.section}`} ref={listRef}>
+      <div className={`${windowSize.width < 501 ? 'custom-scroll_nullish' : 'custom-scroll'} ${windowSize.width > 500 ? 'mt-10' : 'mt-5'} ${styles.section}`} ref={listRef}>
         {isLoading ? (
           <p className={`${styles.bund} text text_type_main-medium`}>
             Загружаем наше меню...

@@ -3,4 +3,28 @@
   justify-content: end;
   align-items: center;
   column-gap: calc(var(--offset-base-size) * 4);
+
+  border-radius: 15px 15px 0 0;
+  background-color: var(--background);
+}
+
+.modalContainer.modalContainer {
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+
+  top: 0;
+  left: 0;
+
+  transform: initial;
+
+  border-radius: 0px;
+  border: none;
+  box-shadow: none;
+
+  background-color: var(--background-alt);
+}
+
+.containerOfHeading {
+  box-sizing: border-box;
 }
