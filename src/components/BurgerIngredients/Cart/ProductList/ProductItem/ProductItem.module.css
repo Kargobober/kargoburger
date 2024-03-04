@@ -16,7 +16,7 @@
   border-bottom: none;
 }
 
-.container > svg {
+.dragIcon {
   flex: 0 0 auto;
   align-self: center;
 }

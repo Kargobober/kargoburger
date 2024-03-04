@@ -1,8 +1,8 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import styles from './BurgerConstructor.module.css';
 
-import { findIngredientObj, getTopCoords, handleError } from '../../utils/utils';
+import { findIngredientObj, handleError } from '../../utils/utils';
 import { useDispatch, useSelector } from '../../services/hooks';
 
 import { BurgerIcon, Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -22,17 +22,14 @@ import { getIngredients } from '../../services/selectors/ingredientsSelector';
 import { getUserFromState } from '../../services/selectors/authSelector';
 import { TIngredientCounted } from '../../utils/types';
 import { TPreparedOrder } from '../Profile/LogOut/LogOutPage';
-import useWindowSize from '../../utils/hooks/useWindowSize';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const {width: clientWidth, height: clientHeight} = useWindowSize();
   const sectionElem = useRef<HTMLElement>(null);
   const fillingsElem = useRef<HTMLUListElement>(null);
-  const [fillingsHeight, setFillingsHeight] = useState(560);
 
   const needDetails = useSelector(getOrderDetailsNeeding);
   const isOrderSucces = useSelector(getOrderSuccess);
@@ -77,19 +74,6 @@ function BurgerConstructor() {
   useEffect(() => {
     if(isOrderSucces) dispatch(resetConstructor());
   }, [isOrderSucces]);
-
-  useEffect(() => {
-    if (fillingsElem.current) {
-      const fillingsTopCoord = getTopCoords(fillingsElem.current);
-      // 52(в px) – это нижний отступ всего приложения
-      // 56 - высота контентой зоны секции кнопки 'оформить заказ'
-      // 40 - высота верхнего отступа секции с кнопкой "оформить заказ"
-      // 80 - высота контента нижней булки
-      // 16 - маргин нижней булки
-      setFillingsHeight(document.documentElement.clientHeight - fillingsTopCoord - 52 - 56 - 40 - 80 - 16);
-    }
-  }, [clientHeight, clientWidth, fillingsElem.current, selectedProducts]);
-
 
   function handleOrder() {
     const assembledBurger = selectedProducts.map(el => el._id);
@@ -170,7 +154,7 @@ function BurgerConstructor() {
           )}
 
           {/* внутренности бургера */}
-          <ul className={`${styles.listOfFillings} custom-scroll`} ref={fillingsElem} /*style={{ maxHeight: fillingsHeight }}*/>
+          <ul className={`${styles.listOfFillings} custom-scroll`} ref={fillingsElem}>
             {selectedProducts.length > 0
               && selectedProducts.map((el, index) => <Item
                 key={el.extraId}

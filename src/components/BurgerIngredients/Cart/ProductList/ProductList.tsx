@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './ProductList.module.css';
 import { useSelector } from '../../../../services/hooks';
 import { getSelectedBun, getSelectedProducts } from '../../../../services/selectors/burgerConstructorSelector';
@@ -22,9 +21,11 @@ function ProductList() {
         <li>Добавьте булку</li>
       )}
 
-      {selectedProducts.map(product => (
+      {selectedProducts.map((product, index) => (
         <ProductItem
+          key={product.extraId}
           item={product}
+          index={index}
           windowSize={windowSize}
         />
       ))}
