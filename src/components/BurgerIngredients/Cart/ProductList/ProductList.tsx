@@ -6,7 +6,7 @@ import useWindowSize from '../../../../utils/hooks/useWindowSize';
 import SwipeableListItem from '../../../SwipeableListItem/SwipeableListItem';
 import { removeItem } from '../../../../services/slices/burgerConstructorSlice';
 import { DeleteIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 function ProductList() {
   const dispatch = useDispatch();

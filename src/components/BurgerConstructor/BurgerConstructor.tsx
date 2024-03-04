@@ -40,7 +40,7 @@ function BurgerConstructor() {
   const user = useSelector(getUserFromState);
 
   useEffect(() => {
-      error && handleError('Ошибка при создании заказа: ', error);
+    error && handleError('Ошибка при создании заказа: ', error);
   }, [error]);
 
   const modal = (

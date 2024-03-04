@@ -60,8 +60,6 @@ const ProductItem: FC<TProps> = ({ item, index, windowSize }) => {
     <div
       className={styles.container}
       ref={node => dragPreviewRef(dropRef(node))}
-      // onMouseUp={(e) => e.stopPropagation()}
-      // onTouchEnd = {(e) => e.stopPropagation()}
     >
       <div
         className={`${styles.dragIcon} ${index !== undefined ? 'interactive' : ''}`}

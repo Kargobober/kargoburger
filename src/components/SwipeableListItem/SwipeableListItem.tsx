@@ -34,6 +34,8 @@ const SwipeableListItem: FC<TProps> = ({
     return () => {
       window.removeEventListener("mouseup", onDragEndMouse);
       window.removeEventListener("touchend", onDragEndTouch);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("touchmove", onTouchMove);
     }
   }, []);
 

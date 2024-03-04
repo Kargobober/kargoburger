@@ -3,24 +3,41 @@ import styles from './Bottom.module.css';
 import stylesTransition from './BottomTransition.module.css';
 import Price from '../../Price/Price';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector } from '../../../services/hooks';
+import { useDispatch, useSelector } from '../../../services/hooks';
 import { getTotalPrice } from '../../../services/selectors/burgerConstructorSelector';
 import useWindowSize from '../../../utils/hooks/useWindowSize';
 import Modal from '../../Modal/Modal';
 import { CSSTransition } from 'react-transition-group';
 import Cart from '../Cart/Cart';
+import { resetOrderNumber, setNeedingDetails } from '../../../services/slices/orderDetailsSlice';
+import { getOrderDetailsNeeding, getOrderNumber } from '../../../services/selectors/orderDetailsSelector';
+import { resetConstructor } from '../../../services/slices/burgerConstructorSlice';
 
 function Bottom() {
-  const totalPrice = useSelector(getTotalPrice);
+  const dispatch = useDispatch();
   const windowSize = useWindowSize();
+
+  const totalPrice = useSelector(getTotalPrice);
+  const needDetailsAboutOrder = useSelector(getOrderDetailsNeeding);
+  const orderNumber = useSelector(getOrderNumber);
 
   const paddings = windowSize.width > 500 ? 'pt-10 pr-3 pl-3' : 'pt-4 pr-2 pl-2';
 
   const refTransition = useRef<HTMLDivElement>(null);
 
+
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const toggleModal = () => {
-    setIsModalOpen(prev => !prev);
+    // Внутри модалки рендерится как корзина (список выбранных ингредиентов), так и детали о заказе, потому идут условные диспатчи
+    if (needDetailsAboutOrder) { // если needDetailsAboutOrder = true, то пользователь пытается оформить заказ – у него в модалке рендерятся данные о совершенном заказе
+      dispatch(setNeedingDetails(false)); // значит, он закрывает модалку о заказе
+    }
+    if (orderNumber) { // если есть номера заказа, то заказ прошёл успешно, можно очистить конструктор
+      dispatch(resetConstructor());
+      dispatch(resetOrderNumber());
+    };
+    setIsModalOpen(prev => !prev); // закрываем коммунальную модалку
   };
 
   return (
@@ -54,7 +71,7 @@ function Bottom() {
           key={Date.now()}
           onClose={toggleModal}
           pt={0} pr={0} pb={0} pl={0}
-          heading='Заказ'
+          heading={needDetailsAboutOrder ? (orderNumber ? 'Заказ оформлен' : 'Оформление заказа') : ('Заказ')}
           extraClassContainer={styles.modalContainer}
           extraClassContainerOfHeading={`${paddings} ${styles.containerOfHeading}`}
           extraClassHeading={`text text_type_main-medium-extra`}
