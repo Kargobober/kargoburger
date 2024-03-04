@@ -3,9 +3,12 @@ import { useEffect, useState } from 'react';
 import styles from './profile.module.css';
 import { Outlet, useLocation } from 'react-router';
 import { NavLink } from 'react-router-dom';
+import useWindowSize from '../utils/hooks/useWindowSize';
 
 
 function ProfilePage() {
+  const windowSize = useWindowSize();
+
   const profileTabs = [
     {
       name: 'Профиль',
@@ -53,44 +56,46 @@ function ProfilePage() {
 
   return (
     <main className={styles.main}>
-      <section className={styles.navSection}>
+      {windowSize.width > 969 && (
+        <section className={styles.navSection}>
 
-        <nav className={styles.nav}>
-          <ul className={`listGlobal ${styles.list}`}>
+          <nav className={styles.nav}>
+            <ul className={`listGlobal ${styles.list}`}>
 
-            <li className={styles.item}>
-              <NavLink
-                to={profileTabs[0].path}
-                className={`${styles.tab} text text_type_main-medium linkGlobal ${getActiveStatus(profileTabs[0])}`}
-              >
-                {profileTabs[0].name}
-              </NavLink>
-            </li>
+              <li className={styles.item}>
+                <NavLink
+                  to={profileTabs[0].path}
+                  className={`${styles.tab} text text_type_main-medium linkGlobal ${getActiveStatus(profileTabs[0])}`}
+                >
+                  {profileTabs[0].name}
+                </NavLink>
+              </li>
 
-            <li className={styles.item}>
-              <NavLink
-                to={profileTabs[1].path}
-                className={`${styles.tab} text text_type_main-medium linkGlobal  ${getActiveStatus(profileTabs[1])}`}
-              >
-                {profileTabs[1].name}
-              </NavLink>
-            </li>
+              <li className={styles.item}>
+                <NavLink
+                  to={profileTabs[1].path}
+                  className={`${styles.tab} text text_type_main-medium linkGlobal  ${getActiveStatus(profileTabs[1])}`}
+                >
+                  {profileTabs[1].name}
+                </NavLink>
+              </li>
 
-            <li className={styles.item}>
-              <NavLink
-                to={profileTabs[2].path}
-                className={`${styles.tab} text text_type_main-medium linkGlobal  ${getActiveStatus(profileTabs[2])}`}
-              >
-                {profileTabs[2].name}
-              </NavLink>
-            </li>
+              <li className={styles.item}>
+                <NavLink
+                  to={profileTabs[2].path}
+                  className={`${styles.tab} text text_type_main-medium linkGlobal  ${getActiveStatus(profileTabs[2])}`}
+                >
+                  {profileTabs[2].name}
+                </NavLink>
+              </li>
 
-          </ul>
-        </nav>
+            </ul>
+          </nav>
 
-        <p className={`${styles.clue} text text_type_main-default text_color_inactive`}>{clue}</p>
+          <p className={`${styles.clue} text text_type_main-default text_color_inactive`}>{clue}</p>
 
-      </section>
+        </section>
+        )}
 
       <Outlet />
     </main>

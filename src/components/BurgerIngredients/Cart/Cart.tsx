@@ -63,7 +63,7 @@ function Cart() {
             htmlType='button'
             type='primary'
             size={windowSize.width > 500 ? 'medium' : 'small'}
-            extraClass={`buttonYP_small ${selectedBun ? 'button_decor_shadow' : ''}`}
+            extraClass={`${selectedBun ? 'button_decor_shadow' : ''}`}
             disabled={!selectedBun}
             onClick={handleOrder}
           >

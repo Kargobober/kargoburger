@@ -53,7 +53,7 @@ function Bottom() {
         htmlType='button'
         type='primary'
         size={windowSize.width > 500 ? 'medium' : 'small'}
-        extraClass={`buttonYP_small ${totalPrice ? 'button_decor_shadow' : ''}`}
+        extraClass={`${totalPrice ? 'button_decor_shadow' : ''}`}
         onClick={() => setIsModalOpen(!isModalOpen)}
         disabled={!totalPrice}
       >

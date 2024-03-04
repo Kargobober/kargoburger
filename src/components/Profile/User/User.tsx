@@ -11,10 +11,17 @@ import { getChangeUserDataPending, getChangeUserDataSuccess, getUserState, getUs
 import { changeUserData } from '../../../services/middlewares/authQueries';
 import { stellarToast } from '../../../utils/utils';
 import { setChangeUserDataSuccess } from '../../../services/slices/authSlice';
+import useWindowSize from '../../../utils/hooks/useWindowSize';
 
 function User(): JSX.Element {
   const dispatch = useDispatch();
   const location = useLocation();
+  const windowSize = useWindowSize();
+
+  const classTextHeading = windowSize.width > 700 ? 'text_type_main-large' : 'text_type_main-medium-extra';
+  const paddingForHeading = windowSize.width > 599 ? 'pb-6' : 'pt-4 pb-6';
+  const sizeOfInput = windowSize.width > 599 ? 'default' : 'small';
+  const sizeOfButton = windowSize.width > 599 ? 'medium' : 'small';
 
   const [userName, setUserName] = useState('');
   const [hasUserNameError, setHasUserNameError] = useState(false);
@@ -150,6 +157,11 @@ function User(): JSX.Element {
   return (
     <section className={styles.section}>
       <Toaster />
+      {windowSize.width < 971 && (
+          <h2 className={`text ${classTextHeading} text_centered ${paddingForHeading}`}>
+            Профиль
+          </h2>
+        )}
       <Form
         heading=''
         onSubmit={onSubmit}
@@ -166,6 +178,7 @@ function User(): JSX.Element {
             error={hasUserNameError}
             errorText='Не менее двух символов'
             autoComplete='off'
+            size={sizeOfInput}
           />
           {!hasUserNameError && <div className={styles.stub} />}
           <EmailInput
@@ -174,6 +187,7 @@ function User(): JSX.Element {
             onBlurCapture={onBlurEmail}
             value={email}
             autoComplete='off'
+            size={sizeOfInput}
           />
           {!hasEmailError && <div className={styles.stub} />}
           <PasswordInput
@@ -184,6 +198,7 @@ function User(): JSX.Element {
             /* данный атрибут предотвращает навязчивое АВТОЗАПОЛНЕНИЕ */
             autoComplete='new-password'
             placeholder='Новый пароль'
+            size={sizeOfInput}
           />
           {!hasPasswordError && <div className={styles.stub} />}
         </EditZone>
@@ -193,7 +208,7 @@ function User(): JSX.Element {
             <Button
               htmlType='reset'
               type='secondary'
-              size='medium'
+              size={sizeOfButton}
               disabled={wasChanged && !changeUserDataPending ? false : true}
               onClick={revertChanges}
             >
@@ -202,7 +217,7 @@ function User(): JSX.Element {
             <Button
               htmlType='submit'
               type='primary'
-              size='medium'
+              size={sizeOfButton}
               disabled={!isFocus
                 && userName.length > 1
                 && !hasEmailError

@@ -20,6 +20,10 @@ body {
   cursor: pointer;
 }
 /* --------------------------------------------------------- */
+p {
+  margin: 0;
+}
+
 .text_type_main-medium-extra {
 	font-family: 'Jet Brains Mono';
 	font-size: 28px;

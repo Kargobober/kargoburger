@@ -104,7 +104,7 @@ function Card({ card }: { card: TIngredientCounted }) {
           htmlType='button'
           type='secondary'
           size='small'
-          extraClass={`${styles.buttonAdd} buttonYP_small`}
+          extraClass={`${styles.buttonAdd}`}
           onClick={(e) => handleAddition(e)}
         >
           Добавить
