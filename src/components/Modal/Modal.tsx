@@ -1,4 +1,4 @@
-import { useEffect, FC, forwardRef, ReactNode } from 'react';
+import { useEffect, forwardRef, ReactNode } from 'react';
 import ReactDOM from 'react-dom';
 
 import { modalRoot } from '../../utils/modal';

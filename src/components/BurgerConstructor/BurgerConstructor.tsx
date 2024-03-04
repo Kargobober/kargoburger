@@ -22,11 +22,20 @@ import { getIngredients } from '../../services/selectors/ingredientsSelector';
 import { getUserFromState } from '../../services/selectors/authSelector';
 import { TIngredientCounted } from '../../utils/types';
 import { TPreparedOrder } from '../Profile/LogOut/LogOutPage';
+import useWindowSize from '../../utils/hooks/useWindowSize';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const windowSize = useWindowSize();
+
+  const paddingForModal = {
+    pt: windowSize.width > 1049 ? '15' : 'неважно', // для 'pt-...'
+    pb: windowSize.width > 1049 ? '30' : 'в-другом-месте-код',
+    // При меньших размерах экрана (до 1050) используется код order details, описанный внутри: BurgerIngridients > Bottom > Cart.tsx.
+    // Относительно DOM модалка располагается в том же реактовском портале.
+  };
 
   const sectionElem = useRef<HTMLElement>(null);
   const fillingsElem = useRef<HTMLUListElement>(null);
@@ -46,8 +55,8 @@ function BurgerConstructor() {
   const modal = (
     <Modal
       onClose={onClose}
-      pt='15'
-      pb='30'
+      pt={paddingForModal.pt}
+      pb={paddingForModal.pb}
     >
       <OrderDetails />
     </Modal>
@@ -76,15 +85,15 @@ function BurgerConstructor() {
   }, [isOrderSucces]);
 
   function handleOrder() {
-    const assembledBurger = selectedProducts.map(el => el._id);
-    if (selectedBun) {
-      // но кнопка заказать неактивна, пока нет булочки, так что это ЕЩЁ одна проверка
-      assembledBurger.push(selectedBun._id);
-      assembledBurger.push(selectedBun._id);
-    }
+    const assembledBurger: string[] = []; // массив айдишек ингредиентов
+
+    if (selectedBun) assembledBurger.push(selectedBun._id); // но кнопка заказать неактивна, пока нет булочки, так что это ЕЩЁ одна проверка
+    assembledBurger.push(...selectedProducts.map(el => el._id));
+    if (selectedBun) assembledBurger.push(selectedBun._id);
+
     if (user === null ? false : (user.name && user.email ? true : false)) {
       dispatch(setNeedingDetails(true));
-      dispatch(postOrder({ ingredients: assembledBurger }));
+      // dispatch(postOrder({ ingredients: ['fhjgfhgf1', 'iuytiuy52'] }));
     } else {
       navigate('/login');
     }

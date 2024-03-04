@@ -11,6 +11,7 @@
 .modalContainer.modalContainer {
   overflow: hidden;
   width: 100vw;
+  max-width: none;
   height: 100vh;
 
   top: 0;
@@ -27,4 +28,10 @@
 
 .containerOfHeading {
   box-sizing: border-box;
+}
+
+@media screen and (max-width: 850px) {
+  .modalContainer.modalContainer {
+    padding: 0; /* перебиваем стандартные стили модалки */
+  }
 }

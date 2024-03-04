@@ -1,4 +1,4 @@
-// КОНТЕНТ МОДАЛКИ О ДЕТАЛЯХ ЗАКАЗА
+// КОНТЕНТ МОДАЛКИ О ДЕТАЛЯХ ЗАКАЗА сделанном когда угодно
 
 import { FC, useEffect, useState } from 'react';
 import styles from './OrderInfo.module.css';

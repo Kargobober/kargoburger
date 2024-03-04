@@ -34,6 +34,13 @@ body {
 	font-weight: normal;
 }
 
+.text_type_digits-medium-extra {
+	font-family: 'Iceland';
+	font-weight: normal;
+	font-size: 72px;
+	line-height: 1.11;
+}
+
 .text_type_digits-small {
 	font-family: 'Iceland';
 	font-weight: normal;
