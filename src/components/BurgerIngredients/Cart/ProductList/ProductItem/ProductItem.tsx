@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import styles from './ProductItem.module.css';
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { TIngredientExtraIdCounted } from '../../../../../utils/types';
@@ -43,6 +43,7 @@ const ProductItem: FC<TProps> = ({ item, index, windowSize }) => {
   const [, dropRef] = useDrop<TDragItem, unknown, unknown>({
     accept: 'sort',
     hover: ({ data }) => {
+
       if (item.extraId === data.extraId) return;
       dispatch(moveItem({
         indexFrom: selectedProducts.indexOf(data),
@@ -50,16 +51,17 @@ const ProductItem: FC<TProps> = ({ item, index, windowSize }) => {
         ingredient: data,
       }));
     },
+
   });
-
-
 
   if (item === null) return null;
 
   return (
-    <li
+    <div
       className={styles.container}
       ref={node => dragPreviewRef(dropRef(node))}
+      // onMouseUp={(e) => e.stopPropagation()}
+      // onTouchEnd = {(e) => e.stopPropagation()}
     >
       <div
         className={`${styles.dragIcon} ${index !== undefined ? 'interactive' : ''}`}
@@ -87,7 +89,7 @@ const ProductItem: FC<TProps> = ({ item, index, windowSize }) => {
           flex: '0 0',
         }}
       />
-    </li>
+    </div>
   )
 };
 

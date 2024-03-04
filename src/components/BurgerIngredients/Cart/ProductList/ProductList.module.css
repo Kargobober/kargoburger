@@ -4,6 +4,38 @@
   padding-right: calc(var(--offset-base-size) * 2);
 }
 
+.item {
+  border-bottom: 1px solid var(--background-element);
+
+  display: flex;
+  overflow: hidden;
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.itemContent {
+  min-width: 100%;
+  margin-right: calc(var(--offset-base-size) * 2);
+}
+
+.itemBackground {
+  box-sizing: border-box;
+  min-width: 144px; /* до события драга выставляем такую мин. ширину */
+
+  background-color: var(--colors-interface-error);
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.iconWrapper {
+  margin: 0 auto;
+  width: fit-content;
+}
+
 .stub {
   padding: calc(var(--offset-base-size) * 4) 0 calc(var(--offset-base-size) * 4) calc(var(--offset-base-size) * 8);
   color: var(--colors-interface-error);
