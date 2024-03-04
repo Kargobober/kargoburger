@@ -6,6 +6,7 @@ import useWindowSize from '../../../../utils/hooks/useWindowSize';
 
 function ProductList() {
   const windowSize = useWindowSize();
+  const textSize = windowSize ? (windowSize.width > 500 ? 'default' : 'small') : 'default';
 
   const selectedBun = useSelector(getSelectedBun);
   const selectedProducts = useSelector(getSelectedProducts);
@@ -18,7 +19,9 @@ function ProductList() {
           windowSize={windowSize}
         />
       ) : (
-        <li>Добавьте булку</li>
+        <li className={`text text_type_main-${textSize} ${styles.stub}`}>
+          Добавьте булку
+        </li>
       )}
 
       {selectedProducts.map((product, index) => (
@@ -36,7 +39,9 @@ function ProductList() {
           windowSize={windowSize}
         />
       ) : (
-        <li>Хлеб всему квазар</li>
+        <li className={`text text_type_main-${textSize} ${styles.stub}`}>
+          Хлеб всему квазар
+        </li>
       )}
     </ul>
   )

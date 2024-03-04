@@ -52,6 +52,8 @@ const ProductItem: FC<TProps> = ({ item, index, windowSize }) => {
     },
   });
 
+
+
   if (item === null) return null;
 
   return (
@@ -83,7 +85,6 @@ const ProductItem: FC<TProps> = ({ item, index, windowSize }) => {
         digitsSize={windowSize && windowSize.width > 500 ? 'default' : 'small'}
         extraStyle={{
           flex: '0 0',
-          // marginLeft: 'auto',
         }}
       />
     </li>
