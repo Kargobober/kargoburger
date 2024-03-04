@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/kargoburger/static/css/main.83c512a6.css",
-    "main.js": "/kargoburger/static/js/main.ff12fea7.js",
+    "main.css": "/kargoburger/static/css/main.fe57e512.css",
+    "main.js": "/kargoburger/static/js/main.2fe75c30.js",
     "static/js/787.438bf4e7.chunk.js": "/kargoburger/static/js/787.438bf4e7.chunk.js",
     "static/media/JetBrainsMono-Bold.woff": "/kargoburger/static/media/JetBrainsMono-Bold.3914674f1cb2335acf26.woff",
     "static/media/JetBrainsMono-Regular.woff": "/kargoburger/static/media/JetBrainsMono-Regular.f52bee61d00ce995b89f.woff",
@@ -9,15 +9,16 @@
     "static/media/JetBrainsMono-Regular.woff2": "/kargoburger/static/media/JetBrainsMono-Regular.b60380891bcf2eb241ca.woff2",
     "static/media/iceland.woff": "/kargoburger/static/media/iceland.77ad7fc2baffd9305538.woff",
     "static/media/iceland.woff2": "/kargoburger/static/media/iceland.4ae67a017a5ff82bbbb7.woff2",
+    "static/media/logo-mobile.svg": "/kargoburger/static/media/logo-mobile.9344d634408ed4d6fb07a2e2eecb2baf.svg",
     "index.html": "/kargoburger/index.html",
     "static/media/order-accepted.svg": "/kargoburger/static/media/order-accepted.45a5fb9f1f61886ec484c151954c0224.svg",
     "static/media/burger.svg": "/kargoburger/static/media/burger.968962f935d9c70d3dff905b30dbd79c.svg",
-    "main.83c512a6.css.map": "/kargoburger/static/css/main.83c512a6.css.map",
-    "main.ff12fea7.js.map": "/kargoburger/static/js/main.ff12fea7.js.map",
+    "main.fe57e512.css.map": "/kargoburger/static/css/main.fe57e512.css.map",
+    "main.2fe75c30.js.map": "/kargoburger/static/js/main.2fe75c30.js.map",
     "787.438bf4e7.chunk.js.map": "/kargoburger/static/js/787.438bf4e7.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.83c512a6.css",
-    "static/js/main.ff12fea7.js"
+    "static/css/main.fe57e512.css",
+    "static/js/main.2fe75c30.js"
   ]
 }
