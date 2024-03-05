@@ -11,10 +11,6 @@
   margin-bottom: calc(var(--offset-base-size) * 5);
 }
 
-/*.navTabs {
-
-}*/
-
 .listOfTabs {
   list-style: none;
   padding: 0;
@@ -44,5 +40,6 @@
 
   .header {
     margin-bottom: calc(var(--offset-base-size) * 2);
+    text-align: center;
   }
 }

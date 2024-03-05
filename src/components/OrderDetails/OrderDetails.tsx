@@ -37,11 +37,11 @@ function OrderDetails(): JSX.Element {
           speedMultiplier={0.4}
         />
       )}
-      <p className={`text ${classText}`}>
+      <p className={`text ${classText} text_centered`}>
         {!isLoading && success ? 'Ваш заказ начали готовить' : 'Создаём заказ...'}
       </p>
-      {!isLoading && success ? (
-        <p className={`text ${classText} text_color_inactive mt-2`}>
+      {!isLoading && success || true ? (
+        <p className={`text ${classText} text_centered text_color_inactive mt-2`}>
           Дождитесь готовности на орбитальной станции
         </p>
       ) : (

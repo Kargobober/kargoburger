@@ -19,7 +19,7 @@
   padding: calc(var(--offset-base-size) * 2)
            calc(var(--offset-base-size) * 2)
            0
-           0;
+           calc(var(--offset-base-size) * 1);
   box-sizing: border-box;
 }
 
@@ -42,9 +42,25 @@
 @media screen and (max-width: 970px) {
   .sectionOrdersHistory {
     grid-column: 1 / 2;
+    width: 100%;
+  }
+
+  .ordersList {
+    row-gap: calc(var(--offset-base-size) * 4);
+  }
+
+  .stub {
+    grid-column: 1 / 2;
+    row-gap: calc(var(--offset-base-size) * 4);
   }
 
   .loader {
     grid-column: 1 / 2;
    }
+}
+
+@media screen and (max-width: 500px) {
+  .ordersList {
+    padding-right: calc(var(--offset-base-size) * 1);
+  }
 }

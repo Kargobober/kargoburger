@@ -41,3 +41,25 @@
 	  line-height: 1.43;
   }
 }
+
+@media screen and (max-width: 600px) {
+  .little-item-1 {
+    transform: translateX(calc(-16px / 2));
+  }
+
+  .little-item-2 {
+    transform: translateX(calc(-32px / 2));
+  }
+
+  .little-item-3 {
+    transform: translateX(calc(-48px / 2));
+  }
+
+  .little-item-4 {
+    transform: translateX(calc(-64px / 2));
+  }
+
+  .little-item-5 {
+    transform: translateX(calc(-80px / 2));
+  }
+}

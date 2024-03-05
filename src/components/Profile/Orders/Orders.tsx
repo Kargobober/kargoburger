@@ -51,7 +51,14 @@ const Orders = () => {
           </h2>
         )}
 
-        <ol className={styles.ordersList + ` listGlobal custom-scroll ${paddingForOrdersList}`}>
+        <ol
+          className={[
+            styles.ordersList,
+            'listGlobal',
+            windowSize.width < 501 ? 'custom-scroll_nullish' : 'custom-scroll',
+            paddingForOrdersList
+          ].join(' ')}
+        >
           {data.orders.map(el => {
             return (
               <Order ingredients={el.ingredients}

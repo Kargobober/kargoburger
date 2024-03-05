@@ -43,7 +43,7 @@ function Cart() {
   const needDetails = useSelector(getOrderDetailsNeeding);
   const isOrderSucces = useSelector(getOrderSuccess);
 
-  if (needDetails && isOrderSucces !== false) {
+  if (/*needDetails && isOrderSucces !== false*/true) {
     return (<OrderDetails />);
   } else {
     return (

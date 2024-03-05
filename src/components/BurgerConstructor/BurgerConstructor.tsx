@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 
 import styles from './BurgerConstructor.module.css';
 
-import { findIngredientObj, handleError } from '../../utils/utils';
+import { handleError } from '../../utils/utils';
 import { useDispatch, useSelector } from '../../services/hooks';
 
 import { BurgerIcon, Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -13,21 +13,17 @@ import Modal from '../Modal/Modal';
 import { getSelectedBun, getSelectedProducts, getTotalPrice } from '../../services/selectors/burgerConstructorSelector';
 import { getOrderDetailsNeeding, getOrderError, getOrderSuccess } from '../../services/selectors/orderDetailsSelector';
 import { resetOrderNumber, setNeedingDetails } from '../../services/slices/orderDetailsSlice';
-import { postOrder } from '../../services/middlewares/orderDetailsQueries';
 import burgerIconSvg from '../../images/burger.svg';
 import { useDrop } from 'react-dnd';
 import { addItem, resetConstructor } from '../../services/slices/burgerConstructorSlice';
-import { useLocation, useNavigate } from 'react-router';
-import { getIngredients } from '../../services/selectors/ingredientsSelector';
+import { useNavigate } from 'react-router';
 import { getUserFromState } from '../../services/selectors/authSelector';
 import { TIngredientCounted } from '../../utils/types';
-import { TPreparedOrder } from '../Profile/LogOut/LogOutPage';
 import useWindowSize from '../../utils/hooks/useWindowSize';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
   const windowSize = useWindowSize();
 
   const paddingForModal = {
@@ -43,8 +39,6 @@ function BurgerConstructor() {
   const needDetails = useSelector(getOrderDetailsNeeding);
   const isOrderSucces = useSelector(getOrderSuccess);
   const error = useSelector(getOrderError);
-
-  const hState: TPreparedOrder = location.state;
 
   const user = useSelector(getUserFromState);
 
@@ -62,23 +56,9 @@ function BurgerConstructor() {
     </Modal>
   );
 
-  const ingredients = useSelector(getIngredients);
   const selectedBun = useSelector(getSelectedBun);
   const selectedProducts = useSelector(getSelectedProducts);
   const totalPrice = useSelector(getTotalPrice);
-
-  // логика для тройного моллюска (src/components/Profile/LogOut)
-  useEffect(() => {
-    if (ingredients.length && hState && hState.burgConstructor.selectedBunId && hState.burgConstructor.selectedProductsId.length) {
-      const selectedBun = findIngredientObj(hState.burgConstructor.selectedBunId, ingredients);
-      const selectedProducts = hState.burgConstructor.selectedProductsId.map(id => findIngredientObj(id, ingredients));
-      if(selectedBun) {
-        // qty: 0, т.к. количество считает селектор
-        dispatch(addItem({ ...selectedBun, qty: 0 }));
-      }
-      selectedProducts.forEach(item => { if (item) dispatch(addItem({ ...item, qty: 0 })) });
-    }
-  }, [ingredients.length, hState]);
 
   useEffect(() => {
     if(isOrderSucces) dispatch(resetConstructor());
@@ -93,7 +73,6 @@ function BurgerConstructor() {
 
     if (user === null ? false : (user.name && user.email ? true : false)) {
       dispatch(setNeedingDetails(true));
-      // dispatch(postOrder({ ingredients: ['fhjgfhgf1', 'iuytiuy52'] }));
     } else {
       navigate('/login');
     }

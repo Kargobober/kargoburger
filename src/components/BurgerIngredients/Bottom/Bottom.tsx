@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './Bottom.module.css';
 import stylesTransition from './BottomTransition.module.css';
 import Price from '../../Price/Price';
@@ -12,20 +12,25 @@ import Cart from '../Cart/Cart';
 import { resetOrderNumber, setNeedingDetails } from '../../../services/slices/orderDetailsSlice';
 import { getOrderDetailsNeeding, getOrderNumber } from '../../../services/selectors/orderDetailsSelector';
 import { resetConstructor } from '../../../services/slices/burgerConstructorSlice';
+import { Location, useLocation } from 'react-router';
+import { TLocationStateTripleMollusk } from '../../Profile/LogOut/LogOutPage';
 
 function Bottom() {
   const dispatch = useDispatch();
+  const location = useLocation();
   const windowSize = useWindowSize();
 
+  const LState: TLocationStateTripleMollusk | null = location.state;
+
   const totalPrice = useSelector(getTotalPrice);
-  const needDetailsAboutOrder = useSelector(getOrderDetailsNeeding);
+  // const needDetailsAboutOrder = useSelector(getOrderDetailsNeeding);
+  const needDetailsAboutOrder = true;
   const orderNumber = useSelector(getOrderNumber);
 
   const paddings = windowSize.width > 500 ? 'pt-10 pr-3 pb-10 pl-3' : 'pt-4 pr-2 pb-4 pl-2';
   const textClassForModalHeading = windowSize.width > 500 ? 'text_type_main-large' : 'text_type_main-medium-extra'
 
   const refTransition = useRef<HTMLDivElement>(null);
-
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -40,6 +45,12 @@ function Bottom() {
     };
     setIsModalOpen(prev => !prev); // закрываем коммунальную модалку
   };
+
+  useEffect(() => {
+    if (LState && LState.needToOpenCart) {
+      setIsModalOpen(true);
+    }
+  }, []);
 
   return (
     <section className={`${styles.sectionBottom} pt-4 pl-2 pb-4 pr-2`}>
