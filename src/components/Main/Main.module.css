@@ -16,5 +16,12 @@
   .main {
     grid-template-columns: 1fr;
     padding: 0;
+    min-height: 550px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .main {
+    min-height: initial;
   }
 }

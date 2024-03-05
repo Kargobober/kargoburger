@@ -49,6 +49,7 @@
 @media screen and (max-width: 500px) {
   .containerContent {
     height: 100vh;
+    height: 100dvh;
     padding-top: calc(var(--offset-base-size) * 4);
   }
 

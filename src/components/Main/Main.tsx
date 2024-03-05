@@ -14,7 +14,7 @@ function Main() {
   const coordBottomHeader = useSelector(getCoordBottomHeader);
 
   return (
-    <main className={styles.main} style={{ height: `calc(100vh - ${coordBottomHeader}px)`}}>
+    <main className={styles.main} style={{ height: `calc(100% - ${coordBottomHeader}px)`}}>
       <DndProvider backend={HTML5Backend}>
         <BurgerIngredients />
         {clientWidth > 1049 && (<BurgerConstructor />)}

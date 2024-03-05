@@ -1,4 +1,3 @@
-//
 import { useEffect } from "react";
 import { useDispatch } from "../../services/hooks";
 // если использовать стандартный диспатч, то TS не будет ругаться на вызов labuda()
