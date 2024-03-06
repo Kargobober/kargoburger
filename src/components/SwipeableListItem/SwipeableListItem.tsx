@@ -100,7 +100,7 @@ const SwipeableListItem: FC<TProps> = ({
   }
 
   function onTouchMove(evt: TouchEvent) {
-    const touch = evt.targetTouches[1]; // кого делаем прозрачным? второй элемент, т.к. поменял их местами относительно исходного кода автора
+    const touch = evt.targetTouches[0];
     const left = touch.clientX - dragStartXRef.current;
     if (left < 0) {
       leftRef.current = left;
