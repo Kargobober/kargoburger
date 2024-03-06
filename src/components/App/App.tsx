@@ -104,8 +104,8 @@ function App (): JSX.Element {
                 // dispatch();
                 navigate('/profile/orders');
               }}
-              pt='10' pr='10' pb='10' pl='10'
               heading={`#${historyState.data.number}`}
+              mode='fullWidthContent'
               extraClassHeading='text text_type_digits-default'
               lineHeight="2.286"
             >
@@ -119,8 +119,8 @@ function App (): JSX.Element {
                 // dispatch();
                 navigate('/feed');
               }}
-              pt='10' pr='10' pb='10' pl='10'
               heading={`#${historyState.data.number}`}
+              mode='fullWidthContent'
               extraClassHeading='text text_type_digits-default'
               lineHeight="2.286"
             >

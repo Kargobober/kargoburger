@@ -14,6 +14,7 @@
   max-width: none;
   height: 100vh;
   height: 100dvh;
+  max-height: initial;
 
   top: 0;
   left: 0;
@@ -29,10 +30,4 @@
 
 .containerOfHeading {
   box-sizing: border-box;
-}
-
-@media screen and (max-width: 850px) {
-  .modalContainer.modalContainer {
-    padding: 0; /* перебиваем стандартные стили модалки */
-  }
 }

@@ -10,6 +10,7 @@
   box-sizing: border-box;
   width: 100%;
   max-width: 720px;
+  max-height: 90%;
 
 
   background-color: var(--background);
@@ -29,19 +30,14 @@
 
 @media screen and (max-width: 850px) {
   .modal-container {
-    max-width: none;
+    max-width: initial;
     height: 100%;
+    max-height: initial;
 
     border-radius: 0;
     border: 0;
     box-shadow: none;
 
     background-color: var(--background-alt);
-  }
-}
-
-@media screen and (max-width: 850px) {
-  .modal-container {
-    padding: calc(var(--offset-base-size) * 4) calc(var(--offset-base-size) * 2) 0;
   }
 }

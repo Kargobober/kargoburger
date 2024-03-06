@@ -31,6 +31,10 @@
   margin-bottom: calc(var(--offset-base-size) * 4);
 }
 
+.date {
+  display: flex;
+}
+
 .date p {
   text-align: end;
 }
@@ -106,5 +110,11 @@
 
   .image {
     object-position: -5px 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .date {
+    flex-direction: column;
   }
 }

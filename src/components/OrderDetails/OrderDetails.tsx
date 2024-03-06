@@ -23,7 +23,7 @@ function OrderDetails(): JSX.Element {
   return (
     <div className={`${styles.container}`}>
       <h3 className={`text ${textClassForOrderNumber} ${styles.heading} text_decor_shadow`}>{orderNumber ? orderNumber : ' . . . . . '}</h3>
-      <p className={`text ${textClassForIdentificator} mt-8`}>идентификатор заказа</p>
+      <p className={`text ${textClassForIdentificator} text_centered mt-8`}>идентификатор заказа</p>
       {!isLoading && success ? (
         <img src={orderAcceptedSvg} alt="Статус заказа" className='mt-15 mb-15' />
       ) : (
@@ -40,7 +40,7 @@ function OrderDetails(): JSX.Element {
       <p className={`text ${classText} text_centered`}>
         {!isLoading && success ? 'Ваш заказ начали готовить' : 'Создаём заказ...'}
       </p>
-      {!isLoading && success || true ? (
+      {!isLoading && success || 1 ? (
         <p className={`text ${classText} text_centered text_color_inactive mt-2`}>
           Дождитесь готовности на орбитальной станции
         </p>

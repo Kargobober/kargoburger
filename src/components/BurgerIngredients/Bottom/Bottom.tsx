@@ -23,11 +23,9 @@ function Bottom() {
   const LState: TLocationStateTripleMollusk | null = location.state;
 
   const totalPrice = useSelector(getTotalPrice);
-  // const needDetailsAboutOrder = useSelector(getOrderDetailsNeeding);
-  const needDetailsAboutOrder = true;
+  const needDetailsAboutOrder = useSelector(getOrderDetailsNeeding);
   const orderNumber = useSelector(getOrderNumber);
 
-  const paddings = windowSize.width > 500 ? 'pt-10 pr-3 pb-10 pl-3' : 'pt-4 pr-2 pb-4 pl-2';
   const textClassForModalHeading = windowSize.width > 500 ? 'text_type_main-large' : 'text_type_main-medium-extra'
 
   const refTransition = useRef<HTMLDivElement>(null);
@@ -82,10 +80,10 @@ function Bottom() {
           ref={refTransition}
           key={Date.now()}
           onClose={toggleModal}
-          pt={0} pr={0} pb={0} pl={0}
           heading={needDetailsAboutOrder ? (orderNumber ? 'Заказ оформлен' : 'Оформление заказа') : ('Заказ')}
+          mode='fullWidthContent'
           extraClassContainer={styles.modalContainer}
-          extraClassContainerOfHeading={`${paddings} ${styles.containerOfHeading}`}
+          extraClassContainerOfHeading={`${styles.containerOfHeading} pb-4`}
           extraClassHeading={`text ${textClassForModalHeading}`}
         >
           <Cart />

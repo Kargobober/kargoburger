@@ -37,13 +37,13 @@ function Cart() {
     }
   }
 
-  const paddings = windowSize.width > 500 ? 'pr-3 pl-3' : 'pr-2 pl-2';
+  const paddings = windowSize.width > 849 ? 'pr-10 pl-10' : 'pr-2 pl-2';
 
 
   const needDetails = useSelector(getOrderDetailsNeeding);
   const isOrderSucces = useSelector(getOrderSuccess);
 
-  if (/*needDetails && isOrderSucces !== false*/true) {
+  if (needDetails && isOrderSucces !== false) {
     return (<OrderDetails />);
   } else {
     return (

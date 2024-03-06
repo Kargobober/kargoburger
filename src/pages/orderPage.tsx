@@ -12,11 +12,25 @@ import { StatusKind } from '../utils/api/types';
 import { getIngredients, getLoadingStatus } from '../services/selectors/ingredientsSelector';
 import { TIngredientExtraId, TIngredientExtraIdCounted } from '../utils/types';
 import { MoonLoader } from 'react-spinners';
+import useWindowSize from '../utils/hooks/useWindowSize';
 
 const OrderPage: FC = () => {
   const { number } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const windowSize = useWindowSize();
+
+  const classTextHeading = windowSize.width > 850 ? 'text_type_main-medium' : 'text_type_main-small-extra';
+  const classText = windowSize.width > 850 ? 'text_type_main-default' : 'text_type_main-small';
+
+  const marginForHeading = windowSize.width > 850 ? 'mt-6 mb-2' : 'mt-6 mb-2';
+  const marginForCompound = windowSize.width > 850 ? 'mt-15 mb-6' : 'mt-6 mb-4';
+  const marginForFooter = windowSize.width > 850 ? 'mt-15' : '';
+
+  const paddingForContent = windowSize.width > 850 ? 'pl-10 pr-10' : 'pl-2 pr-2';
+  const paddingForFooter = windowSize.width > 850 ? 'pl-10 pr-10 pb-10' : 'pt-2 pr-2 pb-2 pl-2';
+
+  const scrollStyle = windowSize.width > 500 ? 'custom-scroll' : 'custom-scroll_nullish';
 
   useEffect(() => {
     dispatch(getOrder(number!));
@@ -52,7 +66,7 @@ const OrderPage: FC = () => {
         && order.status) {
       const ingredients: TIngredientExtraIdCounted[] = [];
       for (let id in qtyOfEachIngredient) {
-        // ингредиент точно найдутся, т.к. в Order.tsx вызвать модалку (а значит и передать кому-то ссылку) можно только для заказов, у которых найдены все ингредиенты
+        // ингредиенты точно найдутся, т.к. в Order.tsx вызвать модалку (а значит и передать кому-то ссылку) можно только для заказов, у которых найдены все ингредиенты
         const foundedObj = findIngredientObj(id, ingredientsFromServer) as TIngredientExtraId;
         ingredients.push({ ...foundedObj, qty: qtyOfEachIngredient[id] });
       }
@@ -64,11 +78,11 @@ const OrderPage: FC = () => {
     <>
       <main className={styles.main}>
         <p className={`text text_type_digits-default text_centered ${styles.number}`}>#{order.number}</p>
-        <h2 className={`text text_type_main-medium mb-2 mt-5 ${styles.name} custom-scroll`}>{order.name}</h2>
-        <p className={`text text_type_main-default ${order.status === StatusKind.DONE ? styles.success : ''}`}>{statusRus}</p>
+        <h2 className={`text ${classTextHeading} ${marginForHeading} ${styles.name} ${scrollStyle}`}>{order.name}</h2>
+        <p className={`text ${classText} ${order.status === StatusKind.DONE ? styles.success : ''}`}>{statusRus}</p>
 
-        <h3 className='text text_type_main-medium mt-15 mb-6'>Состав:</h3>
-        <ol className={`mb-10 ${styles.list} listGlobal custom-scroll`}>
+        <h3 className={`text ${classTextHeading} ${marginForCompound}`}>Состав:</h3>
+        <ol className={`${styles.list} listGlobal ${scrollStyle}`}>
           {ingredientsArr.map((el, i) => (<Item
             image={el.image}
             image_mobile={el.image_mobile}
@@ -80,8 +94,8 @@ const OrderPage: FC = () => {
           ))}
         </ol>
         <div className={styles.footer}>
-          <FormattedDate date={new Date(order.createdAt)} className='text text_type_main-default text_color_inactive' />
-          <Price value={ingredientsArr.reduce((acc, el) => acc + el!.price, 0)} digitsSize='default' />
+          <FormattedDate date={new Date(order.createdAt)} className={`text ${classText} text_color_inactive`} />
+          <Price value={ingredientsArr.reduce((acc, el) => acc + el!.price, 0)} digitsSize={windowSize.width > 850 ? 'default' : 'small'} />
         </div>
       </main>
     </>

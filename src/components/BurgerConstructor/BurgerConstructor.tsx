@@ -49,8 +49,6 @@ function BurgerConstructor() {
   const modal = (
     <Modal
       onClose={onClose}
-      pt={paddingForModal.pt}
-      pb={paddingForModal.pb}
     >
       <OrderDetails />
     </Modal>

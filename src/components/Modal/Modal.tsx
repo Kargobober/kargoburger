@@ -7,6 +7,7 @@ import styles from './Modal.module.css';
 
 import ModalHeader from '../ModalHeader/ModalHeader';
 import ModalOverlay from '../ModalOverlay/ModalOverlay';
+import useWindowSize from '../../utils/hooks/useWindowSize';
 
 /**
  * @param extraClass стили для заголовка
@@ -15,10 +16,7 @@ import ModalOverlay from '../ModalOverlay/ModalOverlay';
 type TProps = {
   heading?: string;
   onClose?: () => void;
-  pb?: number | string;
-  pt?: number | string;
-  pl?: number | string;
-  pr?: number | string;
+  mode?: 'default' | 'fullWidthContent',
   /**
    * класс модалки
    */
@@ -40,10 +38,7 @@ const Modal = forwardRef((
     children,
     heading,
     onClose,
-    pt = 10,
-    pr = 10,
-    pb = 15,
-    pl = 10,
+    mode = 'default',
     extraClassContainer,
     extraClassContainerOfHeading,
     extraClassHeading,
@@ -51,6 +46,11 @@ const Modal = forwardRef((
   }: TProps,
   ref: React.ForwardedRef<HTMLDivElement>
 ) => {
+  const windowSize = useWindowSize();
+
+  const padingForDefault = windowSize.width > 850 ? 'pt-10 pr-10 pb-10 pl-10' : 'pt-4 pr-2 pb-4 pl-2';
+  const padingForFullWidthContent = windowSize.width > 850 ? 'pt-10' : 'pt-4';
+  const paddingResult = mode === 'default' ? padingForDefault : padingForFullWidthContent;
 
   useEffect(() => {
     if (onClose) {
@@ -68,7 +68,7 @@ const Modal = forwardRef((
   return ReactDOM.createPortal((
     <>
       <div
-        className={`${styles['modal-container']} pt-${pt} pr-${pr} pb-${pb} pl-${pl} ${extraClassContainer}`}
+        className={`${styles['modal-container']} ${paddingResult} ${extraClassContainer}`}
         ref={ref}
       >
         <ModalHeader
@@ -77,6 +77,7 @@ const Modal = forwardRef((
           extraClassContainer={extraClassContainerOfHeading}
           extraClassHeading={extraClassHeading}
           lineHeight={lineHeight}
+          mode={mode}
         />
         {children}
       </div>
