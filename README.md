@@ -2,10 +2,10 @@
 
 ## Cсылка на проект https://kargobober.github.io/kargoburger/
 
-<div style='display: flex; column-gap: 20px'>
-  <img src='./src/images/constructor-1.png' style='border: 1px solid #4c4cff; border-radius: 15px; width: 220px'>
-  <img src='./src/images/constructor-2-delete.png' style='border: 1px solid #4c4cff; border-radius: 15px; width: 220px'>
-  <img src='./src/images/menu.png' style='border: 1px solid #4c4cff; border-radius: 15px; width: 220px'>
+<div>
+  <img src='./src/images/constructor-1.png' style='width: 250px'>
+  <img src='./src/images/constructor-2-delete.png' style='width: 250px'>
+  <img src='./src/images/menu.png' style='width: 250px'>
 </div>
 
 ## Функционал
@@ -26,13 +26,13 @@
 * React
 * Redux & Redux Toolkit
 * React router
-* Typescript (в т.ч. дженерики)<br>
-<br>
+* Typescript (в т.ч. дженерики)
+<br/><br/>
 * WebSocket
 * LocalStorage
 * Jest
-* Cypress<br>
-<br>
+* Cypress
+<br/><br/>
 * React DnD (с поддержкой touch-событий)
 * Адаптивная вёрстка на flex и grid
 * Pixel Perfect
