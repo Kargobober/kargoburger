@@ -1,0 +1,68 @@
+.containerModal {
+  position: relative;
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: calc(var(--offset-base-size) * 5);
+  padding-right: calc(var(--offset-base-size) * 5);
+}
+
+.buttonProfile {
+  width: 100%;
+  padding: calc(var(--offset-base-size) * 4) calc(var(--offset-base-size) * 5);
+  display: flex;
+  align-items: center;
+  transition: opacity .2s linear;
+}
+
+.buttonProfile:hover {
+  opacity: .7;
+  cursor: pointer;
+}
+
+.personIcoWrapper {
+  margin-right: calc(var(--offset-base-size) * 2);
+}
+
+.arrowWrapper {
+  margin-left: auto;
+  transition: transform .1s linear;
+}
+
+.arrowDown {
+  transform: rotateX(180deg) translateY(3px);
+}
+
+.profileLinks {
+  padding: calc(var(--offset-base-size) * 2.5) calc(var(--offset-base-size) * 5 + 24px + var(--offset-base-size) * 2);
+}
+
+.collapseWrapper {
+  transition: height .3s ease-in-out;
+}
+
+@media screen and (max-width: 500px) {
+  .containerContent {
+    height: 100vh;
+    height: 100dvh;
+    padding-top: calc(var(--offset-base-size) * 4);
+  }
+
+  .header {
+    padding-left: calc(var(--offset-base-size) * 2);
+    padding-right: calc(var(--offset-base-size) * 2);
+  }
+
+  .buttonProfile {
+    padding: calc(var(--offset-base-size) * 3) calc(var(--offset-base-size) * 2);
+  }
+
+  .profileLinks {
+    padding: calc(var(--offset-base-size) * 2.5) calc(var(--offset-base-size) * 2 + 24px + var(--offset-base-size) * 2);
+  }
+}

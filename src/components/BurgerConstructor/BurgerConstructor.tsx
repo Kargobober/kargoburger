@@ -1,8 +1,8 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import styles from './BurgerConstructor.module.css';
 
-import { findIngredientObj, getTopCoords, handleError } from '../../utils/utils';
+import { handleError } from '../../utils/utils';
 import { useDispatch, useSelector } from '../../services/hooks';
 
 import { BurgerIcon, Button, ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -13,106 +13,64 @@ import Modal from '../Modal/Modal';
 import { getSelectedBun, getSelectedProducts, getTotalPrice } from '../../services/selectors/burgerConstructorSelector';
 import { getOrderDetailsNeeding, getOrderError, getOrderSuccess } from '../../services/selectors/orderDetailsSelector';
 import { resetOrderNumber, setNeedingDetails } from '../../services/slices/orderDetailsSlice';
-import { postOrder } from '../../services/middlewares/orderDetailsQueries';
 import burgerIconSvg from '../../images/burger.svg';
 import { useDrop } from 'react-dnd';
 import { addItem, resetConstructor } from '../../services/slices/burgerConstructorSlice';
-import { v4 as uuidv4 } from 'uuid';
-import { useLocation, useNavigate } from 'react-router';
-import { getIngredients } from '../../services/selectors/ingredientsSelector';
+import { useNavigate } from 'react-router';
 import { getUserFromState } from '../../services/selectors/authSelector';
 import { TIngredientCounted } from '../../utils/types';
-import { TPreparedOrder } from '../Profile/LogOut/LogOutPage';
+import useWindowSize from '../../utils/hooks/useWindowSize';
 
 function BurgerConstructor() {
-  // сохраняем высоту окна в стэйт, чтобы при ее изменении перерисовывать компонент с новой доступной ему высотой
-  const [windowHeight, setWindowHeight] = useState<number>();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const windowSize = useWindowSize();
+
+  const paddingForModal = {
+    pt: windowSize.width > 1049 ? '15' : 'неважно', // для 'pt-...'
+    pb: windowSize.width > 1049 ? '30' : 'в-другом-месте-код',
+    // При меньших размерах экрана (до 1050) используется код order details, описанный внутри: BurgerIngridients > Bottom > Cart.tsx.
+    // Относительно DOM модалка располагается в том же реактовском портале.
+  };
+
   const sectionElem = useRef<HTMLElement>(null);
   const fillingsElem = useRef<HTMLUListElement>(null);
-  const [sectionHeight, setSectionHeight] = useState(912);
-  const [fillingsHeight, setFillingsHeight] = useState(560);
-  const dispatch = useDispatch();
 
   const needDetails = useSelector(getOrderDetailsNeeding);
   const isOrderSucces = useSelector(getOrderSuccess);
   const error = useSelector(getOrderError);
 
-  const location = useLocation();
-  const navigate = useNavigate();
-
-  const hState: TPreparedOrder = location.state;
-
   const user = useSelector(getUserFromState);
 
   useEffect(() => {
-      error && handleError('Ошибка при создании заказа: ', error);
+    error && handleError('Ошибка при создании заказа: ', error);
   }, [error]);
 
   const modal = (
     <Modal
       onClose={onClose}
-      pt='15'
-      pb='30'
     >
       <OrderDetails />
     </Modal>
   );
 
-  const ingredients = useSelector(getIngredients);
   const selectedBun = useSelector(getSelectedBun);
   const selectedProducts = useSelector(getSelectedProducts);
   const totalPrice = useSelector(getTotalPrice);
-
-  // логика для тройного моллюска (src/components/Profile/LogOut)
-  useEffect(() => {
-    if (ingredients.length && hState && hState.burgConstructor.selectedBunId && hState.burgConstructor.selectedProductsId.length) {
-      const selectedBun = findIngredientObj(hState.burgConstructor.selectedBunId, ingredients);
-      const selectedProducts = hState.burgConstructor.selectedProductsId.map(id => findIngredientObj(id, ingredients));
-      if(selectedBun) {
-        // qty: 0, т.к. количество считает селектор
-        dispatch(addItem({ ...selectedBun, qty: 0 }));
-      }
-      selectedProducts.forEach(item => { if (item) dispatch(addItem({ ...item, qty: 0 })) });
-    }
-  }, [ingredients.length, hState]);
 
   useEffect(() => {
     if(isOrderSucces) dispatch(resetConstructor());
   }, [isOrderSucces]);
 
-  useEffect(() => {
-    if (sectionElem.current && fillingsElem.current) {
-      // Получаем координаты верха секции конструктора
-      const sectionTopCoord = getTopCoords(sectionElem.current);
-
-      // Назначаем доступную высоту для секции, чтобы не появлялся скролл всего приложения
-      // 40(в px) – это нижний отступ всего приложения
-      setSectionHeight(document.documentElement.clientHeight - sectionTopCoord - 40);
-
-      const fillingsTopCoord = getTopCoords(fillingsElem.current);
-
-      // 292px - хардкод, суммарная высота элементов и отступов под списком начинок
-      setFillingsHeight(document.documentElement.clientHeight - fillingsTopCoord - 292);
-
-      const handleWindowResize = () => {
-        setWindowHeight(document.documentElement.clientHeight)
-        window.addEventListener('resize', handleWindowResize);
-      }
-      return () => { window.removeEventListener('resize', handleWindowResize) };
-    }
-  }, [windowHeight]);
-
-
   function handleOrder() {
-    const assembledBurger = selectedProducts.map(el => el._id);
-    if (selectedBun) {
-      // но кнопка заказать неактивна, пока нет булочки, так что это ЕЩЁ одна проверка
-      assembledBurger.push(selectedBun._id);
-      assembledBurger.push(selectedBun._id);
-    }
+    const assembledBurger: string[] = []; // массив айдишек ингредиентов
+
+    if (selectedBun) assembledBurger.push(selectedBun._id); // но кнопка заказать неактивна, пока нет булочки, так что это ЕЩЁ одна проверка
+    assembledBurger.push(...selectedProducts.map(el => el._id));
+    if (selectedBun) assembledBurger.push(selectedBun._id);
+
     if (user === null ? false : (user.name && user.email ? true : false)) {
       dispatch(setNeedingDetails(true));
-      dispatch(postOrder({ ingredients: assembledBurger }));
     } else {
       navigate('/login');
     }
@@ -141,9 +99,9 @@ function BurgerConstructor() {
   return (
     <>
       {needDetails && isOrderSucces !== false && modal}
-      <section className={`${styles['section-common']} pt-25`} ref={sectionElem} style={{ maxHeight: sectionHeight }}>
+      <section className={`${styles.sectionCommon} pt-25 pb-5`} ref={sectionElem}>
 
-        <section ref={dropRef} className={isHover ? `${styles.innerSection} ${styles.dropTarget}` : styles.innerSection}>
+        <section ref={dropRef} className={isHover ? `${styles.sectionConstructor} ${styles.dropTarget}` : styles.sectionConstructor}>
 
           {!selectedBun && selectedProducts.length === 0 &&
             <div className={styles.stub}>
@@ -156,25 +114,33 @@ function BurgerConstructor() {
           }
 
           {/* верхняя булка */}
-          {selectedBun && <ConstructorElement
-            text={`${selectedBun.name} (верх)`}
-            thumbnail={selectedBun.image}
-            price={selectedBun.price}
-            type="top"
-            extraClass={`mb-4 ml-8 ${styles.bun}`}
-            isLocked={true}
-          />}
-          {selectedProducts.length > 0 && !selectedBun && <ConstructorElement
-            text='Добавьте булку'
-            thumbnail={burgerIconSvg}
-            price={0}
-            type="top"
-            extraClass={`mb-4 ml-8 ${styles.bun}`}
-            isLocked={true}
-          />}
+          {selectedBun && (
+            <div className='pl-8 pr-4'>
+              <ConstructorElement
+                text={`${selectedBun.name} (верх)`}
+                thumbnail={selectedBun.image}
+                price={selectedBun.price}
+                type="top"
+                extraClass={`mb-4 ${styles.bun}`}
+                isLocked={true}
+              />
+            </div>
+          )}
+          {selectedProducts.length > 0 && !selectedBun && (
+            <div className='pl-8 pr-4'>
+              <ConstructorElement
+                text='Добавьте булку'
+                thumbnail={burgerIconSvg}
+                price={0}
+                type="top"
+                extraClass={`mb-4 ${styles.bun}`}
+                isLocked={true}
+              />
+            </div>
+          )}
 
           {/* внутренности бургера */}
-          <ul className={`${styles.list} custom-scroll`} ref={fillingsElem} style={{ maxHeight: fillingsHeight }}>
+          <ul className={`${styles.listOfFillings} custom-scroll`} ref={fillingsElem}>
             {selectedProducts.length > 0
               && selectedProducts.map((el, index) => <Item
                 key={el.extraId}
@@ -185,29 +151,39 @@ function BurgerConstructor() {
           </ul>
 
           {/* нижняя булочка */}
-          {selectedBun && <ConstructorElement
-            text={`${selectedBun.name} (низ)`}
-            thumbnail={selectedBun.image}
-            price={selectedBun.price}
-            type="bottom"
-            extraClass={`mt-4 ml-8 ${styles.bun}`}
-            isLocked={true}
-          />}
-          {selectedProducts.length > 0 && !selectedBun && <ConstructorElement
-            text='Хлеб всему квазар'
-            thumbnail={burgerIconSvg}
-            price={0}
-            type="bottom"
-            extraClass={`mt-4 ml-8 ${styles.bun}`}
-            isLocked={true}
-          />}
+          {selectedBun && (
+            <div className='pl-8 pr-4'>
+              <ConstructorElement
+                text={`${selectedBun.name} (низ)`}
+                thumbnail={selectedBun.image}
+                price={selectedBun.price}
+                type="bottom"
+                extraClass={`mt-4 ${styles.bun}`}
+                isLocked={true}
+              />
+            </div>
+          )}
+          {selectedProducts.length > 0 && !selectedBun && (
+            <div className='pl-8 pr-4'>
+              <ConstructorElement
+                text='Хлеб всему квазар'
+                thumbnail={burgerIconSvg}
+                price={0}
+                type="bottom"
+                extraClass={`mt-4 ${styles.bun}`}
+                isLocked={true}
+              />
+            </div>
+          )}
         </section>
 
-        <section className={styles['price-section']}>
+        <section className={styles.sectionPrice}>
           <Price value={totalPrice} digitsSize='medium' svgSize='32' />
           <Button htmlType="button" type="primary" size="medium"
             onClick={handleOrder}
-            disabled={!selectedBun}>
+            disabled={!selectedBun}
+            extraClass={selectedBun ? 'button_decor_shadow' : ''}
+          >
             Оформить заказ
           </Button>
         </section>

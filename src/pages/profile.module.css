@@ -1,6 +1,9 @@
 .main {
+  overflow: hidden;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: minmax(320px, 1fr) 2.125fr minmax(0, 1fr);
+  grid-template-rows: 1fr;
+  column-gap: calc(var(--offset-base-size) * 15);
   justify-items: start;
   align-items: start;
   width: 100%;
@@ -47,7 +50,20 @@
 
 .navSection {
   max-width: 320px;
-  width: 100%;
   margin-top: 80px;
 }
 
+@media screen and (max-width: 970px) {
+  .main {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, auto);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .main {
+    padding: calc(var(--offset-base-size) * 4)
+             calc(var(--offset-base-size) * 2)
+             0;
+  }
+}

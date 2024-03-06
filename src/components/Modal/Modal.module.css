@@ -8,7 +8,9 @@
   transform: translate(-50%, -50%);
 
   box-sizing: border-box;
-  width: 720px;
+  width: 100%;
+  max-width: 720px;
+  max-height: 90%;
 
 
   background-color: var(--background);
@@ -24,4 +26,18 @@
   flex-direction: column;
   align-items: center;
 
+}
+
+@media screen and (max-width: 850px) {
+  .modal-container {
+    max-width: initial;
+    height: 100%;
+    max-height: initial;
+
+    border-radius: 0;
+    border: 0;
+    box-shadow: none;
+
+    background-color: var(--background-alt);
+  }
 }

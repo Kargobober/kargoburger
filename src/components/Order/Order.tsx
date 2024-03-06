@@ -8,6 +8,7 @@ import { TIngredientExtraId } from '../../utils/types';
 import styles from './Order.module.css';
 import { Link, useLocation } from 'react-router-dom';
 import { StatusKind } from '../../utils/api/types';
+import useWindowSize from '../../utils/hooks/useWindowSize';
 
 type TOrderProps = {
   ingredients: string[];
@@ -23,6 +24,23 @@ type TOrderProps = {
 
 const Order: FC<TOrderProps> = ({ ingredients, _id, number, createdAt, name, status, usageCase }) => {
   const location = useLocation();
+  const windowSize = useWindowSize();
+
+  const classTextDigits = windowSize.width > 600 ? 'text_type_digits-default' : 'text_type_digits-small';
+  const classText = windowSize.width > 600 ? 'text_type_main-default' : 'text_type_main-small';
+  const classTextHeading = windowSize.width > 600 ? 'text_type_main-medium' : 'text_type_main-small-extra';
+
+  let marginForHeading = '';
+  if (usageCase === 'profile/orders') {
+    windowSize.width > 600 ? marginForHeading = 'mt-6 mb-2' : marginForHeading = 'mt-4 mb-2';
+  } else { // usageCase === 'feed'
+    windowSize.width > 600 ? marginForHeading = 'mt-6 mb-6' : marginForHeading = 'mt-4 mb-4';
+  }
+
+  const marginForOrderStatus = windowSize.width > 600 ? 'mb-6' : 'mb-4';
+
+  const formattedDate = String(FormattedDate({date: new Date(createdAt)})?.props.children);
+  const [dateDay, dateTime] = formattedDate.split(',').filter(el => el !== ' ');
 
   const ingredientsFromServer = useSelector(getIngredients);
   const isLoading = useSelector(getLoadingStatus);
@@ -79,10 +97,10 @@ const Order: FC<TOrderProps> = ({ ingredients, _id, number, createdAt, name, sta
         {isNull && (
           <>
             <div className={styles.hat}>
-              <span className='text text_type_digits-default'>#{number}</span>
-              <FormattedDate date={new Date(createdAt)} className='text text_type_main-default text_color_inactive' />
+              <span className={`text ${classTextDigits}`}>#{number}</span>
+              <FormattedDate date={new Date(createdAt)} className={`text ${classText} text_color_inactive ${styles.date}`} />
             </div>
-            <h4 className={`text text_type_main-default ${styles.errorHeading}`}>
+            <h4 className={`text ${classText} ${styles.errorHeading}`}>
               {`Ошибка получения заказа!
             Пожалуйста, перезагрузите страницу👾`}
             </h4>
@@ -93,14 +111,17 @@ const Order: FC<TOrderProps> = ({ ingredients, _id, number, createdAt, name, sta
         {!isNull && (
           <>
             <div className={styles.hat}>
-              <span className='text text_type_digits-default'>#{number}</span>
-              <FormattedDate date={new Date(createdAt)} className='text text_type_main-default text_color_inactive' />
+              <span className={`text ${classTextDigits}`}>#{number}</span>
+              <div className={`text ${classText} text_color_inactive ${styles.date}`}>
+                <p>{dateDay},</p>
+                <p>{dateTime}</p>
+              </div>
             </div>
 
             <div>
-              <h4 className={`text text_type_main-medium ${usageCase === 'feed' ? 'mb-6' : 'mb-2'} mt-6`}>{name}</h4>
+              <h4 className={`text ${classTextHeading} ${marginForHeading}`}>{name}</h4>
               {usageCase !== 'feed' && (
-                <p className={`text text_type_main-default mb-6 ${status === StatusKind.DONE ? styles.success : ''}`}>
+                <p className={`text ${classText} ${marginForOrderStatus} ${status === StatusKind.DONE ? styles.success : ''}`}>
                   {statusRus}
                 </p>
               )}
@@ -126,7 +147,7 @@ const Order: FC<TOrderProps> = ({ ingredients, _id, number, createdAt, name, sta
                           alt={el!.name}
                           className={styles.image}
                         />
-                        {<span className={`text text_type_main-default ${arr.length - i === 1 ? '' : styles.counter}`}>+{arr.length - i}</span>}
+                        {<span className={`text ${classText} ${arr.length - i === 1 ? '' : styles.counter}`}>+{arr.length - i}</span>}
                       </li>
                     );
 
@@ -134,7 +155,7 @@ const Order: FC<TOrderProps> = ({ ingredients, _id, number, createdAt, name, sta
                   }
                 })}
               </ul>
-              <Price value={price} digitsSize='default' />
+              <Price value={price} digitsSize={windowSize.width > 600 ? 'default' : 'small'} />
             </div>
           </>
         )}

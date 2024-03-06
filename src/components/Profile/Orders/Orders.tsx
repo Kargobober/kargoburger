@@ -6,10 +6,16 @@ import { useDispatch, useSelector } from '../../../services/hooks';
 import { connect as connectOrdersWS, disconnect as disconnectOrdersWS } from '../../../services/reducers/ordersWS/actions';
 import { MoonLoader } from 'react-spinners';
 import { getAuthPending } from '../../../services/selectors/authSelector';
+import useWindowSize from '../../../utils/hooks/useWindowSize';
 
 
 const Orders = () => {
   const dispatch = useDispatch();
+  const windowSize = useWindowSize();
+
+  const classTextHeading = 'text_type_main-medium-extra';
+  const paddingForHeading = 'pb-4';
+  const paddingForOrdersList = '';
 
   const authPending = useSelector(getAuthPending);
 
@@ -28,26 +34,6 @@ const Orders = () => {
     return () => { disconnect() };
   }, []);
 
-
-
-  const listRef = useRef<HTMLOListElement>(null);
-  const [permittedHeight, setPermittedHeight] = useState(812);
-  const [windowHeight, setWindowHeight] = useState<number>();
-  useEffect(() => {
-    if (listRef.current) {
-      const sectionTopCoord = getTopCoords(listRef.current);
-      setPermittedHeight(document.documentElement.clientHeight - sectionTopCoord);
-
-      const handleWindowResize = () => {
-        setWindowHeight(document.documentElement.clientHeight)
-      }
-      window.addEventListener('resize', handleWindowResize);
-      return () => { window.removeEventListener('resize', handleWindowResize) };
-    }
-  }, [windowHeight]);
-
-
-
   const data = useSelector(state => state.ordersWS.data);
 
   if (data && data.success && data.orders.length === 0) return (
@@ -58,21 +44,36 @@ const Orders = () => {
 
   if (data && data.success && data.orders.length > 0) return (
     <>
-      <ol className={styles.ordersList + ` listGlobal custom-scroll pt-1 pb-3`} ref={listRef} style={{ height: permittedHeight }}>
-        {data.orders.map(el => {
-          return (
-            <Order ingredients={el.ingredients}
-              _id={el._id}
-              number={el.number}
-              createdAt={el.createdAt}
-              name={el.name}
-              key={el._id}
-              status={el.status!}
-              usageCase='profile/orders'
-            />
-          )
-        })}
-      </ol>
+      <section className={styles.sectionOrdersHistory}>
+        {windowSize.width < 971 && (
+          <h2 className={`text ${classTextHeading} text_centered ${paddingForHeading}`}>
+            История заказов
+          </h2>
+        )}
+
+        <ol
+          className={[
+            styles.ordersList,
+            'listGlobal',
+            windowSize.width < 501 ? 'custom-scroll_nullish' : 'custom-scroll',
+            paddingForOrdersList
+          ].join(' ')}
+        >
+          {data.orders.map(el => {
+            return (
+              <Order ingredients={el.ingredients}
+                _id={el._id}
+                number={el.number}
+                createdAt={el.createdAt}
+                name={el.name}
+                key={el._id}
+                status={el.status!}
+                usageCase='profile/orders'
+              />
+            )
+          })}
+        </ol>
+      </section>
     </>
   )
 
@@ -84,6 +85,7 @@ const Orders = () => {
         marginTop: '120px',
       }}
       speedMultiplier={0.4}
+      className={styles.loader}
     />
   )
 };

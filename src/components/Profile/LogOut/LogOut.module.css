@@ -1,8 +1,25 @@
 .section {
   width: 100%;
+  grid-column: 2 / 4;
+  justify-self: center;
+  align-self: center;
 }
 
 .buttonsContainer {
   display: flex;
   width: 100%;
+  justify-content: center;
+}
+
+@media screen and (max-width: 970px) {
+  .section {
+    grid-column: 1 / 2;
+  }
+
+  .buttonsContainer {
+    flex-direction: column;
+    width: fit-content;
+    max-width: 60%;
+    margin: 0 auto;
+  }
 }

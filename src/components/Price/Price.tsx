@@ -6,12 +6,12 @@ import { handleError } from '../../utils/utils';
 
 type TProps = {
   value: string | number;
-  digitsSize: 'default' | 'medium' | 'large';
+  digitsSize?: 'default' | 'small' | 'medium' | 'large';
   svgSize?: string;
   extraStyle?: Record<string, string>;
 };
 
-const Price: FC<TProps> = ({ value, digitsSize, svgSize = '24', extraStyle = {} }) => {
+const Price: FC<TProps> = ({ value, digitsSize = 'medium', svgSize = '24', extraStyle }) => {
   const priceContainer = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

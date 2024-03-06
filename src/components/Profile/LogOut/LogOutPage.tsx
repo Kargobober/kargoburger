@@ -6,35 +6,45 @@ import { useDispatch, useSelector } from '../../../services/hooks';
 import { getLogOutPending, getLogOutSuccess } from '../../../services/selectors/authSelector';
 import { logOut } from '../../../services/middlewares/authQueries';
 import { setLogOutSuccess } from '../../../services/slices/authSlice';
+import { findIngredientObj } from '../../../utils/utils';
+import { getIngredients } from '../../../services/selectors/ingredientsSelector';
+import { addItem } from '../../../services/slices/burgerConstructorSlice';
+import useWindowSize from '../../../utils/hooks/useWindowSize';
 
-export type TPreparedOrder = {
-  burgConstructor: {
-    selectedBunId: string;
-    selectedProductsId: string[];
-  };
+export type TLocationStateTripleMollusk = {
+  needToOpenCart: boolean | null;
 };
 
 function LogOutPage(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const windowSize = useWindowSize();
 
+  const sizeOfButton = windowSize.width > 599 ? 'medium' : 'small';
+
+  const ingredients = useSelector(getIngredients);
   const logOutPending = useSelector(getLogOutPending);
   const logOutSuccess = useSelector(getLogOutSuccess);
 
 
   const holdThisDude = () => {
-    navigate('/', {
-      state: {
-        burgConstructor: {
-          selectedBunId: '643d69a5c3f7b9001cfa093d',
-          selectedProductsId: [
-            '643d69a5c3f7b9001cfa093f',
-            '643d69a5c3f7b9001cfa093f',
-            '643d69a5c3f7b9001cfa093f',
-          ],
-        },
-      },
-    });
+    const bun = findIngredientObj('643d69a5c3f7b9001cfa093d', ingredients);
+    const mollusk = findIngredientObj('643d69a5c3f7b9001cfa093f', ingredients);
+
+    if (bun) {
+      // qty: 0, т.к. количество считает селектор
+      dispatch(addItem({ ...bun, qty: 0 }));
+    }
+
+    if (mollusk) {
+      dispatch(addItem({ ...mollusk, qty: 0 }));
+      dispatch(addItem({ ...mollusk, qty: 0 }));
+      dispatch(addItem({ ...mollusk, qty: 0 }));
+    }
+
+    navigate('/', { state: {
+      needToOpenCart: true,
+    }});
   };
 
   const handleLogOut = () => {
@@ -70,7 +80,7 @@ function LogOutPage(): JSX.Element {
         <Button
           htmlType='button'
           type='primary'
-          size='medium'
+          size={sizeOfButton}
           onClick={handleLogOut}
           disabled={logOutPending ? true : false}
         >
@@ -79,7 +89,7 @@ function LogOutPage(): JSX.Element {
         <Button
           htmlType='button'
           type='secondary'
-          size='medium'
+          size={sizeOfButton}
           onClick={holdThisDude}
           disabled={logOutPending ? true : false}
         >

@@ -1,0 +1,13 @@
+.section {
+  margin-top: calc(var(--offset-base-size) * 20);
+  display: flex;
+  flex-direction: column;
+  row-gap: calc(var(--offset-base-size) * 4);
+}
+
+@media screen and (max-width: 600px) {
+  .section {
+    margin-top: calc(var(--offset-base-size) * 10);
+    row-gap: calc(var(--offset-base-size) * 5);
+  }
+}

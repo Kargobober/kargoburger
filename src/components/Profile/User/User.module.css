@@ -1,11 +1,22 @@
 .section {
   margin-top: 80px;
+  justify-self: center;
 }
 
 .stub {
-  height: 42px;
+  height: calc(var(--offset-base-size) * 6.5);
 }
 
 .actionsZone {
   align-self: end;
+}
+
+@media screen and (max-width: 600px){
+  .section {
+    margin-top: 0;
+  }
+
+  .stub {
+    height: calc(var(--offset-base-size) * 5.5);
+  }
 }
