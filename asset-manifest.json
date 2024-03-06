@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/kargoburger/static/css/main.066d63bd.css",
-    "main.js": "/kargoburger/static/js/main.ef5e021a.js",
+    "main.css": "/kargoburger/static/css/main.bd91191f.css",
+    "main.js": "/kargoburger/static/js/main.8bffbe24.js",
     "static/js/787.438bf4e7.chunk.js": "/kargoburger/static/js/787.438bf4e7.chunk.js",
     "static/media/JetBrainsMono-Bold.woff": "/kargoburger/static/media/JetBrainsMono-Bold.3914674f1cb2335acf26.woff",
     "static/media/JetBrainsMono-Regular.woff": "/kargoburger/static/media/JetBrainsMono-Regular.f52bee61d00ce995b89f.woff",
@@ -13,12 +13,12 @@
     "index.html": "/kargoburger/index.html",
     "static/media/order-accepted.svg": "/kargoburger/static/media/order-accepted.45a5fb9f1f61886ec484c151954c0224.svg",
     "static/media/burger.svg": "/kargoburger/static/media/burger.968962f935d9c70d3dff905b30dbd79c.svg",
-    "main.066d63bd.css.map": "/kargoburger/static/css/main.066d63bd.css.map",
-    "main.ef5e021a.js.map": "/kargoburger/static/js/main.ef5e021a.js.map",
+    "main.bd91191f.css.map": "/kargoburger/static/css/main.bd91191f.css.map",
+    "main.8bffbe24.js.map": "/kargoburger/static/js/main.8bffbe24.js.map",
     "787.438bf4e7.chunk.js.map": "/kargoburger/static/js/787.438bf4e7.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.066d63bd.css",
-    "static/js/main.ef5e021a.js"
+    "static/css/main.bd91191f.css",
+    "static/js/main.8bffbe24.js"
   ]
 }
