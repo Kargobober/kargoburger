@@ -4,3 +4,10 @@
   justify-content: center;
   column-gap: calc(var(--offset-base-size) * 2);
 }
+
+@media screen and (max-width: 600px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+  }
+}

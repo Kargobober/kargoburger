@@ -29,3 +29,35 @@
   object-position: center;
   margin-bottom: calc(var(--offset-base-size) * 4);
 }
+
+.heading {
+  flex: 1 1 auto;
+  width: 100%;
+}
+
+@media screen and (max-width: 800px) {
+  .image {
+    margin-top: calc(var(--offset-base-size) * 4);
+    height: 120px;
+  }
+
+  .list {
+    margin-top: calc(var(--offset-base-size) * 12);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .heading {
+    overflow-wrap: break-word;
+  }
+
+  .list {
+    flex-wrap: wrap;
+    column-gap: calc(var(--offset-base-size) * 4);
+  }
+
+  .item {
+    flex: 1 1 40%;
+    row-gap: calc(var(--offset-base-size) * 1);
+  }
+}

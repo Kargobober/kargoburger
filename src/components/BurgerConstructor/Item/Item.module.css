@@ -1,4 +1,5 @@
 .item {
+  flex: 1 1 auto;
   display: flex;
   column-gap: calc(var(--offset-base-size) * 2);
   align-items: center;
@@ -6,4 +7,9 @@
 
 .dragIcon {
   cursor: pointer;
+}
+
+.constructorElement {
+  min-width: 0;
+  overflow-wrap: break-word;
 }

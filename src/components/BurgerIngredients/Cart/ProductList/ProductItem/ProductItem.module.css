@@ -1,0 +1,48 @@
+.container {
+  box-sizing: border-box;
+  min-width: 0;
+  width: 100%;
+  /* min-height: 96px; */
+
+  padding: calc(var(--offset-base-size) * 4) 0;
+
+  display: flex;
+
+}
+
+.container:last-child {
+  border-bottom: none;
+}
+
+.dragIcon {
+  flex: 0 0 auto;
+  align-self: center;
+}
+
+.dragIcon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.image {
+  width: 80px;
+  flex: 0 0;
+
+  object-position: center;
+  object-fit: contain;
+}
+
+.name {
+  flex: 1 1 auto;
+}
+
+@media screen and (max-width: 500px) {
+  .image {
+    box-sizing: border-box;
+    padding: 2px;
+    width: 52px;
+    height: 40px;
+    object-fit: cover;
+    object-position: -12px 0;
+  }
+}

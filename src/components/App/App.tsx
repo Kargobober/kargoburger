@@ -1,4 +1,3 @@
-//
 import { useEffect } from "react";
 import { useDispatch } from "../../services/hooks";
 // если использовать стандартный диспатч, то TS не будет ругаться на вызов labuda()
@@ -105,9 +104,9 @@ function App (): JSX.Element {
                 // dispatch();
                 navigate('/profile/orders');
               }}
-              pt='10' pr='10' pb='10' pl='10'
               heading={`#${historyState.data.number}`}
-              extraClass='text text_type_digits-default'
+              mode='fullWidthContent'
+              extraClassHeading='text text_type_digits-default'
               lineHeight="2.286"
             >
               <OrderInfo />
@@ -120,9 +119,9 @@ function App (): JSX.Element {
                 // dispatch();
                 navigate('/feed');
               }}
-              pt='10' pr='10' pb='10' pl='10'
               heading={`#${historyState.data.number}`}
-              extraClass='text text_type_digits-default'
+              mode='fullWidthContent'
+              extraClassHeading='text text_type_digits-default'
               lineHeight="2.286"
             >
               <OrderInfo />

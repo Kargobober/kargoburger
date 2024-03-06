@@ -1,7 +1,27 @@
 .main {
-  display: flex;
+  box-sizing: border-box;
   max-width: 1280px;
   width: 100%;
-  justify-content: space-between;
-  padding-bottom: calc(var(--offset-base-size) * 10);
+  overflow: hidden;
+  min-height: 650px;
+
+  padding: 0 calc(var(--offset-base-size) * 5) calc(var(--offset-base-size) * 13) calc(var(--offset-base-size) * 5);
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: calc(var(--offset-base-size) * 10);
+}
+
+@media screen and (max-width: 1049px) {
+  .main {
+    grid-template-columns: 1fr;
+    padding: 0;
+    min-height: 550px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .main {
+    min-height: initial;
+  }
 }

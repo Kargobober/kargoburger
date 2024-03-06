@@ -1,19 +1,44 @@
 .main {
   width: 100%;
-  max-width: 1280px;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 46.875% auto 45.625%;
-  /* grid-template-rows: repeat(fit-content, 2); */
+  padding-left: calc(var(--offset-base-size) * 5);
+  padding-right: calc(var(--offset-base-size) * 5);
+  grid-template-rows: repeat(fit-content, 2);
 }
 
 .mainHeading {
-  grid-column: 1/4;
+  grid-column: 1 / 4;
+}
+
+.navBar {
+  width: 100%;
+  grid-column: 1 / 2;
+  padding-bottom: calc(var(--offset-base-size) * 5);
+}
+
+.navList {
+  width: 100%;
+  display: flex;
+}
+
+.navItem {
+  width: 50%;
+}
+
+.sectionOrders {
+  overflow: hidden;
+  grid-column: 1 / 2;
 }
 
 .ordersList {
-  display: grid;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   row-gap: calc(var(--offset-base-size) * 4);
   overflow: auto;
   padding-right: calc(var(--offset-base-size) * 2);
@@ -21,10 +46,11 @@
 }
 
 .digits {
-  grid-column: 3/4;
+  overflow: auto;
+  grid-column: 3 / 4;
   display: flex;
   flex-direction: column;
-  row-gap: 60px;
+  row-gap: calc(var(--offset-base-size) * 15);
 }
 
 .mainDigits {
@@ -47,7 +73,7 @@
 }
 
 .pendingOrders {
-  width: 41%;
+  width: 45%;
 }
 
 .listPending {
@@ -63,9 +89,45 @@
 .asideDigits {
   display: flex;
   flex-direction: column;
-  row-gap: 60px;
+  row-gap: calc(var(--offset-base-size) * 15);
 }
 
 .item {
   display: block;
+}
+
+@media screen and (max-width: 1200px){
+  .main {
+    grid-template-rows: repeat(auto, 3);
+    grid-template-columns: 1fr;
+  }
+
+  .mainHeading {
+    grid-column: 1 / 2;
+  }
+
+  .digits {
+    grid-column: 1 / 2;
+    row-gap: calc(var(--offset-base-size) * 6);
+  }
+
+  .asideDigits {
+    row-gap: calc(var(--offset-base-size) * 6);
+  }
+}
+
+
+@media screen and (max-width: 500px){
+  .main {
+    padding-left: calc(var(--offset-base-size) * 2);
+    padding-right: calc(var(--offset-base-size) * 2);
+  }
+
+  .listDone {
+    gap: calc(var(--offset-base-size) * 1);
+  }
+
+  .listPending {
+    gap: calc(var(--offset-base-size) * 1);
+  }
 }

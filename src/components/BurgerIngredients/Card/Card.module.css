@@ -10,22 +10,22 @@
   padding: 0;
   margin: 0;
 
-  width: 272px;
-  min-height: 208px;
-
   cursor: pointer;
   border-radius: 20px;
 }
 
 .image {
-  width: 240px;
-  height: 120px;
+  min-width: 144px;
+  width: 100%;
+  max-width: 240px;
+  min-height: 72px;
   object-fit: cover;
   object-position: center;
 }
 
 .heading {
   text-align: center;
+  min-height: 48px;
 }
 
 .dragging {
@@ -36,6 +36,16 @@
   outline: 2px solid var(--colors-interface-accent);
 }
 
-.link {
+.buttonAdd {
+  font-weight: bold;
+}
 
+@media screen and (max-width: 500px) {
+  .card {
+    row-gap: calc(var(--offset-base-size) * 2.25);
+  }
+
+  .heading {
+    min-height: 60px;
+  }
 }

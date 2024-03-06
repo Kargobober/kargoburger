@@ -16,10 +16,15 @@ import ActionsZone from '../components/Form/ActionsZone/ActionsZone';
 import AdditionalActions from '../components/Form/AdditionalActions/AdditionalActions';
 import Action from '../components/Form/Action/Action';
 import { stellarToast } from '../utils/utils';
+import useWindowSize from '../utils/hooks/useWindowSize';
 
 function ForgotPasswordPage(): JSX.Element {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const windowSize = useWindowSize();
+
+  const sizeOfInput = windowSize.width > 599 ? 'default' : 'small';
+  const sizeOfButton = windowSize.width > 599 ? 'medium' : 'small';
 
   const [email, setEmail] = useState('');
   const [hasEmailError, setHasEmailError] = useState(false);
@@ -98,13 +103,14 @@ function ForgotPasswordPage(): JSX.Element {
           value={email}
           placeholder='Укажите e-mail'
           autoComplete='email'
+          size={sizeOfInput}
           />
           { !hasEmailError && <div className={styles.stub} /> }
         </EditZone>
 
         <ActionsZone>
           <Button
-            htmlType="submit" type="primary" size="medium"
+            htmlType="submit" type="primary" size={sizeOfButton}
             disabled={!isFocus && !hasEmailError && email
               && !resetPasswordPending ? false : true}
           >

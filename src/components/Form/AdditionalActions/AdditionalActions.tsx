@@ -3,7 +3,7 @@ import { FC } from 'react';
 
 const AdditionalActions: FC = ({ children }) => {
   return (
-    <section className={`mt-20 ${styles.section}`}>
+    <section className={`${styles.section}`}>
       {children}
     </section>
   )

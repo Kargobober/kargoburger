@@ -1,9 +1,10 @@
 .item {
-  /* width: 100%; */
-  display: grid;
-  grid-template-columns: 10% 50% 30%;
+  width: 100%;
+  display: flex;
   column-gap: calc(var(--offset-base-size) * 4);
   align-items: center;
+  padding-right: calc(var(--offset-base-size) * 1);
+  box-sizing: border-box;
 }
 
 .circle {
@@ -15,10 +16,31 @@
   overflow: hidden;
   box-sizing: border-box;
   background-color: var(--background-alt);
+  flex: 0 0 auto;
 }
 
 .image {
   height: 100%;
   object-fit: cover;
   object-position: -21px 0;
+}
+
+.heading {
+  flex: 1 1 auto;
+}
+
+@media screen and (max-width: 850px) {
+  .item {
+    column-gap: calc(var(--offset-base-size) * 2);
+    padding: calc(var(--offset-base-size) * 2) 0;
+  }
+
+  .circle {
+    width: 32px;
+    height: 32px;
+  }
+
+  .image {
+    object-position: -6px 0;
+  }
 }

@@ -1,6 +1,7 @@
 import { RootState } from "../types";
 
 export const getSelectedBun = (state: RootState) => state.burgerConstructor.selectedBun;
+export const getIsBunNullish = (state: RootState) => !Boolean(state.burgerConstructor.selectedBun);
 export const getSelectedProducts = (state: RootState) => state.burgerConstructor.selectedProducts;
 export const getTotalPrice = (state: RootState) => {
   let totalPrice = 0;

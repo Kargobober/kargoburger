@@ -1,0 +1,65 @@
+.little-item-0 {
+  z-index: 6;
+}
+
+.little-item-1 {
+  transform: translateX(-16px);
+  z-index: 5;
+}
+
+.little-item-2 {
+  transform: translateX(-32px);
+  z-index: 4;
+}
+
+.little-item-3 {
+  transform: translateX(-48px);
+  z-index: 3;
+}
+
+.little-item-4 {
+  transform: translateX(-64px);
+  z-index: 2;
+}
+
+.little-item-5 {
+  transform: translateX(-80px);
+}
+
+.button_size_small.button_size_small {
+  font-family: 'Jet Brains Mono'; /* Нужно указать из-за опечатки в коде кнопки в библе ЯП. У них написано слитно – JetBrains */
+}
+
+.input_size_small.input_size_small {
+  width: auto;
+  min-width: 304px;
+}
+
+@media screen and (max-width: 900px) {
+  #nav-of-ingredients span {
+    font-size: 14px;
+	  line-height: 1.43;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .little-item-1 {
+    transform: translateX(calc(-16px / 2));
+  }
+
+  .little-item-2 {
+    transform: translateX(calc(-32px / 2));
+  }
+
+  .little-item-3 {
+    transform: translateX(calc(-48px / 2));
+  }
+
+  .little-item-4 {
+    transform: translateX(calc(-64px / 2));
+  }
+
+  .little-item-5 {
+    transform: translateX(calc(-80px / 2));
+  }
+}

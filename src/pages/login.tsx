@@ -15,10 +15,15 @@ import { useNavigate } from 'react-router';
 import { Toaster } from 'react-hot-toast';
 import { stellarToast } from '../utils/utils';
 import { setUserSuccess } from '../services/slices/authSlice';
+import useWindowSize from '../utils/hooks/useWindowSize';
 
 function LoginPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const windowSize = useWindowSize();
+
+  const sizeOfInput = windowSize.width > 599 ? 'default' : 'small';
+  const sizeOfButton = windowSize.width > 599 ? 'medium' : 'small';
 
   const [email, setEmail] = useState('');
   /* создадим стейт текста ошибки инпута при его валидации,
@@ -102,14 +107,14 @@ function LoginPage() {
         <EditZone>
           {/* Использую BlurCapture, т.к. на просто Blur в компоненте стоит свой обработчик (вызов кастомной валидации, написан создателями библиотеки) */}
           {/* При фокусе валидация очищает текст ошибки, потому заглушке нужно снова появляться */}
-          <EmailInput onChange={onChangeEmail} onFocusCapture={onFocusEmail} onBlurCapture={onBlurEmail} value={email} />
+          <EmailInput onChange={onChangeEmail} onFocusCapture={onFocusEmail} onBlurCapture={onBlurEmail} value={email} size={sizeOfInput} />
           { !hasEmailError && <div className={styles.stub} /> }
-          <PasswordInput onChange={onChangePassword} onFocusCapture={onFocusPassword} onBlurCapture={onBlurPassword} value={password} />
+          <PasswordInput onChange={onChangePassword} onFocusCapture={onFocusPassword} onBlurCapture={onBlurPassword} value={password} size={sizeOfInput} />
           { !hasPasswordError && <div className={styles.stub} /> }
         </EditZone>
 
         <ActionsZone>
-          <Button htmlType="submit" type="primary" size="medium"
+          <Button htmlType="submit" type="primary" size={sizeOfButton}
             disabled={!isFocus
               && !hasEmailError
               && email

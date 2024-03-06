@@ -1,14 +1,9 @@
-.list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-}
-
 .section {
-  width: 50%;
-  max-width: 600px;
-  margin-left: calc(var(--offset-base-size) * 5);
+  box-sizing: border-box;
+  overflow: hidden;
+
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
 .header {
@@ -16,6 +11,35 @@
   margin-bottom: calc(var(--offset-base-size) * 5);
 }
 
+.listOfTabs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.item {
+  flex: 1 1 calc(100% / 3);
+}
+
 .link {
   text-decoration: none;
+}
+
+@media screen and (max-width: 1049px) {
+  .section {
+    padding-left: calc(var(--offset-base-size) * 2);
+    padding-right: calc(var(--offset-base-size) * 2);
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .section.section {
+    padding-top: calc(var(--offset-base-size) * 2);
+  }
+
+  .header {
+    margin-bottom: calc(var(--offset-base-size) * 2);
+    text-align: center;
+  }
 }
