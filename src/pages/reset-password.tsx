@@ -17,10 +17,15 @@ import AdditionalActions from '../components/Form/AdditionalActions/AdditionalAc
 import Action from '../components/Form/Action/Action';
 import { stellarToast } from '../utils/utils';
 import { login } from '../services/middlewares/authActions';
+import useWindowSize from '../utils/hooks/useWindowSize';
 
 function ResetPasswordPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const windowSize = useWindowSize();
+
+  const sizeOfInput = windowSize.width > 599 ? 'default' : 'small';
+  const sizeOfButton = windowSize.width > 599 ? 'medium' : 'small';
 
   const [password, setPassword] = useState('');
   const [hasPasswordError, setHasPasswordError] = useState(false);
@@ -157,12 +162,13 @@ function ResetPasswordPage() {
             value={key}
             error={hasKeyError}
             errorText='Не менее 4 символов'
+            size={sizeOfInput}
           />
           { !hasKeyError && <div className={styles.stub} /> }
         </EditZone>
 
         <ActionsZone>
-          <Button htmlType="submit" type="primary" size="medium"
+          <Button htmlType="submit" type="primary" size={sizeOfButton}
             disabled={!isFocus
               && !hasPasswordError
               && !hasKeyError

@@ -9,6 +9,7 @@ import { setLogOutSuccess } from '../../../services/slices/authSlice';
 import { findIngredientObj } from '../../../utils/utils';
 import { getIngredients } from '../../../services/selectors/ingredientsSelector';
 import { addItem } from '../../../services/slices/burgerConstructorSlice';
+import useWindowSize from '../../../utils/hooks/useWindowSize';
 
 export type TLocationStateTripleMollusk = {
   needToOpenCart: boolean | null;
@@ -17,6 +18,9 @@ export type TLocationStateTripleMollusk = {
 function LogOutPage(): JSX.Element {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const windowSize = useWindowSize();
+
+  const sizeOfButton = windowSize.width > 599 ? 'medium' : 'small';
 
   const ingredients = useSelector(getIngredients);
   const logOutPending = useSelector(getLogOutPending);
@@ -76,7 +80,7 @@ function LogOutPage(): JSX.Element {
         <Button
           htmlType='button'
           type='primary'
-          size='medium'
+          size={sizeOfButton}
           onClick={handleLogOut}
           disabled={logOutPending ? true : false}
         >
@@ -85,7 +89,7 @@ function LogOutPage(): JSX.Element {
         <Button
           htmlType='button'
           type='secondary'
-          size='medium'
+          size={sizeOfButton}
           onClick={holdThisDude}
           disabled={logOutPending ? true : false}
         >

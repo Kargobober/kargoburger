@@ -4,7 +4,7 @@
 }
 
 .stub {
-  height: calc(var(--offset-base-size) * 6);
+  height: calc(var(--offset-base-size) * 6.5);
 }
 
 .actionsZone {
@@ -17,6 +17,6 @@
   }
 
   .stub {
-    height: calc(var(--offset-base-size) * 5);
+    height: calc(var(--offset-base-size) * 5.5);
   }
 }

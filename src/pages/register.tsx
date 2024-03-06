@@ -10,10 +10,15 @@ import ActionsZone from '../components/Form/ActionsZone/ActionsZone';
 import AdditionalActions from '../components/Form/AdditionalActions/AdditionalActions';
 import Action from '../components/Form/Action/Action';
 import { registerUser } from '../services/middlewares/authActions';
+import useWindowSize from '../utils/hooks/useWindowSize';
 
 
 function RegisterPage() {
   const dispatch = useDispatch();
+  const windowSize = useWindowSize();
+
+  const sizeOfInput = windowSize.width > 599 ? 'default' : 'small';
+  const sizeOfButton = windowSize.width > 599 ? 'medium' : 'small';
 
   const [userName, setUserName] = useState('');
   const [hasUserNameError, setHasUserNameError] = useState(false);
@@ -115,16 +120,17 @@ function RegisterPage() {
             value={userName}
             error={hasUserNameError}
             errorText='Не менее двух символов'
+            size={sizeOfInput}
           />
           {!hasUserNameError && <div className={styles.stub} />}
-          <EmailInput onChange={onChangeEmail} onFocusCapture={onFocusEmail} onBlurCapture={onBlurEmail} value={email} />
+          <EmailInput onChange={onChangeEmail} onFocusCapture={onFocusEmail} onBlurCapture={onBlurEmail} value={email} size={sizeOfInput} />
           {!hasEmailError && <div className={styles.stub} />}
-          <PasswordInput onChange={onChangePassword} onFocusCapture={onFocusPassword} onBlurCapture={onBlurPassword} value={password} />
+          <PasswordInput onChange={onChangePassword} onFocusCapture={onFocusPassword} onBlurCapture={onBlurPassword} value={password} size={sizeOfInput} />
           {!hasPasswordError && <div className={styles.stub} />}
         </EditZone>
 
         <ActionsZone>
-          <Button htmlType="submit" type="primary" size="medium"
+          <Button htmlType="submit" type="primary" size={sizeOfButton}
             disabled={!isFocus && userName.length > 1 && !hasEmailError && email && password ? false : true}
           >
             Зарегистрироваться
