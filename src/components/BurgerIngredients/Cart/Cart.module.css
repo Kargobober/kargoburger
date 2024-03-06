@@ -21,6 +21,11 @@
   background-color: var(--background);
 }
 
+.btn {
+  width: 100%;
+  max-width: 196px;
+}
+
 @media screen and (max-width: 850px) {
   .sectionProductList {
     padding: 0 calc(var(--offset-base-size) * 2);

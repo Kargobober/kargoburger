@@ -32,6 +32,7 @@
 @media screen and (max-width: 850px) {
   .item {
     column-gap: calc(var(--offset-base-size) * 2);
+    padding: calc(var(--offset-base-size) * 2) 0;
   }
 
   .circle {
