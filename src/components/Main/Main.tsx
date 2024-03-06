@@ -4,7 +4,8 @@ import { memo } from 'react';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { MultiBackend } from 'react-dnd-multi-backend'
+import { HTML5toTouch } from 'rdndmb-html5-to-touch'
 import { useSelector } from '../../services/hooks';
 import { getCoordBottomHeader } from '../../services/selectors/adaptability';
 import useWindowSize from '../../utils/hooks/useWindowSize';
@@ -15,7 +16,7 @@ function Main() {
 
   return (
     <main className={styles.main} style={{ height: `calc(100% - ${coordBottomHeader}px)`}}>
-      <DndProvider backend={HTML5Backend}>
+      <DndProvider backend={MultiBackend} options={HTML5toTouch}>
         <BurgerIngredients />
         {clientWidth > 1049 && (<BurgerConstructor />)}
       </DndProvider>
