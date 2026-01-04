@@ -1,12 +1,11 @@
 import { TCatcher, TResponseRefreshToken } from "./types";
 
 export const config = {
-  baseUrl: 'https://norma.nomoreparties.space/api',
+  baseUrl: "https://norma.education-services.ru/api",
   headers: {
-    'Content-Type': 'application/json',
-  }
+    "Content-Type": "application/json",
+  },
 };
-
 
 // Типизировать негативный ответ промиса не нужно, т.к. res.ok = false может быть из-за множества разных причин
 export async function handleResponse<T>(response: Response) {
@@ -15,7 +14,11 @@ export async function handleResponse<T>(response: Response) {
   return Promise.reject(data);
 }
 
-export async function fetchWithRefresh<T>(url: string, options: RequestInit, catcher: TCatcher<T>) {
+export async function fetchWithRefresh<T>(
+  url: string,
+  options: RequestInit,
+  catcher: TCatcher<T>
+) {
   try {
     const res = await fetch(url, options);
     const data = await handleResponse<T>(res);
@@ -28,8 +31,12 @@ export async function fetchWithRefresh<T>(url: string, options: RequestInit, cat
 }
 
 // Типизировать негативный ответ промиса не нужно, т.к. res.ok = false может быть из-за множества разных причин
-export async function tokenCatcher<T>(url: string, options: RequestInit, err: any) {
-  if (err.message === 'jwt expired') {
+export async function tokenCatcher<T>(
+  url: string,
+  options: RequestInit,
+  err: any
+) {
+  if (err.message === "jwt expired") {
     const refreshData = await refreshToken<TResponseRefreshToken>();
 
     if (!refreshData.success) {
@@ -44,7 +51,10 @@ export async function tokenCatcher<T>(url: string, options: RequestInit, err: an
     options.headers = headersInit;
 
     // см. заметки конспекта, id = 'создание заказа с refreshToken'
-    options.headers = { ...config.headers, authorization: refreshData.accessToken };
+    options.headers = {
+      ...config.headers,
+      authorization: refreshData.accessToken,
+    };
     const res = await fetch(url, options);
     const data = await handleResponse<T>(res);
     return data;
@@ -55,15 +65,11 @@ export async function tokenCatcher<T>(url: string, options: RequestInit, err: an
 
 export async function refreshToken<T>(): Promise<T> {
   // передаём свой refreshToken, чтобы получить новый accessToken
-  return fetch(
-    `${config.baseUrl}/auth/token`,
-    {
-      method: 'POST',
-      headers: config.headers,
-      body: JSON.stringify({
-        token: localStorage.getItem('refreshToken'),
-      })
-    }
-  )
-    .then(handleResponse<T>);
+  return fetch(`${config.baseUrl}/auth/token`, {
+    method: "POST",
+    headers: config.headers,
+    body: JSON.stringify({
+      token: localStorage.getItem("refreshToken"),
+    }),
+  }).then(handleResponse<T>);
 }
