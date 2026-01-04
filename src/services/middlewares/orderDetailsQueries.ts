@@ -1,6 +1,15 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { config, fetchWithRefresh, handleResponse, tokenCatcher } from "../../utils/api/api";
-import { TRequestPostOrder, TResponseGetOrder, TResponsePostOrder } from "../../utils/api/types";
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  config,
+  fetchWithRefresh,
+  handleResponse,
+  tokenCatcher,
+} from '../../utils/api/api';
+import {
+  TRequestPostOrder,
+  TResponseGetOrder,
+  TResponsePostOrder,
+} from '../../utils/api/types';
 
 export const postOrder = createAsyncThunk(
   'order/post',
@@ -17,14 +26,15 @@ export const postOrder = createAsyncThunk(
         body: JSON.stringify(payload),
       },
       tokenCatcher
-    )
+    );
   }
 );
 
 export const getOrder = createAsyncThunk(
   'order/get',
   (orderNumber: number | string) => {
-    return fetch(`${config.baseUrl}/orders/${orderNumber}`)
-      .then(handleResponse<TResponseGetOrder>)
+    return fetch(`${config.baseUrl}/orders/${orderNumber}`).then(
+      handleResponse<TResponseGetOrder>
+    );
   }
 );

@@ -1,3 +1,4 @@
-import { RootState } from "../types";
+import { RootState } from '../types';
 
-export const getCoordBottomHeader = (state: RootState) => state.adaptability.coordBottomHeader;
+export const getCoordBottomHeader = (state: RootState) =>
+  state.adaptability.coordBottomHeader;

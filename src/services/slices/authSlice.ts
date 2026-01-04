@@ -1,6 +1,11 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { changeUserData, logOut, resetPassword, sendResetCode } from "../middlewares/authQueries";
-import { TUser } from "../../utils/api/types";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import {
+  changeUserData,
+  logOut,
+  resetPassword,
+  sendResetCode,
+} from '../middlewares/authQueries';
+import { TUser } from '../../utils/api/types';
 
 type TStateAuth = {
   user: TUser | null;
@@ -13,12 +18,12 @@ type TStateAuth = {
   // ↓ статус успешности отправки кода сброса пароля
   resetCodeSuccess: boolean | 'sended' | null;
   // ↓ статус обработки запросов получения кода сброса И смены пароля
-  resetPasswordPending: boolean,
+  resetPasswordPending: boolean;
   // ↓ статус успешности изменения пароля
   resetPasswordSuccess: boolean | null;
-  changeUserDataPending: boolean,
+  changeUserDataPending: boolean;
   changeUserDataSuccess: boolean | null;
-  logOutPending: boolean,
+  logOutPending: boolean;
   logOutSuccess: boolean | null;
 };
 
@@ -52,7 +57,7 @@ const authSlice = createSlice({
     },
     setEmailOnStorage: (state, action: PayloadAction<string>) => {
       if (state.user === null) {
-        state.user = {email: action.payload, name: ''};
+        state.user = { email: action.payload, name: '' };
       } else {
         state.user.email = action.payload;
       }
@@ -86,7 +91,10 @@ const authSlice = createSlice({
     setResetPasswordSuccess: (state, action: PayloadAction<boolean | null>) => {
       state.resetPasswordSuccess = action.payload;
     },
-    setResetCodeSuccess: (state, action: PayloadAction<boolean | 'sended' | null>) => {
+    setResetCodeSuccess: (
+      state,
+      action: PayloadAction<boolean | 'sended' | null>
+    ) => {
       state.resetCodeSuccess = action.payload;
     },
 
@@ -94,73 +102,76 @@ const authSlice = createSlice({
       state.logOutSuccess = action.payload;
     },
 
-    setChangeUserDataSuccess: (state, action: PayloadAction<boolean | null>) => {
+    setChangeUserDataSuccess: (
+      state,
+      action: PayloadAction<boolean | null>
+    ) => {
       state.changeUserDataSuccess = action.payload;
     },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder.addCase(sendResetCode.pending, (state) => {
       state.resetPasswordPending = true;
       state.resetCodeSuccess = null;
       state.error = '';
-    })
+    });
     builder.addCase(sendResetCode.fulfilled, (state) => {
       state.resetPasswordPending = false;
       state.resetCodeSuccess = true;
-    })
+    });
     builder.addCase(sendResetCode.rejected, (state, action) => {
       state.resetPasswordPending = false;
       state.resetCodeSuccess = false;
       state.error = action.payload;
-    })
+    });
 
     builder.addCase(resetPassword.pending, (state) => {
       state.resetPasswordPending = true;
       state.resetPasswordSuccess = null;
       state.error = '';
-    })
+    });
     builder.addCase(resetPassword.fulfilled, (state) => {
       state.resetPasswordPending = false;
       state.resetPasswordSuccess = true;
-    })
+    });
     builder.addCase(resetPassword.rejected, (state, action) => {
       state.resetPasswordPending = false;
       state.resetPasswordSuccess = false;
       state.error = action.payload;
-    })
+    });
 
     builder.addCase(changeUserData.pending, (state) => {
       state.changeUserDataPending = true;
       state.changeUserDataSuccess = null;
       state.error = '';
-    })
+    });
     builder.addCase(changeUserData.fulfilled, (state, action) => {
       state.user = action.payload.user;
       state.changeUserDataPending = false;
       state.changeUserDataSuccess = true;
-    })
+    });
     builder.addCase(changeUserData.rejected, (state, action) => {
       state.changeUserDataPending = false;
       state.changeUserDataSuccess = false;
       state.error = action.payload;
-    })
+    });
 
     builder.addCase(logOut.pending, (state) => {
       state.logOutPending = true;
       state.logOutSuccess = null;
       state.error = '';
-    })
+    });
     builder.addCase(logOut.fulfilled, (state) => {
       state.logOutPending = false;
       state.logOutSuccess = true;
       state.user = null;
       state.userSuccess = null;
-    })
+    });
     builder.addCase(logOut.rejected, (state, action) => {
       state.logOutPending = false;
       state.logOutSuccess = false;
       state.error = action.payload;
-    })
+    });
   },
 });
 

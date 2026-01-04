@@ -1,19 +1,19 @@
-import { FC, useRef, useState, useEffect } from "react";
-import styles from "./feed.module.css";
-import Order from "../components/Order/Order";
-import { getTopCoords } from "../utils/utils";
-import { StatusKind, TOrder } from "../utils/api/types";
-import { useDispatch, useSelector } from "../services/hooks";
+import { FC, useRef, useState, useEffect } from 'react';
+import styles from './feed.module.css';
+import Order from '../components/Order/Order';
+import { getTopCoords } from '../utils/utils';
+import { StatusKind, TOrder } from '../utils/api/types';
+import { useDispatch, useSelector } from '../services/hooks';
 import {
   connect as connectOrdersWS,
   disconnect as disconnectOrdersWS,
-} from "../services/reducers/ordersWS/actions";
-import { MoonLoader } from "react-spinners";
-import useWindowSize from "../utils/hooks/useWindowSize";
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+} from '../services/reducers/ordersWS/actions';
+import { MoonLoader } from 'react-spinners';
+import useWindowSize from '../utils/hooks/useWindowSize';
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 export const ORDERS_FEED_WS_URL =
-  "wss://norma.education-services.ru/orders/all";
+  'wss://norma.education-services.ru/orders/all';
 
 const FeedPage: FC = () => {
   const dispatch = useDispatch();
@@ -21,34 +21,34 @@ const FeedPage: FC = () => {
 
   const classTextHeading =
     windowSize.width > 850
-      ? "text_type_main-large"
-      : "text_type_main-small-extra text_centered";
+      ? 'text_type_main-large'
+      : 'text_type_main-small-extra text_centered';
   const classText =
     windowSize.width > 850
-      ? "text_type_main-medium"
-      : "text_type_main-small-extra";
+      ? 'text_type_main-medium'
+      : 'text_type_main-small-extra';
   const classDigits =
     windowSize.width > 850
-      ? "text_type_digits-default"
-      : "text_type_digits-small";
+      ? 'text_type_digits-default'
+      : 'text_type_digits-small';
   const classDigitsTotal =
     windowSize.width > 850
-      ? "text_type_digits-large"
-      : "text_type_digits-medium-extra";
+      ? 'text_type_digits-large'
+      : 'text_type_digits-medium-extra';
 
-  const marginForHeading = windowSize.width > 850 ? "mt-10 mb-5" : "mt-4 mb-2";
-  const marginForText = windowSize.width > 850 ? "mb-6" : "mb-4";
-  const marginForFooter = windowSize.width > 850 ? "mt-15" : "";
+  const marginForHeading = windowSize.width > 850 ? 'mt-10 mb-5' : 'mt-4 mb-2';
+  const marginForText = windowSize.width > 850 ? 'mb-6' : 'mb-4';
+  const marginForFooter = windowSize.width > 850 ? 'mt-15' : '';
 
   const paddingForContent =
-    windowSize.width > 850 ? "pl-10 pr-10" : "pl-2 pr-2";
+    windowSize.width > 850 ? 'pl-10 pr-10' : 'pl-2 pr-2';
   const paddingForFooter =
-    windowSize.width > 850 ? "pl-10 pr-10 pb-10" : "pt-2 pr-2 pb-2 pl-2";
+    windowSize.width > 850 ? 'pl-10 pr-10 pb-10' : 'pt-2 pr-2 pb-2 pl-2';
 
   const scrollStyle =
-    windowSize.width > 500 ? "custom-scroll" : "custom-scroll_nullish";
+    windowSize.width > 500 ? 'custom-scroll' : 'custom-scroll_nullish';
 
-  const [currentTab, setCurrentTab] = useState("Заказы");
+  const [currentTab, setCurrentTab] = useState('Заказы');
 
   const connect = () => dispatch(connectOrdersWS(ORDERS_FEED_WS_URL));
   const disconnect = () => dispatch(disconnectOrdersWS());
@@ -64,9 +64,9 @@ const FeedPage: FC = () => {
   const success = useSelector((state) => state.ordersWS.data.success);
 
   const [completedOrders, setCompletedOrders] = useState<
-    Omit<TOrder, "owner">[]
+    Omit<TOrder, 'owner'>[]
   >([]);
-  const [pendingOrders, setPendingOrders] = useState<Omit<TOrder, "owner">[]>(
+  const [pendingOrders, setPendingOrders] = useState<Omit<TOrder, 'owner'>[]>(
     []
   );
 
@@ -175,7 +175,7 @@ const FeedPage: FC = () => {
             <ul className={`${styles.navList} listGlobal`}>
               <li className={styles.navItem}>
                 <Tab
-                  active={currentTab === "Заказы"}
+                  active={currentTab === 'Заказы'}
                   value="Заказы"
                   onClick={setCurrentTab}
                 >
@@ -184,7 +184,7 @@ const FeedPage: FC = () => {
               </li>
               <li className={styles.navItem}>
                 <Tab
-                  active={currentTab === "Статистика"}
+                  active={currentTab === 'Статистика'}
                   value="Статистика"
                   onClick={setCurrentTab}
                 >
@@ -201,7 +201,7 @@ const FeedPage: FC = () => {
             {sectionDigits}
           </>
         ) : (
-          <>{currentTab === "Заказы" ? sectionOrders : sectionDigits}</>
+          <>{currentTab === 'Заказы' ? sectionOrders : sectionDigits}</>
         )}
       </main>
     );
@@ -212,7 +212,7 @@ const FeedPage: FC = () => {
       color="#4c4cff"
       size={120}
       cssOverride={{
-        marginTop: "120px",
+        marginTop: '120px',
       }}
       speedMultiplier={0.4}
     />

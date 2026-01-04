@@ -1,5 +1,9 @@
 import { ProductsTypeList } from '../../utils/types';
-import ingredientDetailsReducer, { initialState, clearInfo, setInfo } from './ingredientDetailsSlice';
+import ingredientDetailsReducer, {
+  initialState,
+  clearInfo,
+  setInfo,
+} from './ingredientDetailsSlice';
 
 const data = {
   _id: '643d69a5c3f7b9001cfa0941',
@@ -36,7 +40,11 @@ describe('Testing ingredientDetailsSlice', () => {
   });
 
   test('Testing clearInfo', () => {
-    expect(ingredientDetailsReducer(filledState, clearInfo())).toEqual(initialState);
-    expect(ingredientDetailsReducer(undefined, clearInfo())).toEqual(initialState);
+    expect(ingredientDetailsReducer(filledState, clearInfo())).toEqual(
+      initialState
+    );
+    expect(ingredientDetailsReducer(undefined, clearInfo())).toEqual(
+      initialState
+    );
   });
-})
+});

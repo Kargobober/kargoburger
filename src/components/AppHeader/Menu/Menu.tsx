@@ -1,4 +1,7 @@
-import { ArrowDownIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+  ArrowDownIcon,
+  ProfileIcon,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import { FC, useEffect, useState } from 'react';
 import styles from './Menu.module.css';
 import HeaderLink from '../HeaderLink/HeaderLink';
@@ -8,9 +11,9 @@ import { Collapse } from 'react-collapse';
 
 type TProps = {
   data: Array<{
-    name: string,
-    img: FC<TIconProps>,
-    to: string,
+    name: string;
+    img: FC<TIconProps>;
+    to: string;
   }>;
 };
 
@@ -30,8 +33,8 @@ const Menu: FC<TProps> = ({ data }) => {
 
   const [isMenuWindowOpen, setIsMenuWindowOpen] = useState(false);
   const onProfileButtonClick = () => {
-    setIsMenuWindowOpen(prev => !prev);
-  }
+    setIsMenuWindowOpen((prev) => !prev);
+  };
 
   return (
     <div className={styles.containerModal}>
@@ -39,15 +42,27 @@ const Menu: FC<TProps> = ({ data }) => {
         <ul className={`listGlobal text_color_primary ${styles.menuList}`}>
           <li>
             <button
-              className={`buttonGlobal text_type_main-default ${styles.buttonProfile}` + ' ' + (isProfileButtonActive ? 'text_color_primary' : 'text_color_inactive')}
+              className={
+                `buttonGlobal text_type_main-default ${styles.buttonProfile}` +
+                ' ' +
+                (isProfileButtonActive
+                  ? 'text_color_primary'
+                  : 'text_color_inactive')
+              }
               onClick={onProfileButtonClick}
             >
               <div className={styles.personIcoWrapper}>
-                <ProfileIcon type={isProfileButtonActive ? 'primary' : 'secondary'} />
+                <ProfileIcon
+                  type={isProfileButtonActive ? 'primary' : 'secondary'}
+                />
               </div>
               {data[2].name}
-              <div className={`${styles.arrowWrapper} ${isMenuWindowOpen ? styles.arrowDown : ''}`}>
-                <ArrowDownIcon type={isProfileButtonActive ? 'primary' : 'secondary'} />
+              <div
+                className={`${styles.arrowWrapper} ${isMenuWindowOpen ? styles.arrowDown : ''}`}
+              >
+                <ArrowDownIcon
+                  type={isProfileButtonActive ? 'primary' : 'secondary'}
+                />
               </div>
             </button>
 
@@ -55,16 +70,16 @@ const Menu: FC<TProps> = ({ data }) => {
               isOpened={isMenuWindowOpen}
               theme={{ collapse: styles.collapseWrapper }}
             >
-              <ul className='listGlobal text_color_primary'>
+              <ul className="listGlobal text_color_primary">
                 <li className={styles.profileLinks}>
                   <NavLink
                     // черта после profile влияет на правильное распознование активности ссылки
-                    to='/profile/'
+                    to="/profile/"
                     className={({ isActive }) =>
                       [
                         'linkGlobal',
                         isActive ? 'text_color_primary' : 'text_color_inactive',
-                        'text_type_main-default'
+                        'text_type_main-default',
                       ].join(' ')
                     }
                   >
@@ -73,12 +88,12 @@ const Menu: FC<TProps> = ({ data }) => {
                 </li>
                 <li className={styles.profileLinks}>
                   <NavLink
-                    to='/profile/orders'
+                    to="/profile/orders"
                     className={({ isActive }) =>
                       [
                         'linkGlobal',
                         isActive ? 'text_color_primary' : 'text_color_inactive',
-                        'text_type_main-default'
+                        'text_type_main-default',
                       ].join(' ')
                     }
                   >
@@ -87,12 +102,12 @@ const Menu: FC<TProps> = ({ data }) => {
                 </li>
                 <li className={styles.profileLinks}>
                   <NavLink
-                    to='/profile/logout'
+                    to="/profile/logout"
                     className={({ isActive }) =>
                       [
                         'linkGlobal',
                         isActive ? 'text_color_primary' : 'text_color_inactive',
-                        'text_type_main-default'
+                        'text_type_main-default',
                       ].join(' ')
                     }
                   >
@@ -119,7 +134,7 @@ const Menu: FC<TProps> = ({ data }) => {
         </ul>
       </nav>
     </div>
-  )
-}
+  );
+};
 
 export default Menu;

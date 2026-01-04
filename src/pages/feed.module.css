@@ -96,7 +96,7 @@
   display: block;
 }
 
-@media screen and (max-width: 1200px){
+@media screen and (max-width: 1200px) {
   .main {
     grid-template-rows: repeat(auto, 3);
     grid-template-columns: 1fr;
@@ -116,8 +116,7 @@
   }
 }
 
-
-@media screen and (max-width: 500px){
+@media screen and (max-width: 500px) {
   .main {
     padding-left: calc(var(--offset-base-size) * 2);
     padding-right: calc(var(--offset-base-size) * 2);

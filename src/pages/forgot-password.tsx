@@ -5,10 +5,21 @@ import { useDispatch, useSelector } from '../services/hooks';
 import { useNavigate } from 'react-router';
 
 import { sendResetCode } from '../services/middlewares/authQueries';
-import { getResetCodeSuccess, getResetPasswordPending, getResetPasswordSuccess } from '../services/selectors/authSelector';
-import { setEmailOnStorage, setResetCodeSuccess, setResetPasswordSuccess } from '../services/slices/authSlice';
+import {
+  getResetCodeSuccess,
+  getResetPasswordPending,
+  getResetPasswordSuccess,
+} from '../services/selectors/authSelector';
+import {
+  setEmailOnStorage,
+  setResetCodeSuccess,
+  setResetPasswordSuccess,
+} from '../services/slices/authSlice';
 
-import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+  Button,
+  EmailInput,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import { Toaster } from 'react-hot-toast';
 import Form from '../components/Form/Form';
 import EditZone from '../components/Form/EditZone/EditZone';
@@ -36,16 +47,14 @@ function ForgotPasswordPage(): JSX.Element {
   const resetCodeSuccess = useSelector(getResetCodeSuccess);
   const resetPasswordPending = useSelector(getResetPasswordPending);
 
-
-
-  const onChangeEmail: React.ChangeEventHandler<HTMLInputElement> = e => {
+  const onChangeEmail: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setEmail(e.target.value);
   };
-  const onFocusEmail: React.FocusEventHandler<HTMLInputElement> = e => {
+  const onFocusEmail: React.FocusEventHandler<HTMLInputElement> = (e) => {
     setHasEmailError(false);
     setIsFocus(true);
   };
-  const onBlurEmail: React.FocusEventHandler<HTMLInputElement> = e => {
+  const onBlurEmail: React.FocusEventHandler<HTMLInputElement> = (e) => {
     const regExpSucces = emailRegExp.test(e.target.value);
     const length = e.target.value.length;
 
@@ -64,14 +73,16 @@ function ForgotPasswordPage(): JSX.Element {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(setEmailOnStorage(email));
-    dispatch(sendResetCode({email}));
+    dispatch(sendResetCode({ email }));
   };
 
   useEffect(() => {
-    switch(resetCodeSuccess) {
+    switch (resetCodeSuccess) {
       case true:
         stellarToast('Код отправлен на вашу почту', 'ok');
-        setTimeout(() => { navigate('/reset-password') }, 3200);
+        setTimeout(() => {
+          navigate('/reset-password');
+        }, 3200);
         /* Меняем статус успешности отправки кода, чтобы при возврате назад
         не было переадресации на reset-password, мало ли человек перепутал почту */
         dispatch(setResetCodeSuccess('sended'));
@@ -85,34 +96,37 @@ function ForgotPasswordPage(): JSX.Element {
     }
   }, [resetCodeSuccess, navigate, dispatch]);
 
-
-
   return (
     <main className={styles.main}>
-      <Toaster/>
+      <Toaster />
       <Form
-        heading='Восстановление пароля'
+        heading="Восстановление пароля"
         onSubmit={onSubmit}
-        name='forgot-password'
+        name="forgot-password"
       >
         <EditZone>
           <EmailInput
-          onChange={onChangeEmail}
-          onFocusCapture={onFocusEmail}
-          onBlurCapture={onBlurEmail}
-          value={email}
-          placeholder='Укажите e-mail'
-          autoComplete='email'
-          size={sizeOfInput}
+            onChange={onChangeEmail}
+            onFocusCapture={onFocusEmail}
+            onBlurCapture={onBlurEmail}
+            value={email}
+            placeholder="Укажите e-mail"
+            autoComplete="email"
+            size={sizeOfInput}
           />
-          { !hasEmailError && <div className={styles.stub} /> }
+          {!hasEmailError && <div className={styles.stub} />}
         </EditZone>
 
         <ActionsZone>
           <Button
-            htmlType="submit" type="primary" size={sizeOfButton}
-            disabled={!isFocus && !hasEmailError && email
-              && !resetPasswordPending ? false : true}
+            htmlType="submit"
+            type="primary"
+            size={sizeOfButton}
+            disabled={
+              !isFocus && !hasEmailError && email && !resetPasswordPending
+                ? false
+                : true
+            }
           >
             Восстановить
           </Button>
@@ -120,14 +134,10 @@ function ForgotPasswordPage(): JSX.Element {
       </Form>
 
       <AdditionalActions>
-        <Action
-          placeholder='Вспомнили пароль?'
-          linkText='Войти'
-          to='/login'
-        />
+        <Action placeholder="Вспомнили пароль?" linkText="Войти" to="/login" />
       </AdditionalActions>
     </main>
-  )
+  );
 }
 
 export default ForgotPasswordPage;

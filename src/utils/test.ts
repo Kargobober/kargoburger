@@ -3,7 +3,7 @@ export const testObj = {
 };
 
 export const testError = {
-  error: "I am error!",
+  error: 'I am error!',
 };
 
 export const testErrorExtra: {

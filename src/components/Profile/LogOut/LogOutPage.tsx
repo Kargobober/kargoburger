@@ -3,7 +3,10 @@ import { useEffect } from 'react';
 import styles from './LogOut.module.css';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from '../../../services/hooks';
-import { getLogOutPending, getLogOutSuccess } from '../../../services/selectors/authSelector';
+import {
+  getLogOutPending,
+  getLogOutSuccess,
+} from '../../../services/selectors/authSelector';
 import { logOut } from '../../../services/middlewares/authQueries';
 import { setLogOutSuccess } from '../../../services/slices/authSlice';
 import { findIngredientObj } from '../../../utils/utils';
@@ -26,7 +29,6 @@ function LogOutPage(): JSX.Element {
   const logOutPending = useSelector(getLogOutPending);
   const logOutSuccess = useSelector(getLogOutSuccess);
 
-
   const holdThisDude = () => {
     const bun = findIngredientObj('643d69a5c3f7b9001cfa093d', ingredients);
     const mollusk = findIngredientObj('643d69a5c3f7b9001cfa093f', ingredients);
@@ -42,9 +44,11 @@ function LogOutPage(): JSX.Element {
       dispatch(addItem({ ...mollusk, qty: 0 }));
     }
 
-    navigate('/', { state: {
-      needToOpenCart: true,
-    }});
+    navigate('/', {
+      state: {
+        needToOpenCart: true,
+      },
+    });
   };
 
   const handleLogOut = () => {
@@ -71,15 +75,17 @@ function LogOutPage(): JSX.Element {
     }
   }, [logOutSuccess]);
 
-
-
   return (
     <section className={styles.section}>
-      <h2 className={`${styles.heading} text text_type_main-default text_centered mb-10`}>Выйти из аккаунта?</h2>
+      <h2
+        className={`${styles.heading} text text_type_main-default text_centered mb-10`}
+      >
+        Выйти из аккаунта?
+      </h2>
       <div className={styles.buttonsContainer}>
         <Button
-          htmlType='button'
-          type='primary'
+          htmlType="button"
+          type="primary"
           size={sizeOfButton}
           onClick={handleLogOut}
           disabled={logOutPending ? true : false}
@@ -87,8 +93,8 @@ function LogOutPage(): JSX.Element {
           Да
         </Button>
         <Button
-          htmlType='button'
-          type='secondary'
+          htmlType="button"
+          type="secondary"
           size={sizeOfButton}
           onClick={holdThisDude}
           disabled={logOutPending ? true : false}
@@ -97,7 +103,7 @@ function LogOutPage(): JSX.Element {
         </Button>
       </div>
     </section>
-  )
+  );
 }
 
 export default LogOutPage;

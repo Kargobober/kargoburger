@@ -1,5 +1,7 @@
 .modal-overlay {
-  transition: visibility 0s .25s, opacity .25s linear;
+  transition:
+    visibility 0s 0.25s,
+    opacity 0.25s linear;
   background-color: rgba(0, 0, 0, 0.6);
   width: 100vw;
   height: 100vh;

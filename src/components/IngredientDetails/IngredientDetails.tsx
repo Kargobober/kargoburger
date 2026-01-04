@@ -12,9 +12,16 @@ function IngredientDetails(): JSX.Element {
   const dispatch = useDispatch();
   const windowSize = useWindowSize();
 
-  const textClassForHeading = windowSize.width > 500 ? 'text_type_main-medium' : 'text_type_main-small-extra';
-  const sizeForNames = windowSize.width > 500 ? 'text_type_main-default' : 'text_type_main-small';
-  const sizeForDigits = windowSize.width > 500 ? 'text_type_digits-default' : 'text_type_digits-small';
+  const textClassForHeading =
+    windowSize.width > 500
+      ? 'text_type_main-medium'
+      : 'text_type_main-small-extra';
+  const sizeForNames =
+    windowSize.width > 500 ? 'text_type_main-default' : 'text_type_main-small';
+  const sizeForDigits =
+    windowSize.width > 500
+      ? 'text_type_digits-default'
+      : 'text_type_digits-small';
 
   // часть адресной строки, динамическая
   const { id } = useParams();
@@ -24,11 +31,11 @@ function IngredientDetails(): JSX.Element {
 
   // ↓ ингредиент для модалки, из хранилища, раздел ingredientDetails
   const ingredient = useSelector(getIngredientDetails);
-  const { image_large, name, calories, proteins, fat, carbohydrates, image } = ingredient;
-
+  const { image_large, name, calories, proteins, fat, carbohydrates, image } =
+    ingredient;
 
   useEffect(() => {
-    if(id && ingredientsData) {
+    if (id && ingredientsData) {
       // исп-ую написанную ранее функцию
       const foundIngredient = findIngredientObj(id, ingredientsData);
       // сохраняю ингредиент для модалки в раздел хранилища ingredientDetails
@@ -48,27 +55,41 @@ function IngredientDetails(): JSX.Element {
 
       <ul className={styles.list}>
         <li className={styles.item}>
-          <h4 className={`text ${sizeForNames} text_color_inactive`}>Калории, ккал</h4>
-          <p className={`text ${sizeForDigits} text_color_inactive`}>{calories}</p>
+          <h4 className={`text ${sizeForNames} text_color_inactive`}>
+            Калории, ккал
+          </h4>
+          <p className={`text ${sizeForDigits} text_color_inactive`}>
+            {calories}
+          </p>
         </li>
 
         <li className={styles.item}>
-          <h4 className={`text ${sizeForNames} text_color_inactive`}>Белки, г</h4>
-          <p className={`text ${sizeForDigits} text_color_inactive`}>{proteins}</p>
+          <h4 className={`text ${sizeForNames} text_color_inactive`}>
+            Белки, г
+          </h4>
+          <p className={`text ${sizeForDigits} text_color_inactive`}>
+            {proteins}
+          </p>
         </li>
 
         <li className={styles.item}>
-          <h4 className={`text ${sizeForNames} text_color_inactive`}>Жиры, г</h4>
+          <h4 className={`text ${sizeForNames} text_color_inactive`}>
+            Жиры, г
+          </h4>
           <p className={`text ${sizeForDigits} text_color_inactive`}>{fat}</p>
         </li>
 
         <li className={styles.item}>
-          <h4 className={`text ${sizeForNames} text_color_inactive`}>Углеводы, г</h4>
-          <p className={`text ${sizeForDigits} text_color_inactive`}>{carbohydrates}</p>
+          <h4 className={`text ${sizeForNames} text_color_inactive`}>
+            Углеводы, г
+          </h4>
+          <p className={`text ${sizeForDigits} text_color_inactive`}>
+            {carbohydrates}
+          </p>
         </li>
       </ul>
     </div>
-  )
+  );
 }
 
 export default IngredientDetails;

@@ -4,7 +4,8 @@ import burgerConstructorReducer, {
   addItem,
   moveItem,
   removeItem,
-  resetConstructor } from './burgerConstructorSlice';
+  resetConstructor,
+} from './burgerConstructorSlice';
 import * as utils from '../../utils/utils';
 import { ProductsTypeList } from '../../utils/types';
 
@@ -106,45 +107,67 @@ describe('Testing burgerConstructorSlice', () => {
       selectedBun: bunWithId,
       selectedProducts: [meatWithId, sauceWithId],
     });
-    expect(burgerConstructorReducer(filledState, removeItem('myMeat'))).toEqual({
-      selectedBun: bunWithId,
-      selectedProducts: [sauceWithId],
-    });
-    expect(burgerConstructorReducer(filledState, removeItem('mySauce'))).toEqual({
+    expect(burgerConstructorReducer(filledState, removeItem('myMeat'))).toEqual(
+      {
+        selectedBun: bunWithId,
+        selectedProducts: [sauceWithId],
+      }
+    );
+    expect(
+      burgerConstructorReducer(filledState, removeItem('mySauce'))
+    ).toEqual({
       selectedBun: bunWithId,
       selectedProducts: [meatWithId],
     });
-    expect(burgerConstructorReducer(undefined, removeItem('myProduct'))).toEqual({
+    expect(
+      burgerConstructorReducer(undefined, removeItem('myProduct'))
+    ).toEqual({
       selectedBun: null,
       selectedProducts: [],
     });
-    expect(burgerConstructorReducer(filledState, removeItem('myNonExistentId'))).toEqual({
+    expect(
+      burgerConstructorReducer(filledState, removeItem('myNonExistentId'))
+    ).toEqual({
       selectedBun: bunWithId,
       selectedProducts: [meatWithId, sauceWithId],
     });
   });
 
   test('Testing moveItem', () => {
-    expect(burgerConstructorReducer(filledState, moveItem({
-      indexFrom: 0,
-      indexTo: 1,
-      ingredient: meatWithId,
-    }))).toEqual({
+    expect(
+      burgerConstructorReducer(
+        filledState,
+        moveItem({
+          indexFrom: 0,
+          indexTo: 1,
+          ingredient: meatWithId,
+        })
+      )
+    ).toEqual({
       selectedBun: bunWithId,
       selectedProducts: [sauceWithId, meatWithId],
     });
-    expect(burgerConstructorReducer(undefined, moveItem({
-      indexFrom: 0,
-      indexTo: 3,
-      ingredient: sauceWithId,
-    }))).toEqual({
+    expect(
+      burgerConstructorReducer(
+        undefined,
+        moveItem({
+          indexFrom: 0,
+          indexTo: 3,
+          ingredient: sauceWithId,
+        })
+      )
+    ).toEqual({
       selectedBun: null,
       selectedProducts: [sauceWithId],
     });
-  })
+  });
 
   test('Testing resetConstructor', () => {
-    expect(burgerConstructorReducer(filledState, resetConstructor())).toEqual(initialState);
-    expect(burgerConstructorReducer(undefined, resetConstructor())).toEqual(initialState);
-  })
+    expect(burgerConstructorReducer(filledState, resetConstructor())).toEqual(
+      initialState
+    );
+    expect(burgerConstructorReducer(undefined, resetConstructor())).toEqual(
+      initialState
+    );
+  });
 });

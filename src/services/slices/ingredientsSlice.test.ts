@@ -14,7 +14,7 @@ const ingredients: Array<TIngredient> = [
     image: 'https://code.s3.yandex.net/react/code/bun-02.png',
     image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
     image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-    __v: 0
+    __v: 0,
   },
   {
     _id: '643d69a5c3f7b9001cfa0941',
@@ -28,7 +28,7 @@ const ingredients: Array<TIngredient> = [
     image: 'https://code.s3.yandex.net/react/code/meat-01.png',
     image_mobile: 'https://code.s3.yandex.net/react/code/meat-01-mobile.png',
     image_large: 'https://code.s3.yandex.net/react/code/meat-01-large.png',
-    __v: 0
+    __v: 0,
   },
   {
     _id: '643d69a5c3f7b9001cfa093e',
@@ -42,7 +42,7 @@ const ingredients: Array<TIngredient> = [
     image: 'https://code.s3.yandex.net/react/code/meat-03.png',
     image_mobile: 'https://code.s3.yandex.net/react/code/meat-03-mobile.png',
     image_large: 'https://code.s3.yandex.net/react/code/meat-03-large.png',
-    __v: 0
+    __v: 0,
   },
   {
     _id: '643d69a5c3f7b9001cfa0942',
@@ -56,7 +56,7 @@ const ingredients: Array<TIngredient> = [
     image: 'https://code.s3.yandex.net/react/code/sauce-02.png',
     image_mobile: 'https://code.s3.yandex.net/react/code/sauce-02-mobile.png',
     image_large: 'https://code.s3.yandex.net/react/code/sauce-02-large.png',
-    __v: 0
+    __v: 0,
   },
   {
     _id: '643d69a5c3f7b9001cfa0943',
@@ -70,63 +70,73 @@ const ingredients: Array<TIngredient> = [
     image: 'https://code.s3.yandex.net/react/code/sauce-04.png',
     image_mobile: 'https://code.s3.yandex.net/react/code/sauce-04-mobile.png',
     image_large: 'https://code.s3.yandex.net/react/code/sauce-04-large.png',
-    __v: 0
-  }
+    __v: 0,
+  },
 ];
 
 describe('Testing ingredientsSlice', () => {
   test('Testing the pending process', () => {
-    expect(ingredientsReducer(initialState, {
-      type: 'ingredients/get/pending'
-    })).toEqual({
+    expect(
+      ingredientsReducer(initialState, {
+        type: 'ingredients/get/pending',
+      })
+    ).toEqual({
       isLoading: true,
       hasError: false,
       ingredientsData: [],
     });
 
-    expect(ingredientsReducer(undefined, {
-      type: 'ingredients/get/pending'
-    })).toEqual({
+    expect(
+      ingredientsReducer(undefined, {
+        type: 'ingredients/get/pending',
+      })
+    ).toEqual({
       isLoading: true,
       hasError: false,
       ingredientsData: [],
     });
   });
-
 
   test('Testing the fulfilled response', () => {
-    expect(ingredientsReducer(initialState, {
-      type: 'ingredients/get/fulfilled',
-      payload: {success: true, data: ingredients}
-    })).toEqual({
+    expect(
+      ingredientsReducer(initialState, {
+        type: 'ingredients/get/fulfilled',
+        payload: { success: true, data: ingredients },
+      })
+    ).toEqual({
       isLoading: false,
       hasError: false,
       ingredientsData: ingredients,
     });
 
-    expect(ingredientsReducer(undefined, {
-      type: 'ingredients/get/fulfilled',
-      payload: {success: true, data: ingredients}
-    })).toEqual({
+    expect(
+      ingredientsReducer(undefined, {
+        type: 'ingredients/get/fulfilled',
+        payload: { success: true, data: ingredients },
+      })
+    ).toEqual({
       isLoading: false,
       hasError: false,
       ingredientsData: ingredients,
     });
   });
 
-
   test('Testing the rejected response', () => {
-    expect(ingredientsReducer(initialState, {
-      type: 'ingredients/get/rejected'
-    })).toEqual({
+    expect(
+      ingredientsReducer(initialState, {
+        type: 'ingredients/get/rejected',
+      })
+    ).toEqual({
       isLoading: false,
       hasError: true,
       ingredientsData: [],
     });
 
-    expect(ingredientsReducer(undefined, {
-      type: 'ingredients/get/rejected'
-    })).toEqual({
+    expect(
+      ingredientsReducer(undefined, {
+        type: 'ingredients/get/rejected',
+      })
+    ).toEqual({
       isLoading: false,
       hasError: true,
       ingredientsData: [],

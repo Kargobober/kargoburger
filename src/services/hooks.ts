@@ -1,7 +1,7 @@
 import {
   TypedUseSelectorHook,
   useDispatch as useDispatchOrigin,
-  useSelector as useSelectorOrigin
+  useSelector as useSelectorOrigin,
 } from 'react-redux';
 
 // если файл называется index, то можно не указывать его имя?

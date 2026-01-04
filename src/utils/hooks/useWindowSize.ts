@@ -1,8 +1,5 @@
-import { useEffect, useState } from "react";
-/**
- *
- * @returns client width and height
- */
+import { useEffect, useState } from 'react';
+/** @returns client width and height */
 export default function useWindowSize() {
   const isSSR = typeof window === 'undefined';
   const [windowSize, setWindowSize] = useState({
@@ -13,15 +10,15 @@ export default function useWindowSize() {
   function changeWindowSize() {
     setWindowSize({
       width: document.documentElement.clientWidth,
-      height: document.documentElement.clientHeight
+      height: document.documentElement.clientHeight,
     });
   }
 
   useEffect(() => {
-    window.addEventListener("resize", changeWindowSize);
+    window.addEventListener('resize', changeWindowSize);
 
     return () => {
-      window.removeEventListener("resize", changeWindowSize);
+      window.removeEventListener('resize', changeWindowSize);
     };
   }, []);
 

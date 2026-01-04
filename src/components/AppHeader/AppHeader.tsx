@@ -1,5 +1,11 @@
 import { ReactNode, useEffect, useRef, useState } from 'react';
-import { BurgerIcon, ListIcon, Logo, MenuIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+  BurgerIcon,
+  ListIcon,
+  Logo,
+  MenuIcon,
+  ProfileIcon,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './AppHeader.module.css';
 import stylesTransition from './AppHeaderTransition.module.css';
 import HeaderLink from './HeaderLink/HeaderLink';
@@ -33,10 +39,10 @@ function AppHeader(): JSX.Element {
     { name: 'Конструктор', img: BurgerIcon, to: '/' },
     { name: 'Лента заказов', img: ListIcon, to: '/feed' },
     { name: 'Личный кабинет', img: ProfileIcon, to: '/profile' },
-  ] //кавычки не ставим в значении поля иконок, иначе реакт не поймёт
+  ]; //кавычки не ставим в значении поля иконок, иначе реакт не поймёт
 
   const toggleModal = () => {
-    setIsModalOpen(prev => !prev);
+    setIsModalOpen((prev) => !prev);
     buttonRef.current?.blur();
   };
 
@@ -60,14 +66,16 @@ function AppHeader(): JSX.Element {
       </ul>
 
       {/* Условную адресацию сделать не вышло. Чтобы, находясь уже на главной, ссылка была нерабочей */}
-      <Link to='/'><Logo /></Link>
+      <Link to="/">
+        <Logo />
+      </Link>
 
       <HeaderLink
         sectionName={headerLinks[2].name}
         Icon={headerLinks[2].img}
         to={headerLinks[2].to}
         customStyle={
-          { justifySelf: 'end', } //объект стилей
+          { justifySelf: 'end' } //объект стилей
         }
       />
     </nav>
@@ -75,16 +83,18 @@ function AppHeader(): JSX.Element {
 
   const tablet = (
     <>
-      <Link to='/' className='pl-5'><Logo /></Link>
+      <Link to="/" className="pl-5">
+        <Logo />
+      </Link>
 
       <button
-        type='button'
+        type="button"
         className={`text text_type_main-default text_color_primary buttonGlobal ${styles['nav-button']} pr-5`}
         ref={buttonRef}
         onClick={toggleModal}
       >
         <div className={styles.buttonMenuContent}>
-          <span className='pr-2'>Меню</span>
+          <span className="pr-2">Меню</span>
           <MenuIcon type="primary" />
         </div>
       </button>
@@ -93,12 +103,12 @@ function AppHeader(): JSX.Element {
 
   const mobile = (
     <>
-      <Link to='/' className={`pl-2 ${styles.logoMobile}`}>
+      <Link to="/" className={`pl-2 ${styles.logoMobile}`}>
         <img src={logoMobile} />
       </Link>
 
       <button
-        type='button'
+        type="button"
         className={`text text_type_main-default text_color_primary buttonGlobal ${styles['nav-button']} pr-2`}
         ref={buttonRef}
         onClick={toggleModal}
@@ -118,7 +128,7 @@ function AppHeader(): JSX.Element {
       setContent(tablet);
     } else {
       setContent(desktop);
-    };
+    }
   }, [windowSize.width]);
 
   useEffect(() => {
@@ -126,8 +136,9 @@ function AppHeader(): JSX.Element {
   }, [location]);
 
   useEffect(() => {
-    if(refHeader.current){
-      const newCoordBottomHeader = refHeader.current.getBoundingClientRect().bottom + window.scrollY;
+    if (refHeader.current) {
+      const newCoordBottomHeader =
+        refHeader.current.getBoundingClientRect().bottom + window.scrollY;
       if (coordBottomHeader !== newCoordBottomHeader) {
         dispatch(setCoordBottomHeaderStore(newCoordBottomHeader));
       }
@@ -135,7 +146,10 @@ function AppHeader(): JSX.Element {
   }, [windowSize.width, refHeader.current]);
 
   return (
-    <header className={`${styles.header} ${windowSize.width < 500 ? 'pt-3 pb-3' : 'pt-4 pb-4'}`} ref={refHeader}>
+    <header
+      className={`${styles.header} ${windowSize.width < 500 ? 'pt-3 pb-3' : 'pt-4 pb-4'}`}
+      ref={refHeader}
+    >
       {content}
       <CSSTransition
         nodeRef={refTransition}
@@ -148,14 +162,14 @@ function AppHeader(): JSX.Element {
           ref={refTransition}
           key={Date.now()}
           onClose={toggleModal}
-          heading='Меню'
+          heading="Меню"
           extraClassContainer={styles.modalContainer}
         >
           <Menu data={headerLinks} />
         </Modal>
       </CSSTransition>
     </header>
-  )
+  );
 }
 
 export default AppHeader;

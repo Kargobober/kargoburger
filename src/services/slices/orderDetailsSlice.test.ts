@@ -1,6 +1,14 @@
-import { StatusKind, TResponseGetOrder, TResponsePostOrder } from '../../utils/api/types';
+import {
+  StatusKind,
+  TResponseGetOrder,
+  TResponsePostOrder,
+} from '../../utils/api/types';
 import { testError } from '../../utils/test';
-import orderDetailsReducer, { initialState, resetOrderNumber, setNeedingDetails } from './orderDetailsSlice';
+import orderDetailsReducer, {
+  initialState,
+  resetOrderNumber,
+  setNeedingDetails,
+} from './orderDetailsSlice';
 
 const postOrderResponse: TResponsePostOrder = {
   name: 'qwerty',
@@ -43,35 +51,43 @@ describe('Testing orderDetailsSlice', () => {
     });
   });
 
-
   test('The order number should resetting to initial value', () => {
-    expect(orderDetailsReducer({
-      ...initialState,
-      order: { ...initialState.order, number: 123456 }
-    }, resetOrderNumber()))
-      .toEqual(initialState);
+    expect(
+      orderDetailsReducer(
+        {
+          ...initialState,
+          order: { ...initialState.order, number: 123456 },
+        },
+        resetOrderNumber()
+      )
+    ).toEqual(initialState);
 
-    expect(orderDetailsReducer(undefined, resetOrderNumber())).toEqual(initialState);
+    expect(orderDetailsReducer(undefined, resetOrderNumber())).toEqual(
+      initialState
+    );
   });
-
-
 
   test('Testing the postOrder pending proccess', () => {
-    expect(orderDetailsReducer(initialState, {
-      type: 'order/post/pending'
-    })).toEqual({ ...initialState, isLoading: true });
+    expect(
+      orderDetailsReducer(initialState, {
+        type: 'order/post/pending',
+      })
+    ).toEqual({ ...initialState, isLoading: true });
 
-    expect(orderDetailsReducer(undefined, {
-      type: 'order/post/pending'
-    })).toEqual({ ...initialState, isLoading: true });
+    expect(
+      orderDetailsReducer(undefined, {
+        type: 'order/post/pending',
+      })
+    ).toEqual({ ...initialState, isLoading: true });
   });
-
 
   test('Testing the postOrder fulfilled response', () => {
-    expect(orderDetailsReducer(initialState, {
-      type: 'order/post/fulfilled',
-      payload: postOrderResponse
-    })).toEqual({
+    expect(
+      orderDetailsReducer(initialState, {
+        type: 'order/post/fulfilled',
+        payload: postOrderResponse,
+      })
+    ).toEqual({
       success: true,
       order: { ...initialState.order, number: postOrderResponse.order.number },
       isLoading: false,
@@ -79,10 +95,12 @@ describe('Testing orderDetailsSlice', () => {
       needDetails: initialState.needDetails,
     });
 
-    expect(orderDetailsReducer(undefined, {
-      type: 'order/post/fulfilled',
-      payload: postOrderResponse
-    })).toEqual({
+    expect(
+      orderDetailsReducer(undefined, {
+        type: 'order/post/fulfilled',
+        payload: postOrderResponse,
+      })
+    ).toEqual({
       success: true,
       order: { ...initialState.order, number: postOrderResponse.order.number },
       isLoading: false,
@@ -90,13 +108,14 @@ describe('Testing orderDetailsSlice', () => {
       needDetails: initialState.needDetails,
     });
   });
-
 
   test('Testing the postOrder rejected response', () => {
-    expect(orderDetailsReducer(initialState, {
-      type: 'order/post/rejected',
-      payload: testError
-    })).toEqual({
+    expect(
+      orderDetailsReducer(initialState, {
+        type: 'order/post/rejected',
+        payload: testError,
+      })
+    ).toEqual({
       success: false,
       order: { ...initialState.order },
       isLoading: false,
@@ -104,10 +123,12 @@ describe('Testing orderDetailsSlice', () => {
       needDetails: initialState.needDetails,
     });
 
-    expect(orderDetailsReducer(undefined, {
-      type: 'order/post/rejected',
-      payload: testError
-    })).toEqual({
+    expect(
+      orderDetailsReducer(undefined, {
+        type: 'order/post/rejected',
+        payload: testError,
+      })
+    ).toEqual({
       success: false,
       order: { ...initialState.order },
       isLoading: false,
@@ -115,25 +136,28 @@ describe('Testing orderDetailsSlice', () => {
       needDetails: initialState.needDetails,
     });
   });
-
-
 
   test('Testing the getOrder pending proccess', () => {
-    expect(orderDetailsReducer(initialState, {
-      type: 'order/get/pending'
-    })).toEqual({ ...initialState, isLoading: true });
+    expect(
+      orderDetailsReducer(initialState, {
+        type: 'order/get/pending',
+      })
+    ).toEqual({ ...initialState, isLoading: true });
 
-    expect(orderDetailsReducer(undefined, {
-      type: 'order/get/pending'
-    })).toEqual({ ...initialState, isLoading: true });
+    expect(
+      orderDetailsReducer(undefined, {
+        type: 'order/get/pending',
+      })
+    ).toEqual({ ...initialState, isLoading: true });
   });
-
 
   test('Testing the getOrder fulfilled response', () => {
-    expect(orderDetailsReducer(initialState, {
-      type: 'order/get/fulfilled',
-      payload: getOrderResponse
-    })).toEqual({
+    expect(
+      orderDetailsReducer(initialState, {
+        type: 'order/get/fulfilled',
+        payload: getOrderResponse,
+      })
+    ).toEqual({
       success: true,
       order: order,
       isLoading: false,
@@ -141,10 +165,12 @@ describe('Testing orderDetailsSlice', () => {
       needDetails: initialState.needDetails,
     });
 
-    expect(orderDetailsReducer(undefined, {
-      type: 'order/get/fulfilled',
-      payload: getOrderResponse
-    })).toEqual({
+    expect(
+      orderDetailsReducer(undefined, {
+        type: 'order/get/fulfilled',
+        payload: getOrderResponse,
+      })
+    ).toEqual({
       success: true,
       order: order,
       isLoading: false,
@@ -153,13 +179,13 @@ describe('Testing orderDetailsSlice', () => {
     });
   });
 
-
-
   test('Testing the getOrder rejected response', () => {
-    expect(orderDetailsReducer(initialState, {
-      type: 'order/get/rejected',
-      payload: testError
-    })).toEqual({
+    expect(
+      orderDetailsReducer(initialState, {
+        type: 'order/get/rejected',
+        payload: testError,
+      })
+    ).toEqual({
       success: false,
       order: initialState.order,
       isLoading: false,
@@ -167,10 +193,12 @@ describe('Testing orderDetailsSlice', () => {
       needDetails: initialState.needDetails,
     });
 
-    expect(orderDetailsReducer(undefined, {
-      type: 'order/get/rejected',
-      payload: testError
-    })).toEqual({
+    expect(
+      orderDetailsReducer(undefined, {
+        type: 'order/get/rejected',
+        payload: testError,
+      })
+    ).toEqual({
       success: false,
       order: initialState.order,
       isLoading: false,

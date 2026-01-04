@@ -11,7 +11,7 @@
   height: calc(var(--offset-base-size) * 6.5);
 }
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 600px) {
   .main {
     justify-content: start;
   }

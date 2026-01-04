@@ -1,30 +1,30 @@
-import { useState, useRef, useEffect } from "react";
-import Order from "../../Order/Order";
-import styles from "./Orders.module.css";
-import { getTopCoords } from "../../../utils/utils";
-import { useDispatch, useSelector } from "../../../services/hooks";
+import { useState, useRef, useEffect } from 'react';
+import Order from '../../Order/Order';
+import styles from './Orders.module.css';
+import { getTopCoords } from '../../../utils/utils';
+import { useDispatch, useSelector } from '../../../services/hooks';
 import {
   connect as connectOrdersWS,
   disconnect as disconnectOrdersWS,
-} from "../../../services/reducers/ordersWS/actions";
-import { MoonLoader } from "react-spinners";
-import { getAuthPending } from "../../../services/selectors/authSelector";
-import useWindowSize from "../../../utils/hooks/useWindowSize";
+} from '../../../services/reducers/ordersWS/actions';
+import { MoonLoader } from 'react-spinners';
+import { getAuthPending } from '../../../services/selectors/authSelector';
+import useWindowSize from '../../../utils/hooks/useWindowSize';
 
 const Orders = () => {
   const dispatch = useDispatch();
   const windowSize = useWindowSize();
 
-  const classTextHeading = "text_type_main-medium-extra";
-  const paddingForHeading = "pb-4";
-  const paddingForOrdersList = "";
+  const classTextHeading = 'text_type_main-medium-extra';
+  const paddingForHeading = 'pb-4';
+  const paddingForOrdersList = '';
 
   const authPending = useSelector(getAuthPending);
 
   useEffect(() => {
-    if (localStorage.getItem("accessToken")) {
-      const tokenRaw = localStorage.getItem("accessToken");
-      const token = tokenRaw!.split(" ")[1];
+    if (localStorage.getItem('accessToken')) {
+      const tokenRaw = localStorage.getItem('accessToken');
+      const token = tokenRaw!.split(' ')[1];
       const ORDERS_PRIVATE_WS_URL = `wss://norma.education-services.ru/orders?token=${token}`;
       dispatch(connectOrdersWS(ORDERS_PRIVATE_WS_URL));
     }
@@ -64,12 +64,12 @@ const Orders = () => {
           <ol
             className={[
               styles.ordersList,
-              "listGlobal",
+              'listGlobal',
               windowSize.width < 501
-                ? "custom-scroll_nullish"
-                : "custom-scroll",
+                ? 'custom-scroll_nullish'
+                : 'custom-scroll',
               paddingForOrdersList,
-            ].join(" ")}
+            ].join(' ')}
           >
             {data.orders.map((el) => {
               return (
@@ -95,7 +95,7 @@ const Orders = () => {
       color="#4c4cff"
       size={120}
       cssOverride={{
-        marginTop: "120px",
+        marginTop: '120px',
       }}
       speedMultiplier={0.4}
       className={styles.loader}

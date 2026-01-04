@@ -1,6 +1,9 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { TIngredientCounted, TIngredientExtraIdCounted } from "../../utils/types";
-import { getUniqId } from "../../utils/utils";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import {
+  TIngredientCounted,
+  TIngredientExtraIdCounted,
+} from '../../utils/types';
+import { getUniqId } from '../../utils/utils';
 
 export type TStateBurgerConstructor = {
   selectedBun: TIngredientExtraIdCounted | null;
@@ -9,9 +12,9 @@ export type TStateBurgerConstructor = {
 };
 
 type TMoveItem = {
-    indexFrom: number;
-    indexTo: number
-    ingredient: TIngredientExtraIdCounted;
+  indexFrom: number;
+  indexTo: number;
+  ingredient: TIngredientExtraIdCounted;
 };
 
 export const initialState: TStateBurgerConstructor = {
@@ -25,18 +28,20 @@ export const burgerConstructorSlice = createSlice({
   reducers: {
     addItem: {
       reducer: (state, action: PayloadAction<TIngredientExtraIdCounted>) => {
-        if(action.payload.type === 'bun') {
+        if (action.payload.type === 'bun') {
           state.selectedBun = action.payload;
         } else {
           state.selectedProducts.push(action.payload);
         }
       },
       prepare: (card: TIngredientCounted) => {
-        return { payload: {...card, extraId: getUniqId()} };
-      }
+        return { payload: { ...card, extraId: getUniqId() } };
+      },
     },
     removeItem: (state, action: PayloadAction<string>) => {
-      state.selectedProducts = state.selectedProducts.filter(el => el.extraId !== action.payload);
+      state.selectedProducts = state.selectedProducts.filter(
+        (el) => el.extraId !== action.payload
+      );
     },
     moveItem: (state, action: PayloadAction<TMoveItem>) => {
       const { indexFrom, indexTo, ingredient } = action.payload;
@@ -50,5 +55,6 @@ export const burgerConstructorSlice = createSlice({
   },
 });
 
-export const { addItem, removeItem, moveItem, resetConstructor } = burgerConstructorSlice.actions;
+export const { addItem, removeItem, moveItem, resetConstructor } =
+  burgerConstructorSlice.actions;
 export default burgerConstructorSlice.reducer;

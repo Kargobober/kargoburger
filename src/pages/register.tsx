@@ -2,7 +2,12 @@ import styles from './register.module.css';
 import { useState } from 'react';
 
 import { useDispatch } from '../services/hooks';
-import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+  Button,
+  EmailInput,
+  Input,
+  PasswordInput,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 
 import Form from '../components/Form/Form';
 import EditZone from '../components/Form/EditZone/EditZone';
@@ -11,7 +16,6 @@ import AdditionalActions from '../components/Form/AdditionalActions/AdditionalAc
 import Action from '../components/Form/Action/Action';
 import { registerUser } from '../services/middlewares/authActions';
 import useWindowSize from '../utils/hooks/useWindowSize';
-
 
 function RegisterPage() {
   const dispatch = useDispatch();
@@ -44,26 +48,28 @@ function RegisterPage() {
   т.к. валидация происходит при блюре */
   const [isFocus, setIsFocus] = useState(false);
 
-  const onChangeUserName: React.ChangeEventHandler<HTMLInputElement> = evt => {
+  const onChangeUserName: React.ChangeEventHandler<HTMLInputElement> = (
+    evt
+  ) => {
     setUserName(evt.target.value);
   };
-  const onFocusUserName: React.FocusEventHandler<HTMLInputElement> = evt => {
+  const onFocusUserName: React.FocusEventHandler<HTMLInputElement> = (evt) => {
     setHasUserNameError(false);
     setIsFocus(true);
   };
-  const onBlurUserName: React.FocusEventHandler<HTMLInputElement> = evt => {
+  const onBlurUserName: React.FocusEventHandler<HTMLInputElement> = (evt) => {
     if (evt.target.value.length < 2) setHasUserNameError(true);
     setIsFocus(false);
   };
 
-  const onChangeEmail: React.ChangeEventHandler<HTMLInputElement> = evt => {
+  const onChangeEmail: React.ChangeEventHandler<HTMLInputElement> = (evt) => {
     setEmail(evt.target.value);
   };
-  const onFocusEmail: React.FocusEventHandler<HTMLInputElement> = evt => {
+  const onFocusEmail: React.FocusEventHandler<HTMLInputElement> = (evt) => {
     setHasEmailError(false);
     setIsFocus(true);
   };
-  const onBlurEmail: React.FocusEventHandler<HTMLInputElement> = evt => {
+  const onBlurEmail: React.FocusEventHandler<HTMLInputElement> = (evt) => {
     const regExpSucces = emailRegExp.test(evt.target.value);
     const length = evt.target.value.length;
 
@@ -79,15 +85,23 @@ function RegisterPage() {
     }
   };
 
-  const onChangePassword: React.ChangeEventHandler<HTMLInputElement> = evt => {
+  const onChangePassword: React.ChangeEventHandler<HTMLInputElement> = (
+    evt
+  ) => {
     setPassword(evt.target.value);
   };
-  const onFocusPassword: React.FocusEventHandler<HTMLInputElement> = evt => {
+  const onFocusPassword: React.FocusEventHandler<HTMLInputElement> = (evt) => {
     setHasPasswordError(false);
     setIsFocus(true);
   };
-  const onBlurPassword: React.FocusEventHandler<HTMLInputElement> = evt => {
-    setHasPasswordError((evt.target.value.length > 5) ? false : (evt.target.value.length > 0) ? true : false);
+  const onBlurPassword: React.FocusEventHandler<HTMLInputElement> = (evt) => {
+    setHasPasswordError(
+      evt.target.value.length > 5
+        ? false
+        : evt.target.value.length > 0
+          ? true
+          : false
+    );
     setIsFocus(false);
   };
 
@@ -100,38 +114,57 @@ function RegisterPage() {
       нужно определить dispatch
     */
     // порядок ключей в объекте неважен для сервера. В задании password указан вторым ключом
-    dispatch(registerUser( {email, name: userName, password} ));
+    dispatch(registerUser({ email, name: userName, password }));
   };
 
   return (
     <main className={styles.main}>
-      <Form
-        heading='Регистрация'
-        onSubmit={onSubmit}
-        name='register'
-      >
+      <Form heading="Регистрация" onSubmit={onSubmit} name="register">
         <EditZone>
           <Input
             onChange={onChangeUserName}
             onFocus={onFocusUserName}
             onBlur={onBlurUserName}
-            placeholder='Имя'
-            type='text'
+            placeholder="Имя"
+            type="text"
             value={userName}
             error={hasUserNameError}
-            errorText='Не менее двух символов'
+            errorText="Не менее двух символов"
             size={sizeOfInput}
           />
           {!hasUserNameError && <div className={styles.stub} />}
-          <EmailInput onChange={onChangeEmail} onFocusCapture={onFocusEmail} onBlurCapture={onBlurEmail} value={email} size={sizeOfInput} />
+          <EmailInput
+            onChange={onChangeEmail}
+            onFocusCapture={onFocusEmail}
+            onBlurCapture={onBlurEmail}
+            value={email}
+            size={sizeOfInput}
+          />
           {!hasEmailError && <div className={styles.stub} />}
-          <PasswordInput onChange={onChangePassword} onFocusCapture={onFocusPassword} onBlurCapture={onBlurPassword} value={password} size={sizeOfInput} />
+          <PasswordInput
+            onChange={onChangePassword}
+            onFocusCapture={onFocusPassword}
+            onBlurCapture={onBlurPassword}
+            value={password}
+            size={sizeOfInput}
+          />
           {!hasPasswordError && <div className={styles.stub} />}
         </EditZone>
 
         <ActionsZone>
-          <Button htmlType="submit" type="primary" size={sizeOfButton}
-            disabled={!isFocus && userName.length > 1 && !hasEmailError && email && password ? false : true}
+          <Button
+            htmlType="submit"
+            type="primary"
+            size={sizeOfButton}
+            disabled={
+              !isFocus &&
+              userName.length > 1 &&
+              !hasEmailError &&
+              email &&
+              password
+                ? false
+                : true
+            }
           >
             Зарегистрироваться
           </Button>
@@ -140,13 +173,13 @@ function RegisterPage() {
 
       <AdditionalActions>
         <Action
-          placeholder='Уже зарегистрированы?'
-          linkText='Войти'
-          to='/login'
+          placeholder="Уже зарегистрированы?"
+          linkText="Войти"
+          to="/login"
         />
       </AdditionalActions>
     </main>
-  )
+  );
 }
 
 export default RegisterPage;

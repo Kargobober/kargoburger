@@ -16,12 +16,11 @@ export const handleError: TErrorHandler = (text, error = '') => {
 export const getTopCoords = (elem: HTMLElement) => {
   let box = elem.getBoundingClientRect();
   return box.top + window.scrollY;
-}
+};
 
 /* я не разобрался, как передать кастомные css-переменные в объект style. Импорт переменной с цветом (colorInterfaceAccent) из constants не работал */
-export const stellarToast = (text: string, notificationType?: 'ok' | 'error') => toast(
-  text,
-  {
+export const stellarToast = (text: string, notificationType?: 'ok' | 'error') =>
+  toast(text, {
     duration: notificationType === 'ok' ? 3000 : 6000,
     position: 'bottom-right',
     style: {
@@ -31,11 +30,13 @@ export const stellarToast = (text: string, notificationType?: 'ok' | 'error') =>
     },
     className: 'text text_type_main-default',
     icon: notificationType === 'ok' ? '✅' : '❌',
-  }
-);
+  });
 
-export const findIngredientObj = (id: string, arr: TIngredient[]): TIngredientExtraId | null => {
-  const ingredient = arr.find(item => item._id === id ? true : false);
+export const findIngredientObj = (
+  id: string,
+  arr: TIngredient[]
+): TIngredientExtraId | null => {
+  const ingredient = arr.find((item) => (item._id === id ? true : false));
   if (ingredient) {
     // нельзя мутировать объект почему-то ↓
     const ingredientUniq = { ...ingredient, extraId: getUniqId() };
@@ -45,10 +46,9 @@ export const findIngredientObj = (id: string, arr: TIngredient[]): TIngredientEx
   }
 };
 
-
 export const countIngredient = (idArr: string[]) => {
   const result = idArr.reduce((acc: Record<string, number>, id) => {
-    if(!acc[id]) {
+    if (!acc[id]) {
       acc[id] = 1;
     } else {
       acc[id] += 1;
@@ -76,12 +76,12 @@ export const translateOrderStatus = (status: StatusKind) => {
     default:
       statusRus = '';
       break;
-  };
+  }
   return statusRus;
 };
 
-export function bakeJSON (data: any, needToLog = true) {
-  const bakedData = JSON.stringify(data, null, "\t");
+export function bakeJSON(data: any, needToLog = true) {
+  const bakedData = JSON.stringify(data, null, '\t');
   if (needToLog) console.log(bakedData);
   return bakedData;
 }

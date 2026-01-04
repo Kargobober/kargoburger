@@ -5,11 +5,7 @@ type TProps = {
 };
 
 const ActionsZone: FC<TProps> = ({ children, className }) => {
-  return (
-    <section className={className}>
-      {children}
-    </section>
-  )
+  return <section className={className}>{children}</section>;
 };
 
 export default ActionsZone;

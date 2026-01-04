@@ -6,9 +6,7 @@ type TProps = {
 };
 
 const ModalOverlay: FC<TProps> = ({ onClose }) => {
-  return (
-    <div className={styles['modal-overlay']} onClick={onClose} />
-  )
-}
+  return <div className={styles['modal-overlay']} onClick={onClose} />;
+};
 
 export default ModalOverlay;

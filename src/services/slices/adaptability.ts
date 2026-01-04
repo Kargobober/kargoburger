@@ -1,12 +1,12 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 type TStateAdaptability = {
   coordBottomHeader: number;
-}
+};
 
 const adaptabilityInitialState: TStateAdaptability = {
   coordBottomHeader: 88,
-}
+};
 
 const adaptabilitySlice = createSlice({
   name: 'adaptability',
@@ -14,11 +14,9 @@ const adaptabilitySlice = createSlice({
   reducers: {
     setCoordBottomHeaderStore: (state, action: PayloadAction<number>) => {
       state.coordBottomHeader = action.payload;
-    }
+    },
   },
 });
 
-export const {
-  setCoordBottomHeaderStore,
-} = adaptabilitySlice.actions;
+export const { setCoordBottomHeaderStore } = adaptabilitySlice.actions;
 export default adaptabilitySlice.reducer;

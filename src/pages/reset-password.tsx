@@ -5,10 +5,25 @@ import { useDispatch, useSelector } from '../services/hooks';
 import { useNavigate } from 'react-router';
 
 import { resetPassword } from '../services/middlewares/authQueries';
-import { getResetCodeSuccess, getResetPasswordPending, getResetPasswordSuccess, getUserFromState, getUserPending, getUserSuccess } from '../services/selectors/authSelector';
-import { setResetCodeSuccess, setResetPasswordSuccess, setUserSuccess } from '../services/slices/authSlice';
+import {
+  getResetCodeSuccess,
+  getResetPasswordPending,
+  getResetPasswordSuccess,
+  getUserFromState,
+  getUserPending,
+  getUserSuccess,
+} from '../services/selectors/authSelector';
+import {
+  setResetCodeSuccess,
+  setResetPasswordSuccess,
+  setUserSuccess,
+} from '../services/slices/authSlice';
 
-import { Button, PasswordInput, Input } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+  Button,
+  PasswordInput,
+  Input,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import { Toaster } from 'react-hot-toast';
 import Form from '../components/Form/Form';
 import EditZone from '../components/Form/EditZone/EditZone';
@@ -44,14 +59,16 @@ function ResetPasswordPage() {
   const user = useSelector(getUserFromState);
   const userSuccess = useSelector(getUserSuccess);
 
-  const onChangePassword: React.ChangeEventHandler<HTMLInputElement> = evt => {
+  const onChangePassword: React.ChangeEventHandler<HTMLInputElement> = (
+    evt
+  ) => {
     setPassword(evt.target.value);
   };
-  const onFocusPassword: React.FocusEventHandler<HTMLInputElement> = evt => {
+  const onFocusPassword: React.FocusEventHandler<HTMLInputElement> = (evt) => {
     setHasPasswordError(false);
     setIsFocus(true);
   };
-  const onBlurPassword: React.FocusEventHandler<HTMLInputElement> = evt => {
+  const onBlurPassword: React.FocusEventHandler<HTMLInputElement> = (evt) => {
     const length = evt.target.value.length;
 
     setIsFocus(false);
@@ -60,31 +77,30 @@ function ResetPasswordPage() {
     if (length === 0) setHasPasswordError(false);
   };
 
-
-  const onChangeKey: React.ChangeEventHandler<HTMLInputElement> = evt => {
+  const onChangeKey: React.ChangeEventHandler<HTMLInputElement> = (evt) => {
     setKey(evt.target.value);
   };
-  const onFocusKey: React.FocusEventHandler<HTMLInputElement> = evt => {
+  const onFocusKey: React.FocusEventHandler<HTMLInputElement> = (evt) => {
     setHasKeyError(false);
     setIsFocus(true);
   };
-  const onBlurKey: React.FocusEventHandler<HTMLInputElement> = evt => {
+  const onBlurKey: React.FocusEventHandler<HTMLInputElement> = (evt) => {
     if (evt.target.value.length < 4) setHasKeyError(true);
     setIsFocus(false);
   };
 
-
   const onSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch(resetPassword({password, token: key}));
+    dispatch(resetPassword({ password, token: key }));
   };
 
-
-
   useEffect(() => {
-    switch(resetPasswordSucces) {
+    switch (resetPasswordSucces) {
       case true:
-        stellarToast('Пароль успешно изменён! Выполняется вход в аккаунт...', 'ok');
+        stellarToast(
+          'Пароль успешно изменён! Выполняется вход в аккаунт...',
+          'ok'
+        );
         /* обнулим статус успешности, чтобы при возврате назад,
           на forgot-password (т.к. reset-password мы реплейсим на home),
           не было переадресации домой */
@@ -114,7 +130,7 @@ function ResetPasswordPage() {
   }, [resetPasswordSucces, dispatch, navigate]);
 
   useEffect(() => {
-    switch(user && userSuccess) {
+    switch (user && userSuccess) {
       case true:
         // при успешном получении данных о пользователе - защищ. роут перенаправит нас
         dispatch(setUserSuccess(null));
@@ -134,48 +150,52 @@ function ResetPasswordPage() {
     if (!resetCodeSuccess) navigate('/forgot-password');
   }, [resetCodeSuccess]);
 
-
-
   return (
     <main className={styles.main}>
       <Toaster />
       <Form
-        heading='Восстановление пароля'
+        heading="Восстановление пароля"
         onSubmit={onSubmit}
-        name='reset-password'
+        name="reset-password"
       >
         <EditZone>
           <PasswordInput
-          onChange={onChangePassword}
-          onFocusCapture={onFocusPassword}
-          onBlurCapture={onBlurPassword}
-          value={password}
-          placeholder='Введите новый пароль'
-          autoComplete='new-password'
+            onChange={onChangePassword}
+            onFocusCapture={onFocusPassword}
+            onBlurCapture={onBlurPassword}
+            value={password}
+            placeholder="Введите новый пароль"
+            autoComplete="new-password"
           />
-          { !hasPasswordError && <div className={styles.stub} /> }
+          {!hasPasswordError && <div className={styles.stub} />}
           <Input
             onChange={onChangeKey}
             onFocus={onFocusKey}
             onBlur={onBlurKey}
-            placeholder='Введите код из письма'
+            placeholder="Введите код из письма"
             value={key}
             error={hasKeyError}
-            errorText='Не менее 4 символов'
+            errorText="Не менее 4 символов"
             size={sizeOfInput}
           />
-          { !hasKeyError && <div className={styles.stub} /> }
+          {!hasKeyError && <div className={styles.stub} />}
         </EditZone>
 
         <ActionsZone>
-          <Button htmlType="submit" type="primary" size={sizeOfButton}
-            disabled={!isFocus
-              && !hasPasswordError
-              && !hasKeyError
-              && password
-              && key
-              && !resetPasswordPending
-              ? false : true}
+          <Button
+            htmlType="submit"
+            type="primary"
+            size={sizeOfButton}
+            disabled={
+              !isFocus &&
+              !hasPasswordError &&
+              !hasKeyError &&
+              password &&
+              key &&
+              !resetPasswordPending
+                ? false
+                : true
+            }
           >
             Восстановить
           </Button>
@@ -183,14 +203,10 @@ function ResetPasswordPage() {
       </Form>
 
       <AdditionalActions>
-        <Action
-          placeholder='Вспомнили пароль?'
-          linkText='Войти'
-          to='/login'
-        />
+        <Action placeholder="Вспомнили пароль?" linkText="Войти" to="/login" />
       </AdditionalActions>
     </main>
-  )
+  );
 }
 
 export default ResetPasswordPage;

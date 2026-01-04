@@ -11,8 +11,6 @@ describe('Testing burger constructor page', () => {
     cy.visit('/');
   });
 
-
-
   it('Tabs should change style while scrolling', () => {
     cy.get('[class^="BurgerIngredients_list__"]').find('li').as('list');
 
@@ -34,48 +32,52 @@ describe('Testing burger constructor page', () => {
     cy.get('@lastTab').should('have.class', 'tab_type_current');
   });
 
-
-
   it('The initial constructor is empty', () => {
     // а тут класс идёт первым, так что class^=
-    cy.get('main').find('section').eq(1)
-      .find(burgerConstructorList).as('list');
+    cy.get('main').find('section').eq(1).find(burgerConstructorList).as('list');
 
-    cy.get('@list').children()
-      .should(($children) => { expect($children).to.have.length(0)});
+    cy.get('@list')
+      .children()
+      .should(($children) => {
+        expect($children).to.have.length(0);
+      });
 
     cy.get('@list').prev().should('not.have.class', 'constructor-element');
     cy.get('@list').next().should('not.exist');
   });
 
-
-
   it('The ingredient can be dragged into the constructor', () => {
-    cy.get('main').find('section').eq(1)
-      .find(burgerConstructorList).as('list');
+    cy.get('main').find('section').eq(1).find(burgerConstructorList).as('list');
 
     cy.get(ingredientsSection)
-      .find(ingredientsList).find('li').first()
+      .find(ingredientsList)
+      .find('li')
+      .first()
       .trigger('dragstart');
 
     cy.get('@list').trigger('drop');
 
     // Всё ещё ноль, т.к. дропается булочка, а булочка хранится в дивах над и под ul
-    cy.get('@list').children()
-      .should(($children) => { expect($children).to.have.length(0) });
+    cy.get('@list')
+      .children()
+      .should(($children) => {
+        expect($children).to.have.length(0);
+      });
 
     cy.get('@list').prev().should('have.class', 'constructor-element');
     cy.get('@list').next().should('have.class', 'constructor-element');
 
-
     // Теперь дропаем основной ингредиент
     cy.get(ingredientsSection)
-    .find(ingredientsList).find('li').eq(5)
-    .trigger('dragstart');
+      .find(ingredientsList)
+      .find('li')
+      .eq(5)
+      .trigger('dragstart');
 
     cy.get('@list').trigger('drop');
 
-    cy.get('@list').children()
+    cy.get('@list')
+      .children()
       .should(($children) => {
         // дети есть, массив с одним элементом
         expect($children).to.have.length(1);
@@ -87,39 +89,41 @@ describe('Testing burger constructor page', () => {
       });
   });
 
-
-
   it('Posting order', () => {
     // дропаем ингредиенты в конструктор
-    cy.get('main').find('section').eq(1)
-      .find(burgerConstructorList).as('list');
+    cy.get('main').find('section').eq(1).find(burgerConstructorList).as('list');
 
     cy.get(ingredientsSection)
-      .find(ingredientsList).find('li').first()
+      .find(ingredientsList)
+      .find('li')
+      .first()
       .trigger('dragstart');
     cy.get('@list').trigger('drop');
 
     cy.get(ingredientsSection)
-      .find(ingredientsList).find('li').eq(5)
+      .find(ingredientsList)
+      .find('li')
+      .eq(5)
       .trigger('dragstart');
     cy.get('@list').trigger('drop');
-
 
     // изначально модалка пустая
-    cy.get(modalSelector).children()
-      .should(($children) => { expect($children).to.have.length(0) });
+    cy.get(modalSelector)
+      .children()
+      .should(($children) => {
+        expect($children).to.have.length(0);
+      });
 
     cy.intercept('POST', 'orders', { fixture: 'postOrder.json' });
     cy.get('button').contains('Оформить заказ').as('buttonPost');
     cy.get('@buttonPost').click();
-
 
     // Логирование пользователя
     cy.location().should((location) => {
       expect(location.pathname).to.eq('/login');
     });
 
-    cy.intercept('POST', 'login', { fixture: 'login.json'})
+    cy.intercept('POST', 'login', { fixture: 'login.json' });
     cy.get('form').within(() => {
       cy.get('input:first').type('kargobober@email.com');
       cy.get('input:last').type('very-hard-password_&_!').blur();
@@ -139,11 +143,12 @@ describe('Testing burger constructor page', () => {
     // выход из модалки
     cy.get('body').type('{esc}');
 
-    cy.get(modalSelector).children()
-      .should(($children) => { expect($children).to.have.length(0) });
+    cy.get(modalSelector)
+      .children()
+      .should(($children) => {
+        expect($children).to.have.length(0);
+      });
   });
-
-
 
   it('Modal for ingredients', () => {
     // мы дома?
@@ -152,13 +157,14 @@ describe('Testing burger constructor page', () => {
     });
 
     // модалка пустая?
-    cy.get(modalSelector).children()
-      .should(($children) => { expect($children).to.have.length(0) });
+    cy.get(modalSelector)
+      .children()
+      .should(($children) => {
+        expect($children).to.have.length(0);
+      });
 
     // кликаем на карточку товара
-    cy.get(ingredientsSection)
-      .find(ingredientsList)
-      .find('li').first().click();
+    cy.get(ingredientsSection).find(ingredientsList).find('li').first().click();
 
     // локация должна смениться
     cy.location().should((location) => {
@@ -168,7 +174,10 @@ describe('Testing burger constructor page', () => {
     // модалка открыта?
     cy.get(modalSelector).find('div').first().as('content');
 
-    cy.get('@content').find('div').last().find('h3')
+    cy.get('@content')
+      .find('div')
+      .last()
+      .find('h3')
       .should('contain', 'Краторная булка N-200i');
 
     // при перезагрузке...
@@ -180,7 +189,10 @@ describe('Testing burger constructor page', () => {
     });
 
     // и модалка не должна закрыться
-    cy.get('@content').find('div').last().find('h3')
+    cy.get('@content')
+      .find('div')
+      .last()
+      .find('h3')
       .should('contain', 'Краторная булка N-200i');
 
     // закрытие модалки кликом в крестик (esc проверен в тесте заказа)
@@ -190,7 +202,10 @@ describe('Testing burger constructor page', () => {
       expect(location.pathname).to.eq('/');
     });
 
-    cy.get(modalSelector).children()
-      .should(($children) => { expect($children).to.have.length(0) });
+    cy.get(modalSelector)
+      .children()
+      .should(($children) => {
+        expect($children).to.have.length(0);
+      });
   });
 });

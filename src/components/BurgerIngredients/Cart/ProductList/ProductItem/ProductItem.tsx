@@ -11,10 +11,11 @@ import { getSelectedProducts } from '../../../../../services/selectors/burgerCon
 type TProps = {
   item: TIngredientExtraIdCounted;
   /**
-   * индекс данного ингредиента в массиве на текущий момент, до события DnD (так?)
+   * индекс данного ингредиента в массиве на текущий момент, до события DnD
+   * (так?)
    */
   index?: number;
-  windowSize?: { width: number, height: number };
+  windowSize?: { width: number; height: number };
 };
 
 type TDragItem = {
@@ -28,14 +29,22 @@ type TCollectedProps = {
 const ProductItem: FC<TProps> = ({ item, index, windowSize }) => {
   const dispatch = useDispatch();
 
-  const textSize = windowSize ? (windowSize.width > 500 ? 'default' : 'small') : 'default';
+  const textSize = windowSize
+    ? windowSize.width > 500
+      ? 'default'
+      : 'small'
+    : 'default';
 
   const selectedProducts = useSelector(getSelectedProducts);
 
-  const [{ isDragging }, dragRef, dragPreviewRef] = useDrag<TDragItem, unknown, TCollectedProps>({
+  const [{ isDragging }, dragRef, dragPreviewRef] = useDrag<
+    TDragItem,
+    unknown,
+    TCollectedProps
+  >({
     type: 'sort',
     item: { data: item },
-    collect: monitor => ({
+    collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
   });
@@ -43,15 +52,15 @@ const ProductItem: FC<TProps> = ({ item, index, windowSize }) => {
   const [, dropRef] = useDrop<TDragItem, unknown, unknown>({
     accept: 'sort',
     hover: ({ data }) => {
-
       if (item.extraId === data.extraId) return;
-      dispatch(moveItem({
-        indexFrom: selectedProducts.indexOf(data),
-        indexTo: index!,
-        ingredient: data,
-      }));
+      dispatch(
+        moveItem({
+          indexFrom: selectedProducts.indexOf(data),
+          indexTo: index!,
+          ingredient: data,
+        })
+      );
     },
-
   });
 
   if (item === null) return null;
@@ -59,15 +68,13 @@ const ProductItem: FC<TProps> = ({ item, index, windowSize }) => {
   return (
     <div
       className={styles.container}
-      ref={node => dragPreviewRef(dropRef(node))}
+      ref={(node) => dragPreviewRef(dropRef(node))}
     >
       <div
         className={`${styles.dragIcon} ${index !== undefined ? 'interactive' : ''}`}
         ref={index !== undefined ? dragRef : undefined}
       >
-        <DragIcon
-          type={item.type !== 'bun' ? 'primary' : 'secondary'}
-        />
+        <DragIcon type={item.type !== 'bun' ? 'primary' : 'secondary'} />
       </div>
 
       <img
@@ -88,7 +95,7 @@ const ProductItem: FC<TProps> = ({ item, index, windowSize }) => {
         }}
       />
     </div>
-  )
+  );
 };
 
 export default ProductItem;

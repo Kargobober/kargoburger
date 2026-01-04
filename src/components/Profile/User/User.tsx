@@ -3,11 +3,21 @@ import Form from '../../Form/Form';
 import { Toaster } from 'react-hot-toast';
 import EditZone from '../../Form/EditZone/EditZone';
 import ActionsZone from '../../Form/ActionsZone/ActionsZone';
-import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
+import {
+  Button,
+  EmailInput,
+  Input,
+  PasswordInput,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from '../../../services/hooks';
 import styles from './User.module.css';
 import { useLocation } from 'react-router';
-import { getChangeUserDataPending, getChangeUserDataSuccess, getUserState, getUserSuccess } from '../../../services/selectors/authSelector';
+import {
+  getChangeUserDataPending,
+  getChangeUserDataSuccess,
+  getUserState,
+  getUserSuccess,
+} from '../../../services/selectors/authSelector';
 import { changeUserData } from '../../../services/middlewares/authQueries';
 import { stellarToast } from '../../../utils/utils';
 import { setChangeUserDataSuccess } from '../../../services/slices/authSlice';
@@ -18,7 +28,10 @@ function User(): JSX.Element {
   const location = useLocation();
   const windowSize = useWindowSize();
 
-  const classTextHeading = windowSize.width > 700 ? 'text_type_main-large' : 'text_type_main-medium-extra';
+  const classTextHeading =
+    windowSize.width > 700
+      ? 'text_type_main-large'
+      : 'text_type_main-medium-extra';
   const paddingForHeading = windowSize.width > 599 ? 'pb-6' : 'pt-4 pb-6';
   const sizeOfInput = windowSize.width > 599 ? 'default' : 'small';
   const sizeOfButton = windowSize.width > 599 ? 'medium' : 'small';
@@ -28,7 +41,7 @@ function User(): JSX.Element {
 
   const user = useSelector(getUserState);
   const userSuccess = useSelector(getUserSuccess);
-  const changeUserDataPending = useSelector(getChangeUserDataPending) ;
+  const changeUserDataPending = useSelector(getChangeUserDataPending);
   const changeUserDataSuccess = useSelector(getChangeUserDataSuccess);
 
   const [email, setEmail] = useState('');
@@ -42,9 +55,7 @@ function User(): JSX.Element {
   const [wasChanged, setWasChanged] = useState(false);
   const [needButtons, setNeedButtons] = useState(false);
 
-
-
-  const onChangeUserName: React.ChangeEventHandler<HTMLInputElement> = e => {
+  const onChangeUserName: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setUserName(e.target.value);
   };
   const onFocusUserName = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -56,16 +67,14 @@ function User(): JSX.Element {
     setIsFocus(false);
   };
 
-
-
   const onChangeEmail: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setEmail(e.target.value);
   };
-  const onFocusEmail: React.ChangeEventHandler<HTMLInputElement> = e => {
+  const onFocusEmail: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setHasEmailError(false);
     setIsFocus(true);
   };
-  const onBlurEmail: React.ChangeEventHandler<HTMLInputElement> = e => {
+  const onBlurEmail: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const regExpSucces = emailRegExp.test(e.target.value);
     const length = e.target.value.length;
 
@@ -81,21 +90,26 @@ function User(): JSX.Element {
     }
   };
 
-
-  const onChangePassword: React.ChangeEventHandler<HTMLInputElement> = e => {
+  const onChangePassword: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setPassword(e.target.value);
     setWasChanged(true);
   };
-  const onFocusPassword: React.ChangeEventHandler<HTMLInputElement> = e => {
+  const onFocusPassword: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setHasPasswordError(false);
     setIsFocus(true);
   };
-  const onBlurPassword: React.ChangeEventHandler<HTMLInputElement> = e => {
-    setHasPasswordError((e.target.value.length > 5) ? false : (e.target.value.length > 0) ? true : false);
+  const onBlurPassword: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    setHasPasswordError(
+      e.target.value.length > 5
+        ? false
+        : e.target.value.length > 0
+          ? true
+          : false
+    );
     setIsFocus(false);
   };
 
-// КНОПКИ
+  // КНОПКИ
   const onSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     dispatch(changeUserData({ name: userName, email, password }));
@@ -108,8 +122,6 @@ function User(): JSX.Element {
       setWasChanged(false);
     }
   };
-
-
 
   useEffect(() => {
     setNeedButtons(false);
@@ -138,7 +150,7 @@ function User(): JSX.Element {
   }, [user, userName, email, userSuccess]);
 
   useEffect(() => {
-    switch(changeUserDataSuccess) {
+    switch (changeUserDataSuccess) {
       case true:
         dispatch(setChangeUserDataSuccess(null));
         stellarToast('Данные успешно обновлены', 'ok');
@@ -152,32 +164,28 @@ function User(): JSX.Element {
     }
   }, [changeUserDataSuccess]);
 
-
-
   return (
     <section className={styles.section}>
       <Toaster />
       {windowSize.width < 971 && (
-          <h2 className={`text ${classTextHeading} text_centered ${paddingForHeading}`}>
-            Профиль
-          </h2>
-        )}
-      <Form
-        heading=''
-        onSubmit={onSubmit}
-        name='changeUserData'
-      >
+        <h2
+          className={`text ${classTextHeading} text_centered ${paddingForHeading}`}
+        >
+          Профиль
+        </h2>
+      )}
+      <Form heading="" onSubmit={onSubmit} name="changeUserData">
         <EditZone>
-        <Input
+          <Input
             onChange={onChangeUserName}
             onFocus={onFocusUserName}
             onBlur={onBlurUserName}
-            placeholder='Имя'
-            type='text'
+            placeholder="Имя"
+            type="text"
             value={userName}
             error={hasUserNameError}
-            errorText='Не менее двух символов'
-            autoComplete='off'
+            errorText="Не менее двух символов"
+            autoComplete="off"
             size={sizeOfInput}
           />
           {!hasUserNameError && <div className={styles.stub} />}
@@ -186,7 +194,7 @@ function User(): JSX.Element {
             onFocusCapture={onFocusEmail}
             onBlurCapture={onBlurEmail}
             value={email}
-            autoComplete='off'
+            autoComplete="off"
             size={sizeOfInput}
           />
           {!hasEmailError && <div className={styles.stub} />}
@@ -196,45 +204,49 @@ function User(): JSX.Element {
             onBlurCapture={onBlurPassword}
             value={password}
             /* данный атрибут предотвращает навязчивое АВТОЗАПОЛНЕНИЕ */
-            autoComplete='new-password'
-            placeholder='Новый пароль'
+            autoComplete="new-password"
+            placeholder="Новый пароль"
             size={sizeOfInput}
           />
           {!hasPasswordError && <div className={styles.stub} />}
         </EditZone>
 
         <ActionsZone className={styles.actionsZone}>
-          {needButtons && <>
-            <Button
-              htmlType='reset'
-              type='secondary'
-              size={sizeOfButton}
-              disabled={wasChanged && !changeUserDataPending ? false : true}
-              onClick={revertChanges}
-            >
-              Отмена
-            </Button>
-            <Button
-              htmlType='submit'
-              type='primary'
-              size={sizeOfButton}
-              disabled={!isFocus
-                && userName.length > 1
-                && !hasEmailError
-                && email
-                && !hasPasswordError
-                && wasChanged
-                && !changeUserDataPending
-                ? false : true
-              }
-            >
-              Сохранить
-            </Button>
-          </>}
+          {needButtons && (
+            <>
+              <Button
+                htmlType="reset"
+                type="secondary"
+                size={sizeOfButton}
+                disabled={wasChanged && !changeUserDataPending ? false : true}
+                onClick={revertChanges}
+              >
+                Отмена
+              </Button>
+              <Button
+                htmlType="submit"
+                type="primary"
+                size={sizeOfButton}
+                disabled={
+                  !isFocus &&
+                  userName.length > 1 &&
+                  !hasEmailError &&
+                  email &&
+                  !hasPasswordError &&
+                  wasChanged &&
+                  !changeUserDataPending
+                    ? false
+                    : true
+                }
+              >
+                Сохранить
+              </Button>
+            </>
+          )}
         </ActionsZone>
       </Form>
     </section>
-  )
+  );
 }
 
 export default User;

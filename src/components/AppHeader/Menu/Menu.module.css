@@ -17,11 +17,11 @@
   padding: calc(var(--offset-base-size) * 4) calc(var(--offset-base-size) * 5);
   display: flex;
   align-items: center;
-  transition: opacity .2s linear;
+  transition: opacity 0.2s linear;
 }
 
 .buttonProfile:hover {
-  opacity: .7;
+  opacity: 0.7;
   cursor: pointer;
 }
 
@@ -31,7 +31,7 @@
 
 .arrowWrapper {
   margin-left: auto;
-  transition: transform .1s linear;
+  transition: transform 0.1s linear;
 }
 
 .arrowDown {
@@ -39,11 +39,12 @@
 }
 
 .profileLinks {
-  padding: calc(var(--offset-base-size) * 2.5) calc(var(--offset-base-size) * 5 + 24px + var(--offset-base-size) * 2);
+  padding: calc(var(--offset-base-size) * 2.5)
+    calc(var(--offset-base-size) * 5 + 24px + var(--offset-base-size) * 2);
 }
 
 .collapseWrapper {
-  transition: height .3s ease-in-out;
+  transition: height 0.3s ease-in-out;
 }
 
 @media screen and (max-width: 500px) {
@@ -63,6 +64,7 @@
   }
 
   .profileLinks {
-    padding: calc(var(--offset-base-size) * 2.5) calc(var(--offset-base-size) * 2 + 24px + var(--offset-base-size) * 2);
+    padding: calc(var(--offset-base-size) * 2.5)
+      calc(var(--offset-base-size) * 2 + 24px + var(--offset-base-size) * 2);
   }
 }

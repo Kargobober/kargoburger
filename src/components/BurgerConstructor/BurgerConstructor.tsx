@@ -1,44 +1,44 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
 
-import styles from "./BurgerConstructor.module.css";
+import styles from './BurgerConstructor.module.css';
 
-import { handleError } from "../../utils/utils";
-import { useDispatch, useSelector } from "../../services/hooks";
+import { handleError } from '../../utils/utils';
+import { useDispatch, useSelector } from '../../services/hooks';
 
 import {
   BurgerIcon,
   Button,
   ConstructorElement,
-} from "@ya.praktikum/react-developer-burger-ui-components";
-import Price from "../Price/Price";
-import Item from "./Item/Item";
-import OrderDetails from "../OrderDetails/OrderDetails";
-import Modal from "../Modal/Modal";
+} from '@ya.praktikum/react-developer-burger-ui-components';
+import Price from '../Price/Price';
+import Item from './Item/Item';
+import OrderDetails from '../OrderDetails/OrderDetails';
+import Modal from '../Modal/Modal';
 import {
   getSelectedBun,
   getSelectedProducts,
   getTotalPrice,
-} from "../../services/selectors/burgerConstructorSelector";
+} from '../../services/selectors/burgerConstructorSelector';
 import {
   getOrderDetailsNeeding,
   getOrderError,
   getOrderSuccess,
-} from "../../services/selectors/orderDetailsSelector";
+} from '../../services/selectors/orderDetailsSelector';
 import {
   resetOrderNumber,
   setNeedingDetails,
-} from "../../services/slices/orderDetailsSlice";
-import burgerIconSvg from "../../images/burger.svg";
-import { useDrop } from "react-dnd";
+} from '../../services/slices/orderDetailsSlice';
+import burgerIconSvg from '../../images/burger.svg';
+import { useDrop } from 'react-dnd';
 import {
   addItem,
   resetConstructor,
-} from "../../services/slices/burgerConstructorSlice";
-import { postOrder } from "../../services/middlewares/orderDetailsQueries";
-import { useNavigate } from "react-router";
-import { getUserFromState } from "../../services/selectors/authSelector";
-import { TIngredientCounted } from "../../utils/types";
-import useWindowSize from "../../utils/hooks/useWindowSize";
+} from '../../services/slices/burgerConstructorSlice';
+import { postOrder } from '../../services/middlewares/orderDetailsQueries';
+import { useNavigate } from 'react-router';
+import { getUserFromState } from '../../services/selectors/authSelector';
+import { TIngredientCounted } from '../../utils/types';
+import useWindowSize from '../../utils/hooks/useWindowSize';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -46,8 +46,8 @@ function BurgerConstructor() {
   const windowSize = useWindowSize();
 
   const paddingForModal = {
-    pt: windowSize.width > 1049 ? "15" : "неважно", // для 'pt-...'
-    pb: windowSize.width > 1049 ? "30" : "в-другом-месте-код",
+    pt: windowSize.width > 1049 ? '15' : 'неважно', // для 'pt-...'
+    pb: windowSize.width > 1049 ? '30' : 'в-другом-месте-код',
     // При меньших размерах экрана (до 1050) используется код order details, описанный внутри: BurgerIngridients > Bottom > Cart.tsx.
     // Относительно DOM модалка располагается в том же реактовском портале.
   };
@@ -62,7 +62,7 @@ function BurgerConstructor() {
   const user = useSelector(getUserFromState);
 
   useEffect(() => {
-    error && handleError("Ошибка при создании заказа: ", error);
+    error && handleError('Ошибка при создании заказа: ', error);
   }, [error]);
 
   const modal = (
@@ -90,7 +90,7 @@ function BurgerConstructor() {
       dispatch(setNeedingDetails(true));
       dispatch(postOrder({ ingredients: assembledBurger }));
     } else {
-      navigate("/login");
+      navigate('/login');
     }
   }
 
@@ -105,7 +105,7 @@ function BurgerConstructor() {
     unknown,
     { isHover: boolean }
   >({
-    accept: "ingredient",
+    accept: 'ingredient',
     // деструктуризация объекта
     drop: ({ card }) => {
       dispatch(addItem(card));
@@ -214,7 +214,7 @@ function BurgerConstructor() {
             size="medium"
             onClick={handleOrder}
             disabled={!selectedBun}
-            extraClass={selectedBun ? "button_decor_shadow" : ""}
+            extraClass={selectedBun ? 'button_decor_shadow' : ''}
           >
             Оформить заказ
           </Button>

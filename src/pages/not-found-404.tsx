@@ -6,13 +6,20 @@ function NotFound404Page() {
   return (
     <>
       <main className={styles.main}>
-        <h1 className={`${styles.heading} text text_type_main-large mt-30 mb-10`}>😕 Страница не найдена 👀</h1>
-        <Link to='/' className={`text text_type_main-medium linkGlobal ${styles.link}`}>
+        <h1
+          className={`${styles.heading} text text_type_main-large mt-30 mb-10`}
+        >
+          😕 Страница не найдена 👀
+        </h1>
+        <Link
+          to="/"
+          className={`text text_type_main-medium linkGlobal ${styles.link}`}
+        >
           Перейти на <span className={styles.span}>главную</span>
-          </Link>
+        </Link>
       </main>
     </>
-  )
+  );
 }
 
 export default NotFound404Page;

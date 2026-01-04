@@ -10,9 +10,12 @@ type THeaderLinkProps = {
   to: string;
 };
 
-
-
-function HeaderLink ({ sectionName, Icon, customStyle, to }: THeaderLinkProps): JSX.Element {
+function HeaderLink({
+  sectionName,
+  Icon,
+  customStyle,
+  to,
+}: THeaderLinkProps): JSX.Element {
   const location = useLocation();
 
   const navLinkRef = useRef<HTMLAnchorElement>(null);
@@ -29,22 +32,20 @@ function HeaderLink ({ sectionName, Icon, customStyle, to }: THeaderLinkProps): 
 
   return (
     <div style={customStyle}>
-      <NavLink
-        to={to}
-        className={styles.link}
-        ref={navLinkRef}
-      >
-        {Icon && (<Icon type={isActive ? "primary" : "secondary"} />)}
+      <NavLink to={to} className={styles.link} ref={navLinkRef}>
+        {Icon && <Icon type={isActive ? 'primary' : 'secondary'} />}
         <p
-          className={isActive ? "text text_type_main-default ml-2"
-            : "text text_type_main-default ml-2 text_color_inactive"
+          className={
+            isActive
+              ? 'text text_type_main-default ml-2'
+              : 'text text_type_main-default ml-2 text_color_inactive'
           }
         >
           {sectionName}
         </p>
       </NavLink>
     </div>
-  )
+  );
 }
 
 export default HeaderLink;

@@ -11,7 +11,7 @@
   align-self: end;
 }
 
-@media screen and (max-width: 600px){
+@media screen and (max-width: 600px) {
   .section {
     margin-top: 0;
   }

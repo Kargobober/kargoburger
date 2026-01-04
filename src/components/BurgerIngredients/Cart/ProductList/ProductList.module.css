@@ -37,9 +37,10 @@
 }
 
 .stub {
-  padding: calc(var(--offset-base-size) * 4) 0 calc(var(--offset-base-size) * 4) calc(var(--offset-base-size) * 8);
+  padding: calc(var(--offset-base-size) * 4) 0 calc(var(--offset-base-size) * 4)
+    calc(var(--offset-base-size) * 8);
   color: var(--colors-interface-error);
-  opacity: .8;
+  opacity: 0.8;
 }
 
 @media screen and (max-width: 500px) {

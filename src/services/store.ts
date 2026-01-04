@@ -1,5 +1,5 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { socketMiddleware } from "./middlewares/socket-middleware";
+import { configureStore } from '@reduxjs/toolkit';
+import { socketMiddleware } from './middlewares/socket-middleware';
 import {
   connect as OrdersWsConnect,
   disconnect as OrdersWsDisconnect,
@@ -7,9 +7,9 @@ import {
   wsOpen as OrdersWsOpen,
   wsClose as OrdersWsClose,
   wsMessage as OrdersWsNessage,
-  wsError as OrdersWsError
-} from "./reducers/ordersWS/actions";
-import { rootReducer } from "./types";
+  wsError as OrdersWsError,
+} from './reducers/ordersWS/actions';
+import { rootReducer } from './types';
 
 const wsActions = {
   wsConnect: OrdersWsConnect,
@@ -26,6 +26,6 @@ const ordersWSMiddleware = socketMiddleware(wsActions);
 export const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat(ordersWSMiddleware)
-  }
+    return getDefaultMiddleware().concat(ordersWSMiddleware);
+  },
 });

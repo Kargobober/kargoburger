@@ -13,7 +13,8 @@ import authReducer, {
   setResetPasswordSuccess,
   setUser,
   setUserPending,
-  setUserSuccess } from './authSlice';
+  setUserSuccess,
+} from './authSlice';
 
 const testUser = {
   name: 'Kargobober',
@@ -41,22 +42,26 @@ describe('Testing reducers in authSlice', () => {
     });
   });
 
-
   test('Testing setEmailOnStorage when user nullish', () => {
-    expect(authReducer(authInitialState, setEmailOnStorage('anotherMail@mail.com'))).toEqual({
+    expect(
+      authReducer(authInitialState, setEmailOnStorage('anotherMail@mail.com'))
+    ).toEqual({
       ...authInitialState,
-      user: {email: 'anotherMail@mail.com', name: ''}
+      user: { email: 'anotherMail@mail.com', name: '' },
     });
   });
-
 
   test('Testing setEmailOnStorage when user fullish', () => {
-    expect(authReducer(authStateWithFullishUser, setEmailOnStorage('anotherMail@mail.com'))).toEqual({
+    expect(
+      authReducer(
+        authStateWithFullishUser,
+        setEmailOnStorage('anotherMail@mail.com')
+      )
+    ).toEqual({
       ...authStateWithFullishUser,
-      user: { ...authStateWithFullishUser.user, email: 'anotherMail@mail.com' }
+      user: { ...authStateWithFullishUser.user, email: 'anotherMail@mail.com' },
     });
   });
-
 
   test('Testing setRegisterPending', () => {
     expect(authReducer(authInitialState, setRegisterPending(true))).toEqual({
@@ -79,7 +84,6 @@ describe('Testing reducers in authSlice', () => {
       registerPending: false,
     });
   });
-
 
   test('Testing setRegisterSuccess', () => {
     expect(authReducer(authInitialState, setRegisterSuccess(true))).toEqual({
@@ -113,7 +117,6 @@ describe('Testing reducers in authSlice', () => {
     });
   });
 
-
   test('Testing setError', () => {
     expect(authReducer(authInitialState, setError(testError))).toEqual({
       ...authInitialState,
@@ -126,14 +129,16 @@ describe('Testing reducers in authSlice', () => {
     });
   });
 
-
   test('Testing clearError', () => {
-    expect(authReducer({...authInitialState, error: 'There is some error!'}, clearError()))
-      .toEqual(authInitialState);
+    expect(
+      authReducer(
+        { ...authInitialState, error: 'There is some error!' },
+        clearError()
+      )
+    ).toEqual(authInitialState);
 
     expect(authReducer(undefined, clearError())).toEqual(authInitialState);
   });
-
 
   test('Testing setUserPending', () => {
     expect(authReducer(authInitialState, setUserPending(true))).toEqual({
@@ -156,7 +161,6 @@ describe('Testing reducers in authSlice', () => {
       userPending: false,
     });
   });
-
 
   test('Testing setUserSuccess', () => {
     expect(authReducer(authInitialState, setUserSuccess(true))).toEqual({
@@ -190,7 +194,6 @@ describe('Testing reducers in authSlice', () => {
     });
   });
 
-
   test('Testing setAuthPending', () => {
     expect(authReducer(authInitialState, setAuthPending(true))).toEqual({
       ...authInitialState,
@@ -223,19 +226,24 @@ describe('Testing reducers in authSlice', () => {
     });
   });
 
-
   test('Testing setResetPasswordSuccess', () => {
-    expect(authReducer(authInitialState, setResetPasswordSuccess(true))).toEqual({
+    expect(
+      authReducer(authInitialState, setResetPasswordSuccess(true))
+    ).toEqual({
       ...authInitialState,
       resetPasswordSuccess: true,
     });
 
-    expect(authReducer(authInitialState, setResetPasswordSuccess(false))).toEqual({
+    expect(
+      authReducer(authInitialState, setResetPasswordSuccess(false))
+    ).toEqual({
       ...authInitialState,
       resetPasswordSuccess: false,
     });
 
-    expect(authReducer(authInitialState, setResetPasswordSuccess(null))).toEqual({
+    expect(
+      authReducer(authInitialState, setResetPasswordSuccess(null))
+    ).toEqual({
       ...authInitialState,
       resetPasswordSuccess: null,
     });
@@ -256,7 +264,6 @@ describe('Testing reducers in authSlice', () => {
     });
   });
 
-
   test('Testing setResetCodeSuccess', () => {
     expect(authReducer(authInitialState, setResetCodeSuccess(true))).toEqual({
       ...authInitialState,
@@ -268,7 +275,9 @@ describe('Testing reducers in authSlice', () => {
       resetCodeSuccess: false,
     });
 
-    expect(authReducer(authInitialState, setResetCodeSuccess('sended'))).toEqual({
+    expect(
+      authReducer(authInitialState, setResetCodeSuccess('sended'))
+    ).toEqual({
       ...authInitialState,
       resetCodeSuccess: 'sended',
     });
@@ -298,7 +307,6 @@ describe('Testing reducers in authSlice', () => {
       resetCodeSuccess: null,
     });
   });
-
 
   test('Testing setLogOutSuccess', () => {
     expect(authReducer(authInitialState, setLogOutSuccess(true))).toEqual({
@@ -332,19 +340,24 @@ describe('Testing reducers in authSlice', () => {
     });
   });
 
-
   test('Testing setChangeUserDataSuccess', () => {
-    expect(authReducer(authInitialState, setChangeUserDataSuccess(true))).toEqual({
+    expect(
+      authReducer(authInitialState, setChangeUserDataSuccess(true))
+    ).toEqual({
       ...authInitialState,
       changeUserDataSuccess: true,
     });
 
-    expect(authReducer(authInitialState, setChangeUserDataSuccess(false))).toEqual({
+    expect(
+      authReducer(authInitialState, setChangeUserDataSuccess(false))
+    ).toEqual({
       ...authInitialState,
       changeUserDataSuccess: false,
     });
 
-    expect(authReducer(authInitialState, setChangeUserDataSuccess(null))).toEqual({
+    expect(
+      authReducer(authInitialState, setChangeUserDataSuccess(null))
+    ).toEqual({
       ...authInitialState,
       changeUserDataSuccess: null,
     });
@@ -372,17 +385,21 @@ describe('Testing reducers in authSlice', () => {
 
 describe('Testing extra reducers in authSlice', () => {
   test('Testing sendResetCode, pending', () => {
-    expect(authReducer(authInitialState, {
-      type: 'auth/sendResetCode/pending'
-    })).toEqual({
+    expect(
+      authReducer(authInitialState, {
+        type: 'auth/sendResetCode/pending',
+      })
+    ).toEqual({
       ...authInitialState,
       resetPasswordPending: true,
       resetCodeSuccess: null,
     });
 
-    expect(authReducer(undefined, {
-      type: 'auth/sendResetCode/pending',
-    })).toEqual({
+    expect(
+      authReducer(undefined, {
+        type: 'auth/sendResetCode/pending',
+      })
+    ).toEqual({
       ...authInitialState,
       resetPasswordPending: true,
       resetCodeSuccess: null,
@@ -390,17 +407,21 @@ describe('Testing extra reducers in authSlice', () => {
   });
 
   test('Testing sendResetCode, fulfilled', () => {
-    expect(authReducer(authInitialState, {
-      type: 'auth/sendResetCode/fulfilled',
-    })).toEqual({
+    expect(
+      authReducer(authInitialState, {
+        type: 'auth/sendResetCode/fulfilled',
+      })
+    ).toEqual({
       ...authInitialState,
       resetPasswordPending: false,
       resetCodeSuccess: true,
     });
 
-    expect(authReducer(undefined, {
-      type: 'auth/sendResetCode/fulfilled',
-    })).toEqual({
+    expect(
+      authReducer(undefined, {
+        type: 'auth/sendResetCode/fulfilled',
+      })
+    ).toEqual({
       ...authInitialState,
       resetPasswordPending: false,
       resetCodeSuccess: true,
@@ -408,20 +429,24 @@ describe('Testing extra reducers in authSlice', () => {
   });
 
   test('Testing sendResetCode, rejected', () => {
-    expect(authReducer(authInitialState, {
-      type: 'auth/sendResetCode/rejected',
-      payload: testError
-    })).toEqual({
+    expect(
+      authReducer(authInitialState, {
+        type: 'auth/sendResetCode/rejected',
+        payload: testError,
+      })
+    ).toEqual({
       ...authInitialState,
       resetPasswordPending: false,
       resetCodeSuccess: false,
       error: testError,
     });
 
-    expect(authReducer(undefined, {
-      type: 'auth/sendResetCode/rejected',
-      payload: testError
-    })).toEqual({
+    expect(
+      authReducer(undefined, {
+        type: 'auth/sendResetCode/rejected',
+        payload: testError,
+      })
+    ).toEqual({
       ...authInitialState,
       resetPasswordPending: false,
       resetCodeSuccess: false,
@@ -429,19 +454,22 @@ describe('Testing extra reducers in authSlice', () => {
     });
   });
 
-
   test('Testing resetPassword, pending', () => {
-    expect(authReducer(authInitialState, {
-      type: 'auth/resetPassword/pending',
-    })).toEqual({
+    expect(
+      authReducer(authInitialState, {
+        type: 'auth/resetPassword/pending',
+      })
+    ).toEqual({
       ...authInitialState,
       resetPasswordPending: true,
       resetPasswordSuccess: null,
     });
 
-    expect(authReducer(undefined, {
-      type: 'auth/resetPassword/pending',
-    })).toEqual({
+    expect(
+      authReducer(undefined, {
+        type: 'auth/resetPassword/pending',
+      })
+    ).toEqual({
       ...authInitialState,
       resetPasswordPending: true,
       resetPasswordSuccess: null,
@@ -449,17 +477,21 @@ describe('Testing extra reducers in authSlice', () => {
   });
 
   test('Testing resetPassword, fulfilled', () => {
-    expect(authReducer(authInitialState, {
-      type: 'auth/resetPassword/fulfilled',
-    })).toEqual({
+    expect(
+      authReducer(authInitialState, {
+        type: 'auth/resetPassword/fulfilled',
+      })
+    ).toEqual({
       ...authInitialState,
       resetPasswordPending: false,
       resetPasswordSuccess: true,
     });
 
-    expect(authReducer(undefined, {
-      type: 'auth/resetPassword/fulfilled',
-    })).toEqual({
+    expect(
+      authReducer(undefined, {
+        type: 'auth/resetPassword/fulfilled',
+      })
+    ).toEqual({
       ...authInitialState,
       resetPasswordPending: false,
       resetPasswordSuccess: true,
@@ -467,20 +499,24 @@ describe('Testing extra reducers in authSlice', () => {
   });
 
   test('Testing resetPassword, rejected', () => {
-    expect(authReducer(authInitialState, {
-      type: 'auth/resetPassword/rejected',
-      payload: testError
-    })).toEqual({
+    expect(
+      authReducer(authInitialState, {
+        type: 'auth/resetPassword/rejected',
+        payload: testError,
+      })
+    ).toEqual({
       ...authInitialState,
       resetPasswordPending: false,
       resetPasswordSuccess: false,
       error: testError,
     });
 
-    expect(authReducer(undefined, {
-      type: 'auth/resetPassword/rejected',
-      payload: testError
-    })).toEqual({
+    expect(
+      authReducer(undefined, {
+        type: 'auth/resetPassword/rejected',
+        payload: testError,
+      })
+    ).toEqual({
       ...authInitialState,
       resetPasswordPending: false,
       resetPasswordSuccess: false,
@@ -488,19 +524,22 @@ describe('Testing extra reducers in authSlice', () => {
     });
   });
 
-
   test('Testing changeUserData, pending', () => {
-    expect(authReducer(authInitialState, {
-      type: 'auth/changeUserData/pending',
-    })).toEqual({
+    expect(
+      authReducer(authInitialState, {
+        type: 'auth/changeUserData/pending',
+      })
+    ).toEqual({
       ...authInitialState,
       changeUserDataPending: true,
       changeUserDataSuccess: null,
     });
 
-    expect(authReducer(undefined, {
-      type: 'auth/changeUserData/pending',
-    })).toEqual({
+    expect(
+      authReducer(undefined, {
+        type: 'auth/changeUserData/pending',
+      })
+    ).toEqual({
       ...authInitialState,
       changeUserDataPending: true,
       changeUserDataSuccess: null,
@@ -508,42 +547,53 @@ describe('Testing extra reducers in authSlice', () => {
   });
 
   test('Testing changeUserData, fulfilled', () => {
-    expect(authReducer(authInitialState, {
-      type: 'auth/changeUserData/fulfilled',
-      payload: {success: true, user: testUserUtil}
-    })).toEqual({
+    expect(
+      authReducer(authInitialState, {
+        type: 'auth/changeUserData/fulfilled',
+        payload: { success: true, user: testUserUtil },
+      })
+    ).toEqual({
       ...authInitialState,
       changeUserDataPending: false,
       changeUserDataSuccess: true,
       user: testUserUtil,
     });
 
-    expect(authReducer(undefined, {
-      type: 'auth/changeUserData/fulfilled',
-      payload: {success: true, user: {name: 'AbobaI', email: 'abobaI@abo.baI'}}
-    })).toEqual({
+    expect(
+      authReducer(undefined, {
+        type: 'auth/changeUserData/fulfilled',
+        payload: {
+          success: true,
+          user: { name: 'AbobaI', email: 'abobaI@abo.baI' },
+        },
+      })
+    ).toEqual({
       ...authInitialState,
       changeUserDataPending: false,
       changeUserDataSuccess: true,
-      user: {name: 'AbobaI', email: 'abobaI@abo.baI'},
+      user: { name: 'AbobaI', email: 'abobaI@abo.baI' },
     });
   });
 
   test('Testing changeUserData, rejected', () => {
-    expect(authReducer(authInitialState, {
-      type: 'auth/changeUserData/rejected',
-      payload: testError
-    })).toEqual({
+    expect(
+      authReducer(authInitialState, {
+        type: 'auth/changeUserData/rejected',
+        payload: testError,
+      })
+    ).toEqual({
       ...authInitialState,
       changeUserDataPending: false,
       changeUserDataSuccess: false,
       error: testError,
     });
 
-    expect(authReducer(undefined, {
-      type: 'auth/changeUserData/rejected',
-      payload: testError
-    })).toEqual({
+    expect(
+      authReducer(undefined, {
+        type: 'auth/changeUserData/rejected',
+        payload: testError,
+      })
+    ).toEqual({
       ...authInitialState,
       changeUserDataPending: false,
       changeUserDataSuccess: false,
@@ -551,19 +601,22 @@ describe('Testing extra reducers in authSlice', () => {
     });
   });
 
-
   test('Testing logOut, pending', () => {
-    expect(authReducer(authInitialState, {
-      type: 'auth/logOut/pending',
-    })).toEqual({
+    expect(
+      authReducer(authInitialState, {
+        type: 'auth/logOut/pending',
+      })
+    ).toEqual({
       ...authInitialState,
       logOutPending: true,
       logOutSuccess: null,
     });
 
-    expect(authReducer(undefined, {
-      type: 'auth/logOut/pending',
-    })).toEqual({
+    expect(
+      authReducer(undefined, {
+        type: 'auth/logOut/pending',
+      })
+    ).toEqual({
       ...authInitialState,
       logOutPending: true,
       logOutSuccess: null,
@@ -571,9 +624,11 @@ describe('Testing extra reducers in authSlice', () => {
   });
 
   test('Testing logOut, fulfilled', () => {
-    expect(authReducer(authInitialState, {
-      type: 'auth/logOut/fulfilled',
-    })).toEqual({
+    expect(
+      authReducer(authInitialState, {
+        type: 'auth/logOut/fulfilled',
+      })
+    ).toEqual({
       ...authInitialState,
       logOutPending: false,
       logOutSuccess: true,
@@ -581,9 +636,11 @@ describe('Testing extra reducers in authSlice', () => {
       userSuccess: null,
     });
 
-    expect(authReducer(undefined, {
-      type: 'auth/logOut/fulfilled',
-    })).toEqual({
+    expect(
+      authReducer(undefined, {
+        type: 'auth/logOut/fulfilled',
+      })
+    ).toEqual({
       ...authInitialState,
       logOutPending: false,
       logOutSuccess: true,
@@ -593,24 +650,28 @@ describe('Testing extra reducers in authSlice', () => {
   });
 
   test('Testing logOut, rejected', () => {
-    expect(authReducer(authInitialState, {
-      type: 'auth/logOut/rejected',
-      payload: testErrorExtra
-    })).toEqual({
+    expect(
+      authReducer(authInitialState, {
+        type: 'auth/logOut/rejected',
+        payload: testErrorExtra,
+      })
+    ).toEqual({
       ...authInitialState,
       logOutPending: false,
       logOutSuccess: false,
-      error:  testErrorExtra,
+      error: testErrorExtra,
     });
 
-    expect(authReducer(undefined, {
-      type: 'auth/logOut/rejected',
-      payload: testErrorExtra
-    })).toEqual({
+    expect(
+      authReducer(undefined, {
+        type: 'auth/logOut/rejected',
+        payload: testErrorExtra,
+      })
+    ).toEqual({
       ...authInitialState,
       logOutPending: false,
       logOutSuccess: false,
-      error:  testErrorExtra,
+      error: testErrorExtra,
     });
   });
 });

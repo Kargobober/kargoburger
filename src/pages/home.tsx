@@ -19,10 +19,11 @@ function HomePage(): JSX.Element {
             Произошла ошибка, пожалуйста, перезагрузите страницу.
           </p>
         </Modal>
-      ) : ('')
-      }
+      ) : (
+        ''
+      )}
     </>
-  )
+  );
 }
 
 export default HomePage;

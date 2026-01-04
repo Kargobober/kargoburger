@@ -1,7 +1,7 @@
 import { store } from '../store';
 import { ThunkAction } from 'redux-thunk';
 import { Action, ActionCreator, combineReducers } from 'redux';
-import ingredientsReducer from "../slices/ingredientsSlice";
+import ingredientsReducer from '../slices/ingredientsSlice';
 import burgerConstructorReducer from '../slices/burgerConstructorSlice';
 import ingredientDetailsReducer from '../slices/ingredientDetailsSlice';
 import orderDetailsReducer from '../slices/orderDetailsSlice';
@@ -19,9 +19,7 @@ export const rootReducer = combineReducers({
   adaptability: adaptabilityReducer,
 });
 
-/**
- * Типизация всего хранилища
- */
+/** Типизация всего хранилища */
 export type RootState = ReturnType<typeof rootReducer>;
 
 export type AppDispatch = typeof store.dispatch;

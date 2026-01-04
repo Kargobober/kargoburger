@@ -1,4 +1,12 @@
-import { useRef, useEffect, FC, PropsWithChildren, ReactNode, MouseEventHandler, TouchEventHandler } from 'react';
+import {
+  useRef,
+  useEffect,
+  FC,
+  PropsWithChildren,
+  ReactNode,
+  MouseEventHandler,
+  TouchEventHandler,
+} from 'react';
 import styles from './SwipeableListItem.module.css';
 
 type TProps = PropsWithChildren<{
@@ -9,7 +17,6 @@ type TProps = PropsWithChildren<{
   background?: ReactNode;
   maxWidthBackground?: number;
   classContent?: string;
-
 }>;
 
 /**
@@ -29,14 +36,14 @@ const SwipeableListItem: FC<TProps> = ({
   const draggedRef = useRef(false);
 
   useEffect(() => {
-    window.addEventListener('mouseup', onDragEndMouse)
-    window.addEventListener('touchend', onDragEndTouch)
+    window.addEventListener('mouseup', onDragEndMouse);
+    window.addEventListener('touchend', onDragEndTouch);
     return () => {
-      window.removeEventListener("mouseup", onDragEndMouse);
-      window.removeEventListener("touchend", onDragEndTouch);
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("touchmove", onTouchMove);
-    }
+      window.removeEventListener('mouseup', onDragEndMouse);
+      window.removeEventListener('touchend', onDragEndTouch);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('touchmove', onTouchMove);
+    };
   }, []);
 
   const onDragStartMouse: MouseEventHandler<HTMLDivElement> = (evt) => {
@@ -57,8 +64,10 @@ const SwipeableListItem: FC<TProps> = ({
     if (contentRef.current) {
       contentRef.current.className = props.classContent ?? '';
     } else {
-      console.log('SwipesbleListItem, попытка обработки onDragStart, но contentRef.current = null');
-    };
+      console.log(
+        'SwipesbleListItem, попытка обработки onDragStart, но contentRef.current = null'
+      );
+    }
 
     requestAnimationFrame(updatePosition);
   }
@@ -69,7 +78,8 @@ const SwipeableListItem: FC<TProps> = ({
     }
 
     if (contentRef.current) {
-      if (Math.abs(leftRef.current) <= maxWidthBackground) { // ограничили уезжание контентной части
+      if (Math.abs(leftRef.current) <= maxWidthBackground) {
+        // ограничили уезжание контентной части
         contentRef.current.style.transform = `translateX(${leftRef.current}px)`;
       }
     } else {
@@ -77,11 +87,11 @@ const SwipeableListItem: FC<TProps> = ({
     }
 
     // Change the width and translate
-    const widthForBackground = Number((Math.abs(leftRef.current)).toFixed(2));
+    const widthForBackground = Number(Math.abs(leftRef.current).toFixed(2));
     if (
-        backgroundRef.current &&        // проверили, что реф не нулевой
-        widthForBackground < maxWidthBackground &&     // проверили, что выезжающая часть не достигла максимальной ширины согласно макету
-        widthForBackground.toString() + 'px' !== backgroundRef.current.style.width // проверили, что новое назначемое значение ширины не равно текущему
+      backgroundRef.current && // проверили, что реф не нулевой
+      widthForBackground < maxWidthBackground && // проверили, что выезжающая часть не достигла максимальной ширины согласно макету
+      widthForBackground.toString() + 'px' !== backgroundRef.current.style.width // проверили, что новое назначемое значение ширины не равно текущему
     ) {
       backgroundRef.current.style.width = widthForBackground.toString() + 'px'; // прошли проверки, назначаем ширину для выезжающей части
       backgroundRef.current.style.transform = `translateX(${leftRef.current}px)`; // и смещаем её тоже
@@ -123,7 +133,7 @@ const SwipeableListItem: FC<TProps> = ({
       const threshold = props.threshold || 0.3;
 
       if (contentRef.current && leftRef.current < maxWidthBackground * -1) {
-        leftRef.current = (-contentRef.current.offsetWidth * 2);
+        leftRef.current = -contentRef.current.offsetWidth * 2;
 
         onSwiped();
       } else {
@@ -145,16 +155,19 @@ const SwipeableListItem: FC<TProps> = ({
 
   return (
     <li className={props.classListItem} ref={listItemRef}>
-      <div className={props.classContent} ref={contentRef}
+      <div
+        className={props.classContent}
+        ref={contentRef}
         onMouseDown={onDragStartMouse}
-        onTouchStart={onDragStartTouch}>
+        onTouchStart={onDragStartTouch}
+      >
         {props.children}
       </div>
       <div className={props.classBackground} ref={backgroundRef}>
-        {props.background || (<span>Delete</span>)}
+        {props.background || <span>Delete</span>}
       </div>
     </li>
-  )
-}
+  );
+};
 
 export default SwipeableListItem;

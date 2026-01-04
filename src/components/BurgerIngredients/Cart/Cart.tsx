@@ -1,7 +1,11 @@
 import styles from './Cart.module.css';
 import { useDispatch, useSelector } from '../../../services/hooks';
 import useWindowSize from '../../../utils/hooks/useWindowSize';
-import { getSelectedBun, getSelectedProducts, getTotalPrice } from '../../../services/selectors/burgerConstructorSelector';
+import {
+  getSelectedBun,
+  getSelectedProducts,
+  getTotalPrice,
+} from '../../../services/selectors/burgerConstructorSelector';
 import Price from '../../Price/Price';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import ProductList from './ProductList/ProductList';
@@ -10,7 +14,10 @@ import { useNavigate } from 'react-router';
 import { getUserFromState } from '../../../services/selectors/authSelector';
 import { setNeedingDetails } from '../../../services/slices/orderDetailsSlice';
 import OrderDetails from '../../OrderDetails/OrderDetails';
-import { getOrderDetailsNeeding, getOrderSuccess } from '../../../services/selectors/orderDetailsSelector';
+import {
+  getOrderDetailsNeeding,
+  getOrderSuccess,
+} from '../../../services/selectors/orderDetailsSelector';
 
 function Cart() {
   const dispatch = useDispatch();
@@ -26,10 +33,10 @@ function Cart() {
     const assembledBurger: string[] = [];
 
     selectedBun && assembledBurger.push(selectedBun._id);
-    assembledBurger.push(...selectedProducts.map(el => el._id));
+    assembledBurger.push(...selectedProducts.map((el) => el._id));
     selectedBun && assembledBurger.push(selectedBun._id);
 
-    if (user === null ? false : ((user.name && user.email) ? true : false)) {
+    if (user === null ? false : user.name && user.email ? true : false) {
       dispatch(setNeedingDetails(true));
       dispatch(postOrder({ ingredients: assembledBurger }));
     } else {
@@ -39,12 +46,11 @@ function Cart() {
 
   const paddings = windowSize.width > 849 ? 'pr-10 pl-10' : 'pr-2 pl-2';
 
-
   const needDetails = useSelector(getOrderDetailsNeeding);
   const isOrderSucces = useSelector(getOrderSuccess);
 
   if (needDetails && isOrderSucces !== false) {
-    return (<OrderDetails />);
+    return <OrderDetails />;
   } else {
     return (
       <>
@@ -60,8 +66,8 @@ function Cart() {
           />
 
           <Button
-            htmlType='button'
-            type='primary'
+            htmlType="button"
+            type="primary"
             size={windowSize.width > 500 ? 'medium' : 'small'}
             extraClass={`${styles.btn} ${selectedBun ? 'button_decor_shadow' : ''}`}
             disabled={!selectedBun}
@@ -71,7 +77,7 @@ function Cart() {
           </Button>
         </section>
       </>
-    )
+    );
   }
 }
 

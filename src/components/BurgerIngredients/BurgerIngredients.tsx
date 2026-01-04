@@ -10,7 +10,6 @@ import { TSuperRef } from '../../utils/types';
 import useWindowSize from '../../utils/hooks/useWindowSize';
 import Bottom from './Bottom/Bottom';
 
-
 function BurgerIngredients(): JSX.Element {
   const clientSize = useWindowSize();
 
@@ -19,26 +18,36 @@ function BurgerIngredients(): JSX.Element {
   const fourfoldRef = useRef<TSuperRef>(null);
   const ingredientsLoading = useSelector(getLoadingStatus);
 
-  const classTypographyForHeader = clientSize.width > 500 ? 'text_type_main-large' : 'text_type_main-medium-extra';
+  const classTypographyForHeader =
+    clientSize.width > 500
+      ? 'text_type_main-large'
+      : 'text_type_main-medium-extra';
 
   useEffect(() => {
-    if (ingredientsLoading === false
-        && navElem.current
-        && fourfoldRef.current
-        && fourfoldRef.current.buns
-        && fourfoldRef.current.sauces
-        && fourfoldRef.current.mainFillings) {
-
+    if (
+      ingredientsLoading === false &&
+      navElem.current &&
+      fourfoldRef.current &&
+      fourfoldRef.current.buns &&
+      fourfoldRef.current.sauces &&
+      fourfoldRef.current.mainFillings
+    ) {
       const navElemCoord = navElem.current.getBoundingClientRect();
 
       const handleScroll = () => {
-        const arrOfElem = [fourfoldRef.current!.buns!, fourfoldRef.current!.sauces!, fourfoldRef.current!.mainFillings!];
-        const arrOfObj = arrOfElem.map(el => ({
+        const arrOfElem = [
+          fourfoldRef.current!.buns!,
+          fourfoldRef.current!.sauces!,
+          fourfoldRef.current!.mainFillings!,
+        ];
+        const arrOfObj = arrOfElem.map((el) => ({
           elem: el,
           delta: Math.abs(el.getBoundingClientRect().top - navElemCoord.bottom),
         }));
 
-        const closestObj = arrOfObj.reduce((prev, curr) => prev.delta < curr.delta ? prev : curr);
+        const closestObj = arrOfObj.reduce((prev, curr) =>
+          prev.delta < curr.delta ? prev : curr
+        );
         setCurrent(closestObj.elem.textContent!);
       };
 
@@ -51,31 +60,43 @@ function BurgerIngredients(): JSX.Element {
     */
   }, [ingredientsLoading, navElem, fourfoldRef]);
 
-
-
   return (
     <>
       <section className={`${styles.section} pt-10`}>
-        <h2 className={`${styles.header} ${classTypographyForHeader}`}>Соберите бургер</h2>
-        <nav ref={navElem} id='nav-of-ingredients' className={styles.navTabs}>
+        <h2 className={`${styles.header} ${classTypographyForHeader}`}>
+          Соберите бургер
+        </h2>
+        <nav ref={navElem} id="nav-of-ingredients" className={styles.navTabs}>
           <ul className={styles.listOfTabs}>
             <li className={styles.item}>
               <a href="#buns" className={styles.link}>
-                <Tab value='Булки' active={current === 'Булки'} onClick={setCurrent}>
+                <Tab
+                  value="Булки"
+                  active={current === 'Булки'}
+                  onClick={setCurrent}
+                >
                   Булки
                 </Tab>
               </a>
             </li>
             <li className={styles.item}>
               <a href="#sauces" className={styles.link}>
-                <Tab value='Соусы' active={current === 'Соусы'} onClick={setCurrent}>
+                <Tab
+                  value="Соусы"
+                  active={current === 'Соусы'}
+                  onClick={setCurrent}
+                >
                   Соусы
                 </Tab>
               </a>
             </li>
             <li className={styles.item}>
               <a href="#mainFillings" className={styles.link}>
-                <Tab value='Начинки' active={current === 'Начинки'} onClick={setCurrent}>
+                <Tab
+                  value="Начинки"
+                  active={current === 'Начинки'}
+                  onClick={setCurrent}
+                >
                   Начинки
                 </Tab>
               </a>
@@ -84,11 +105,9 @@ function BurgerIngredients(): JSX.Element {
         </nav>
         <List ref={fourfoldRef} />
       </section>
-      {clientSize.width < 1050 && (
-        <Bottom />
-      )}
+      {clientSize.width < 1050 && <Bottom />}
     </>
-  )
+  );
 }
 
 export default BurgerIngredients;

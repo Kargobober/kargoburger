@@ -1,4 +1,4 @@
-import { TResponseGetOrders } from "../../utils/api/types";
+import { TResponseGetOrders } from '../../utils/api/types';
 
 export enum WebsocketStatus {
   CONNECTING = 'CONNECTING...',
@@ -11,8 +11,8 @@ export enum OrdersWSActionType {
 }
 
 export type Data = {
-  type: OrdersWSActionType.DATA,
-  data: TResponseGetOrders
+  type: OrdersWSActionType.DATA;
+  data: TResponseGetOrders;
 };
 
 export type OrdersWSAction = Data;

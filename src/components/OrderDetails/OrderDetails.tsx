@@ -1,30 +1,30 @@
 // КОНТЕНТ МОДАЛКИ ПРИ НАЖАТИИ "ОФОРМИТЬ ЗАКАЗ". Инфа о только что сделанном заказе
 
-import styles from "./OrderDetails.module.css";
-import orderAcceptedSvg from "../../images/order-accepted.svg";
-import { useSelector } from "../../services/hooks";
+import styles from './OrderDetails.module.css';
+import orderAcceptedSvg from '../../images/order-accepted.svg';
+import { useSelector } from '../../services/hooks';
 import {
   getOrderIsLoading,
   getOrderNumber,
   getOrderSuccess,
-} from "../../services/selectors/orderDetailsSelector";
-import { MoonLoader } from "react-spinners";
-import { colorInterfaceAccent } from "../../utils/constants";
-import useWindowSize from "../../utils/hooks/useWindowSize";
+} from '../../services/selectors/orderDetailsSelector';
+import { MoonLoader } from 'react-spinners';
+import { colorInterfaceAccent } from '../../utils/constants';
+import useWindowSize from '../../utils/hooks/useWindowSize';
 
 function OrderDetails(): JSX.Element {
   const windowSize = useWindowSize();
 
   const textClassForOrderNumber =
     windowSize.width > 550
-      ? "text_type_digits-large"
-      : "text_type_digits-medium-extra";
+      ? 'text_type_digits-large'
+      : 'text_type_digits-medium-extra';
   const textClassForIdentificator =
     windowSize.width > 550
-      ? "text_type_main-medium"
-      : "text_type_main-small-extra";
+      ? 'text_type_main-medium'
+      : 'text_type_main-small-extra';
   const classText =
-    windowSize.width > 550 ? "text_type_main-default" : "text_type_main-small";
+    windowSize.width > 550 ? 'text_type_main-default' : 'text_type_main-small';
 
   const orderNumber = useSelector(getOrderNumber);
   const isLoading = useSelector(getOrderIsLoading);
@@ -35,7 +35,7 @@ function OrderDetails(): JSX.Element {
       <h3
         className={`text ${textClassForOrderNumber} ${styles.heading} text_decor_shadow`}
       >
-        {orderNumber ? orderNumber : " . . . . . "}
+        {orderNumber ? orderNumber : ' . . . . . '}
       </h3>
 
       <p className={`text ${textClassForIdentificator} text_centered mt-8`}>
@@ -53,8 +53,8 @@ function OrderDetails(): JSX.Element {
           color={colorInterfaceAccent}
           size={102}
           cssOverride={{
-            marginTop: "60px",
-            marginBottom: "60px",
+            marginTop: '60px',
+            marginBottom: '60px',
           }}
           speedMultiplier={0.4}
         />
@@ -62,8 +62,8 @@ function OrderDetails(): JSX.Element {
 
       <p className={`text ${classText} text_centered`}>
         {!isLoading && success
-          ? "Ваш заказ начали готовить"
-          : "Создаём заказ..."}
+          ? 'Ваш заказ начали готовить'
+          : 'Создаём заказ...'}
       </p>
 
       {!isLoading && success ? (

@@ -1,29 +1,42 @@
-import { ActionCreatorWithoutPayload, ActionCreatorWithPayload } from '@reduxjs/toolkit';
+import {
+  ActionCreatorWithoutPayload,
+  ActionCreatorWithPayload,
+} from '@reduxjs/toolkit';
 import { Middleware } from 'redux';
 import { RootState } from '../types/index';
 
 export type TWSActionTypes = {
-  wsConnect: ActionCreatorWithPayload<string>,
-  wsDisconnect: ActionCreatorWithoutPayload,
-  wsSendMessage?: ActionCreatorWithPayload<any>,
-  wsConnecting: ActionCreatorWithoutPayload,
-  onOpen: ActionCreatorWithoutPayload,
-  onClose: ActionCreatorWithoutPayload,
-  onError: ActionCreatorWithPayload<string>,
-  onMessage: ActionCreatorWithPayload<any>,
-}
+  wsConnect: ActionCreatorWithPayload<string>;
+  wsDisconnect: ActionCreatorWithoutPayload;
+  wsSendMessage?: ActionCreatorWithPayload<any>;
+  wsConnecting: ActionCreatorWithoutPayload;
+  onOpen: ActionCreatorWithoutPayload;
+  onClose: ActionCreatorWithoutPayload;
+  onError: ActionCreatorWithPayload<string>;
+  onMessage: ActionCreatorWithPayload<any>;
+};
 
-export const socketMiddleware = (wsActions: TWSActionTypes): Middleware<{}, RootState> => {
+export const socketMiddleware = (
+  wsActions: TWSActionTypes
+): Middleware<{}, RootState> => {
   return (store) => {
     let socket: WebSocket | null = null;
     let isConnected = false;
     let reconnectTimer = 0;
     let url = '';
 
-    return next => action => {
+    return (next) => (action) => {
       const { dispatch } = store;
-      const { wsConnect, wsDisconnect, wsSendMessage, onOpen,
-        onClose, onError, onMessage, wsConnecting } = wsActions;
+      const {
+        wsConnect,
+        wsDisconnect,
+        wsSendMessage,
+        onOpen,
+        onClose,
+        onError,
+        onMessage,
+        wsConnecting,
+      } = wsActions;
 
       if (wsConnect.match(action)) {
         // console.log('connect')
@@ -38,17 +51,17 @@ export const socketMiddleware = (wsActions: TWSActionTypes): Middleware<{}, Root
           dispatch(onOpen());
         };
 
-        socket.onerror = err => {
+        socket.onerror = (err) => {
           // console.log('error')
         };
 
-        socket.onmessage = event => {
+        socket.onmessage = (event) => {
           const { data } = event;
           const parsedData = JSON.parse(data);
           dispatch(onMessage(parsedData));
         };
 
-        socket.onclose = event => {
+        socket.onclose = (event) => {
           if (event.code !== 1000) {
             // console.log('error')
             dispatch(onError(event.code.toString()));
@@ -60,9 +73,8 @@ export const socketMiddleware = (wsActions: TWSActionTypes): Middleware<{}, Root
             dispatch(wsConnecting());
             reconnectTimer = window.setTimeout(() => {
               dispatch(wsConnect(url));
-            }, 3000)
+            }, 3000);
           }
-
         };
 
         if (wsSendMessage && wsSendMessage.match(action)) {
@@ -72,7 +84,7 @@ export const socketMiddleware = (wsActions: TWSActionTypes): Middleware<{}, Root
 
         if (wsDisconnect.match(action)) {
           // console.log('disconnect')
-          clearTimeout(reconnectTimer)
+          clearTimeout(reconnectTimer);
           isConnected = false;
           reconnectTimer = 0;
           socket.close();

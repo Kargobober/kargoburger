@@ -1,9 +1,9 @@
-import { TCatcher, TResponseRefreshToken } from "./types";
+import { TCatcher, TResponseRefreshToken } from './types';
 
 export const config = {
-  baseUrl: "https://norma.education-services.ru/api",
+  baseUrl: 'https://norma.education-services.ru/api',
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 };
 
@@ -36,15 +36,15 @@ export async function tokenCatcher<T>(
   options: RequestInit,
   err: any
 ) {
-  if (err.message === "jwt expired") {
+  if (err.message === 'jwt expired') {
     const refreshData = await refreshToken<TResponseRefreshToken>();
 
     if (!refreshData.success) {
       return Promise.reject(refreshData);
     }
 
-    localStorage.setItem("accessToken", refreshData.accessToken);
-    localStorage.setItem("refreshToken", refreshData.refreshToken);
+    localStorage.setItem('accessToken', refreshData.accessToken);
+    localStorage.setItem('refreshToken', refreshData.refreshToken);
 
     // https://stackoverflow.com/questions/67346496/typescript-authorization-does-not-exist-on-type-headersinit
     const headersInit: HeadersInit = {};
@@ -66,10 +66,10 @@ export async function tokenCatcher<T>(
 export async function refreshToken<T>(): Promise<T> {
   // передаём свой refreshToken, чтобы получить новый accessToken
   return fetch(`${config.baseUrl}/auth/token`, {
-    method: "POST",
+    method: 'POST',
     headers: config.headers,
     body: JSON.stringify({
-      token: localStorage.getItem("refreshToken"),
+      token: localStorage.getItem('refreshToken'),
     }),
   }).then(handleResponse<T>);
 }

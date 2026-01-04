@@ -11,7 +11,12 @@ type TProps = {
   extraStyle?: Record<string, string>;
 };
 
-const Price: FC<TProps> = ({ value, digitsSize = 'medium', svgSize = '24', extraStyle }) => {
+const Price: FC<TProps> = ({
+  value,
+  digitsSize = 'medium',
+  svgSize = '24',
+  extraStyle,
+}) => {
   const priceContainer = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -21,22 +26,28 @@ const Price: FC<TProps> = ({ value, digitsSize = 'medium', svgSize = '24', extra
         svg.setAttribute('width', svgSize);
         svg.setAttribute('height', svgSize);
       } else {
-        handleError('Ошибка! Svg элемент не найден. В src/components/Price/Price.tsx');
+        handleError(
+          'Ошибка! Svg элемент не найден. В src/components/Price/Price.tsx'
+        );
       }
       return;
     }
 
-    handleError('Ошибка! Элемент с ценой не найден. В src/components/Price/Price.tsx');
+    handleError(
+      'Ошибка! Элемент с ценой не найден. В src/components/Price/Price.tsx'
+    );
   });
 
   return (
-    <div className={styles['price-container']} ref={priceContainer} style={extraStyle}>
-      <p className={`text text_type_digits-${digitsSize}`}>
-        {value}
-      </p>
+    <div
+      className={styles['price-container']}
+      ref={priceContainer}
+      style={extraStyle}
+    >
+      <p className={`text text_type_digits-${digitsSize}`}>{value}</p>
       <CurrencyIcon type="primary" />
     </div>
-  )
-}
+  );
+};
 
 export default Price;

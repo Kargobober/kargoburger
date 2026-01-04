@@ -1,5 +1,5 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ProductsTypeList } from "../../utils/types";
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { ProductsTypeList } from '../../utils/types';
 
 type TIngredientDetail = {
   _id: string;
@@ -53,7 +53,7 @@ export const ingredientDetailsSlice = createSlice({
     },
     clearInfo: (state) => {
       Object.assign(state, initialState);
-    }
+    },
   },
 });
 
